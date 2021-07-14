@@ -6,7 +6,7 @@
 
 ### 目录结构
 
-#### onecard-ddd-common 是ddd模式下的公共包
+#### ddd-common 是ddd模式下的公共包
 包含：
 - annotation 公共注解
 - constant  公共常量
