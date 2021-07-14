@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.onecard.auth.infrastructure.persistence.mapper.authriskandx.RiskApplyMapper">
+
+	 <resultMap type="com.onecard.auth.infrastructure.persistence.entity.authrisk.RiskApplyDO" id="BaseResultMap">
+    	 <id column="id" property="id" /> 
+		  <id column="flowId" property="flowId" /> 
+		  <id column="customerId" property="customerId" /> 
+		  <id column="realName" property="realName" /> 
+		  <id column="mobile" property="mobile" /> 
+		  <id column="certId" property="certId" /> 
+		  <id column="bizCode" property="bizCode" /> 
+		  <id column="processKey" property="processKey" /> 
+		  <id column="applySendStatus" property="applySendStatus" /> 
+		  <id column="applyResponseStatus" property="applyResponseStatus" /> 
+		  <id column="applyCallbackStatus" property="applyCallbackStatus" /> 
+		  <id column="applyCallbackTime" property="applyCallbackTime" /> 
+		  <id column="noticeQuotaStatus" property="noticeQuotaStatus" /> 
+		  <id column="noticeQuotaTime" property="noticeQuotaTime" /> 
+		  <id column="checkNoticedStatus" property="checkNoticedStatus" /> 
+		  <id column="checkNoticedTime" property="checkNoticedTime" /> 
+		  <id column="source" property="source" /> 
+		  <id column="proId" property="proId" /> 
+		  <id column="applySource" property="applySource" /> 
+		  <id column="createTime" property="createTime" /> 
+		  <id column="updateTime" property="updateTime" /> 
+		  <id column="tenantId" property="tenantId" /> 
+		  <id column="remark" property="remark" /> 
+		  <id column="remark1" property="remark1" /> 
+		  <id column="applyId" property="applyId" /> 
+		  <id column="flowType" property="flowType" /> 
+		  <id column="tenantCode" property="tenantCode" />
+		  <id column="appCode" property="appCode" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    	 riskApply.id as id ,
+ 		 riskApply.flow_id as flowId ,
+ 		 riskApply.customer_id as customerId ,
+ 		 riskApply.real_name as realName ,
+ 		 riskApply.mobile as mobile ,
+ 		 riskApply.cert_id as certId ,
+ 		 riskApply.biz_code as bizCode ,
+ 		 riskApply.process_key as processKey ,
+ 		 riskApply.apply_send_status as applySendStatus ,
+ 		 riskApply.apply_response_status as applyResponseStatus ,
+ 		 riskApply.apply_callback_status as applyCallbackStatus ,
+ 		 riskApply.apply_callback_time as applyCallbackTime ,
+ 		 riskApply.notice_quota_status as noticeQuotaStatus ,
+ 		 riskApply.notice_quota_time as noticeQuotaTime ,
+ 		 riskApply.check_noticed_status as checkNoticedStatus ,
+ 		 riskApply.check_noticed_time as checkNoticedTime ,
+ 		 riskApply.source as source ,
+ 		 riskApply.pro_id as proId ,
+ 		 riskApply.apply_source as applySource ,
+ 		 riskApply.create_time as createTime ,
+ 		 riskApply.update_time as updateTime ,
+ 		 riskApply.tenant_id as tenantId ,
+ 		 riskApply.remark as remark ,
+ 		 riskApply.remark1 as remark1 ,
+ 		 riskApply.apply_id as applyId ,
+ 		 riskApply.flow_type as flowType,
+ 		 riskApply.tenant_code as tenantCode,
+ 		 riskApply.app_code as appCode
+    </sql>
+    
+    <select id="selectById" resultMap="BaseResultMap"
+			parameterType="java.lang.Long">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from wk_risk_apply riskApply
+ 		  where riskApply.id = #{ id }
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		 delete 
+ 		  from wk_risk_apply
+ 		  where id = #{ id }
+	</delete>
+	
+	<insert id="insertSelective" parameterType="com.onecard.auth.infrastructure.persistence.entity.authrisk.RiskApplyDO"
+			useGeneratedKeys="true" keyProperty="id">
+		 insert into  wk_risk_apply
+ 		  <trim prefix="(" suffix=")" suffixOverrides=","> 
+ 			 <if test="id != null">
+ 				 id,
+ 			  </if>
+ 			 <if test="flowId != null">
+ 				 flow_id,
+ 			  </if>
+ 			 <if test="customerId != null">
+ 				 customer_id,
+ 			  </if>
+ 			 <if test="realName != null">
+ 				 real_name,
+ 			  </if>
+ 			 <if test="mobile != null">
+ 				 mobile,
+ 			  </if>
+ 			 <if test="certId != null">
+ 				 cert_id,
+ 			  </if>
+ 			 <if test="bizCode != null">
+ 				 biz_code,
+ 			  </if>
+ 			 <if test="processKey != null">
+ 				 process_key,
+ 			  </if>
+ 			 <if test="applySendStatus != null">
+ 				 apply_send_status,
+ 			  </if>
+ 			 <if test="applyResponseStatus != null">
+ 				 apply_response_status,
+ 			  </if>
+ 			 <if test="applyCallbackStatus != null">
+ 				 apply_callback_status,
+ 			  </if>
+ 			 <if test="applyCallbackTime != null">
+ 				 apply_callback_time,
+ 			  </if>
+ 			 <if test="noticeQuotaStatus != null">
+ 				 notice_quota_status,
+ 			  </if>
+ 			 <if test="noticeQuotaTime != null">
+ 				 notice_quota_time,
+ 			  </if>
+ 			 <if test="checkNoticedStatus != null">
+ 				 check_noticed_status,
+ 			  </if>
+ 			 <if test="checkNoticedTime != null">
+ 				 check_noticed_time,
+ 			  </if>
+ 			 <if test="source != null">
+ 				 source,
+ 			  </if>
+ 			 <if test="proId != null">
+ 				 pro_id,
+ 			  </if>
+ 			 <if test="applySource != null">
+ 				 apply_source,
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 create_time,
+ 			  </if>
+ 			 <if test="updateTime != null">
+ 				 update_time,
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 tenant_id,
+ 			  </if>
+ 			 <if test="remark != null">
+ 				 remark,
+ 			  </if>
+ 			 <if test="remark1 != null">
+ 				 remark1,
+ 			  </if>
+ 			 <if test="applyId != null">
+ 				 apply_id,
+ 			  </if>
+ 			 <if test="flowType != null">
+ 				 flow_type,
+ 			  </if>
+ 			 <if test="tenantCode != null">
+				 tenant_code,
+ 			  </if>
+ 			 <if test="appCode != null">
+				 app_code,
+ 			  </if>
+ 		  </trim>
+ 		  <trim prefix="values (" suffix=")" suffixOverrides="," >
+ 			 <if test="id != null">
+ 				 #{id},
+ 			  </if>
+ 			 <if test="flowId != null">
+ 				 #{flowId},
+ 			  </if>
+ 			 <if test="customerId != null">
+ 				 #{customerId},
+ 			  </if>
+ 			 <if test="realName != null">
+ 				 #{realName},
+ 			  </if>
+ 			 <if test="mobile != null">
+ 				 #{mobile},
+ 			  </if>
+ 			 <if test="certId != null">
+ 				 #{certId},
+ 			  </if>
+ 			 <if test="bizCode != null">
+ 				 #{bizCode},
+ 			  </if>
+ 			 <if test="processKey != null">
+ 				 #{processKey},
+ 			  </if>
+ 			 <if test="applySendStatus != null">
+ 				 #{applySendStatus},
+ 			  </if>
+ 			 <if test="applyResponseStatus != null">
+ 				 #{applyResponseStatus},
+ 			  </if>
+ 			 <if test="applyCallbackStatus != null">
+ 				 #{applyCallbackStatus},
+ 			  </if>
+ 			 <if test="applyCallbackTime != null">
+ 				 #{applyCallbackTime},
+ 			  </if>
+ 			 <if test="noticeQuotaStatus != null">
+ 				 #{noticeQuotaStatus},
+ 			  </if>
+ 			 <if test="noticeQuotaTime != null">
+ 				 #{noticeQuotaTime},
+ 			  </if>
+ 			 <if test="checkNoticedStatus != null">
+ 				 #{checkNoticedStatus},
+ 			  </if>
+ 			 <if test="checkNoticedTime != null">
+ 				 #{checkNoticedTime},
+ 			  </if>
+ 			 <if test="source != null">
+ 				 #{source},
+ 			  </if>
+ 			 <if test="proId != null">
+ 				 #{proId},
+ 			  </if>
+ 			 <if test="applySource != null">
+ 				 #{applySource},
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 #{createTime},
+ 			  </if>
+ 			 <if test="updateTime != null">
+ 				 #{updateTime},
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 #{tenantId},
+ 			  </if>
+ 			 <if test="remark != null">
+ 				 #{remark},
+ 			  </if>
+ 			 <if test="remark1 != null">
+ 				 #{remark1},
+ 			  </if>
+ 			 <if test="applyId != null">
+ 				 #{applyId},
+ 			  </if>
+ 			 <if test="flowType != null">
+ 				 #{flowType},
+ 			  </if>
+ 			 <if test="tenantCode != null">
+ 				 #{tenantCode},
+ 			  </if>
+ 			 <if test="appCode != null">
+ 				 #{appCode},
+ 			  </if>
+ 		  </trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.onecard.auth.infrastructure.persistence.entity.authrisk.RiskApplyDO">
+		 update   wk_risk_apply
+ 		 <set>
+ 			 <if test="flowId != null">
+ 				 flow_id = #{flowId},
+ 			  </if>
+ 			 <if test="customerId != null">
+ 				 customer_id = #{customerId},
+ 			  </if>
+ 			 <if test="realName != null">
+ 				 real_name = #{realName},
+ 			  </if>
+ 			 <if test="mobile != null">
+ 				 mobile = #{mobile},
+ 			  </if>
+ 			 <if test="certId != null">
+ 				 cert_id = #{certId},
+ 			  </if>
+ 			 <if test="bizCode != null">
+ 				 biz_code = #{bizCode},
+ 			  </if>
+ 			 <if test="processKey != null">
+ 				 process_key = #{processKey},
+ 			  </if>
+ 			 <if test="applySendStatus != null">
+ 				 apply_send_status = #{applySendStatus},
+ 			  </if>
+ 			 <if test="applyResponseStatus != null">
+ 				 apply_response_status = #{applyResponseStatus},
+ 			  </if>
+ 			 <if test="applyCallbackStatus != null">
+ 				 apply_callback_status = #{applyCallbackStatus},
+ 			  </if>
+ 			 <if test="applyCallbackTime != null">
+ 				 apply_callback_time = #{applyCallbackTime},
+ 			  </if>
+ 			 <if test="noticeQuotaStatus != null">
+ 				 notice_quota_status = #{noticeQuotaStatus},
+ 			  </if>
+ 			 <if test="noticeQuotaTime != null">
+ 				 notice_quota_time = #{noticeQuotaTime},
+ 			  </if>
+ 			 <if test="checkNoticedStatus != null">
+ 				 check_noticed_status = #{checkNoticedStatus},
+ 			  </if>
+ 			 <if test="checkNoticedTime != null">
+ 				 check_noticed_time = #{checkNoticedTime},
+ 			  </if>
+ 			 <if test="source != null">
+ 				 source = #{source},
+ 			  </if>
+ 			 <if test="proId != null">
+ 				 pro_id = #{proId},
+ 			  </if>
+ 			 <if test="applySource != null">
+ 				 apply_source = #{applySource},
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 create_time = #{createTime},
+ 			  </if>
+ 			 <if test="updateTime != null">
+ 				 update_time = #{updateTime},
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 tenant_id = #{tenantId},
+ 			  </if>
+ 			 <if test="remark != null">
+ 				 remark = #{remark},
+ 			  </if>
+ 			 <if test="remark1 != null">
+ 				 remark1 = #{remark1},
+ 			  </if>
+ 			 <if test="applyId != null">
+ 				 apply_id = #{applyId},
+ 			  </if>
+ 			 <if test="flowType != null">
+ 				 flow_type = #{flowType},
+ 			  </if>
+ 		 </set>
+     where id = #{id}
+	</update>
+	
+	 <select id="getList" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from wk_risk_apply riskApply
+ 		  where 1=1 
+ 		 <if test="id != null">
+ 			 and riskApply.id = #{id}
+ 		  </if>
+ 		 <if test="flowId != null">
+ 			 and riskApply.flow_id = #{flowId}
+ 		  </if>
+ 		 <if test="customerId != null">
+ 			 and riskApply.customer_id = #{customerId}
+ 		  </if>
+ 		 <if test="realName != null">
+ 			 and riskApply.real_name = #{realName}
+ 		  </if>
+ 		 <if test="mobile != null">
+ 			 and riskApply.mobile = #{mobile}
+ 		  </if>
+ 		 <if test="certId != null">
+ 			 and riskApply.cert_id = #{certId}
+ 		  </if>
+ 		 <if test="bizCode != null">
+ 			 and riskApply.biz_code = #{bizCode}
+ 		  </if>
+ 		 <if test="processKey != null">
+ 			 and riskApply.process_key = #{processKey}
+ 		  </if>
+ 		 <if test="applySendStatus != null">
+ 			 and riskApply.apply_send_status = #{applySendStatus}
+ 		  </if>
+ 		 <if test="applyResponseStatus != null">
+ 			 and riskApply.apply_response_status = #{applyResponseStatus}
+ 		  </if>
+ 		 <if test="applyCallbackStatus != null">
+ 			 and riskApply.apply_callback_status = #{applyCallbackStatus}
+ 		  </if>
+ 		 <if test="applyCallbackTime != null">
+ 			 and riskApply.apply_callback_time = #{applyCallbackTime}
+ 		  </if>
+ 		 <if test="noticeQuotaStatus != null">
+ 			 and riskApply.notice_quota_status = #{noticeQuotaStatus}
+ 		  </if>
+ 		 <if test="noticeQuotaTime != null">
+ 			 and riskApply.notice_quota_time = #{noticeQuotaTime}
+ 		  </if>
+ 		 <if test="checkNoticedStatus != null">
+ 			 and riskApply.check_noticed_status = #{checkNoticedStatus}
+ 		  </if>
+ 		 <if test="checkNoticedTime != null">
+ 			 and riskApply.check_noticed_time = #{checkNoticedTime}
+ 		  </if>
+ 		 <if test="source != null">
+ 			 and riskApply.source = #{source}
+ 		  </if>
+ 		 <if test="proId != null">
+ 			 and riskApply.pro_id = #{proId}
+ 		  </if>
+ 		 <if test="applySource != null">
+ 			 and riskApply.apply_source = #{applySource}
+ 		  </if>
+ 		 <if test="createTime != null">
+ 			 and riskApply.create_time = #{createTime}
+ 		  </if>
+ 		 <if test="updateTime != null">
+ 			 and riskApply.update_time = #{updateTime}
+ 		  </if>
+ 		 <if test="tenantId != null">
+ 			 and riskApply.tenant_id = #{tenantId}
+ 		  </if>
+ 		 <if test="remark != null">
+ 			 and riskApply.remark = #{remark}
+ 		  </if>
+ 		 <if test="remark1 != null">
+ 			 and riskApply.remark1 = #{remark1}
+ 		  </if>
+ 		 <if test="applyId != null">
+ 			 and riskApply.apply_id = #{applyId}
+ 		  </if>
+ 		 <if test="flowType != null">
+ 			 and riskApply.flow_type = #{flowType}
+ 		  </if>
+	</select>
+	 <select id="getListCount" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		 select 
+ 		  count(riskApply.id)
+ 		  from wk_risk_apply riskApply
+ 		  where 1=1 
+ 		 <if test="id != null">
+ 			 and riskApply.id = #{id}
+ 		  </if>
+ 		 <if test="flowId != null">
+ 			 and riskApply.flow_id = #{flowId}
+ 		  </if>
+ 		 <if test="customerId != null">
+ 			 and riskApply.customer_id = #{customerId}
+ 		  </if>
+ 		 <if test="realName != null">
+ 			 and riskApply.real_name = #{realName}
+ 		  </if>
+ 		 <if test="mobile != null">
+ 			 and riskApply.mobile = #{mobile}
+ 		  </if>
+ 		 <if test="certId != null">
+ 			 and riskApply.cert_id = #{certId}
+ 		  </if>
+ 		 <if test="bizCode != null">
+ 			 and riskApply.biz_code = #{bizCode}
+ 		  </if>
+ 		 <if test="processKey != null">
+ 			 and riskApply.process_key = #{processKey}
+ 		  </if>
+ 		 <if test="applySendStatus != null">
+ 			 and riskApply.apply_send_status = #{applySendStatus}
+ 		  </if>
+ 		 <if test="applyResponseStatus != null">
+ 			 and riskApply.apply_response_status = #{applyResponseStatus}
+ 		  </if>
+ 		 <if test="applyCallbackStatus != null">
+ 			 and riskApply.apply_callback_status = #{applyCallbackStatus}
+ 		  </if>
+ 		 <if test="applyCallbackTime != null">
+ 			 and riskApply.apply_callback_time = #{applyCallbackTime}
+ 		  </if>
+ 		 <if test="noticeQuotaStatus != null">
+ 			 and riskApply.notice_quota_status = #{noticeQuotaStatus}
+ 		  </if>
+ 		 <if test="noticeQuotaTime != null">
+ 			 and riskApply.notice_quota_time = #{noticeQuotaTime}
+ 		  </if>
+ 		 <if test="checkNoticedStatus != null">
+ 			 and riskApply.check_noticed_status = #{checkNoticedStatus}
+ 		  </if>
+ 		 <if test="checkNoticedTime != null">
+ 			 and riskApply.check_noticed_time = #{checkNoticedTime}
+ 		  </if>
+ 		 <if test="source != null">
+ 			 and riskApply.source = #{source}
+ 		  </if>
+ 		 <if test="proId != null">
+ 			 and riskApply.pro_id = #{proId}
+ 		  </if>
+ 		 <if test="applySource != null">
+ 			 and riskApply.apply_source = #{applySource}
+ 		  </if>
+ 		 <if test="createTime != null">
+ 			 and riskApply.create_time = #{createTime}
+ 		  </if>
+ 		 <if test="updateTime != null">
+ 			 and riskApply.update_time = #{updateTime}
+ 		  </if>
+ 		 <if test="tenantId != null">
+ 			 and riskApply.tenant_id = #{tenantId}
+ 		  </if>
+ 		 <if test="remark != null">
+ 			 and riskApply.remark = #{remark}
+ 		  </if>
+ 		 <if test="remark1 != null">
+ 			 and riskApply.remark1 = #{remark1}
+ 		  </if>
+ 		 <if test="applyId != null">
+ 			 and riskApply.apply_id = #{applyId}
+ 		  </if>
+ 		 <if test="flowType != null">
+ 			 and riskApply.flow_type = #{flowType}
+ 		  </if>
+	</select>
+
+	<select id="selectByFlowId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from wk_risk_apply riskApply
+		where riskApply.flow_id = #{flowId}
+	</select>
+
+    <select id="selectLatest" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from wk_risk_apply riskApply
+		where riskApply.customer_id = #{customerId}
+		order by create_time desc
+		limit 1
+	</select>
+</mapper>
