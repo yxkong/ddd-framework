@@ -6,6 +6,7 @@ import com.yxkong.demo.domain.gateway.QuotaGateway;
 import com.yxkong.demo.domain.model.quota.QuotaEntity;
 import com.yxkong.demo.domain.model.user.CustomerId;
 import com.yxkong.demo.infrastructure.convert.QuotaAppStatusConvert;
+import com.yxkong.demo.infrastructure.convert.QuotaConvert;
 import com.yxkong.demo.infrastructure.convert.QuotaFreezeConvert;
 import com.yxkong.demo.infrastructure.remote.QuotaFeignService;
 import com.yxkong.demo.infrastructure.remote.dto.QuotaSingleDto;
@@ -35,12 +36,7 @@ public class QuotaGatewayImpl implements QuotaGateway {
         if (!resultBean.isSucc() || Objects.isNull(resultBean.getData())) {
             return null;
         }
-        QuotaSingleDto data = resultBean.getData();
-        QuotaEntity quotaEntity = QuotaEntity.builder().customerId(customerId)
-                .quotaAppStatus(QuotaAppStatusConvert.reverseMapping(data.getAppStatus()))
-                .quotaFreezeStatus(QuotaFreezeConvert.reverseMapping(data.getFreezeStatus())).build();
-        BeanUtils.copyProperties(data, quotaEntity);
-        return quotaEntity;
+        return QuotaConvert.convert(resultBean.getData(),customerId);
     }
 
 
