@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="${package}.infrastructure.persistence.mapper.${appName}andx.AccountMapper">
+
+	 <resultMap type="${package}.infrastructure.persistence.entity.${appName}.AccountDO" id="BaseResultMap">
+    	 <id column="accountId" property="accountId" /> 
+		  <id column="accountName" property="accountName" /> 
+		  <id column="uuid" property="uuid" /> 
+		  <id column="certId" property="certId" /> 
+		  <id column="customerId" property="customerId" /> 
+		  <id column="custNo" property="custNo" /> 
+		  <id column="status" property="status" /> 
+		  <id column="source" property="source" /> 
+		  <id column="createTime" property="createTime" /> 
+		  <id column="updatedTime" property="updatedTime" /> 
+		  <id column="realNameTime" property="realNameTime" /> 
+		  <id column="isOld" property="isOld" /> 
+		  <id column="active" property="active" /> 
+		  <id column="inviteCode" property="inviteCode" /> 
+		  <id column="operator" property="operator" /> 
+		  <id column="location" property="location" /> 
+		  <id column="prodid" property="prodid" /> 
+		  <id column="openid" property="openid" /> 
+		  <id column="inviteAcode" property="inviteAcode" /> 
+		  <id column="inviteRcode" property="inviteRcode" /> 
+		  <id column="utmMedium" property="utmMedium" /> 
+		  <id column="utmCampaign" property="utmCampaign" /> 
+		  <id column="registerId" property="registerId" /> 
+		  <id column="appType" property="appType" /> 
+		  <id column="isNew" property="isNew" /> 
+		  <id column="lable" property="lable" /> 
+		  <id column="md5Mobile" property="md5Mobile" /> 
+		  <id column="tenantId" property="tenantId" /> 
+		  <id column="proId" property="proId" /> 
+		  <id column="wechatType" property="wechatType" /> 
+		  <id column="proCertIdMD5" property="proCertIdMD5" /> 
+		  <id column="proMobileMD5" property="proMobileMD5" /> 
+		  <id column="proMobileCertId" property="proMobileCertId" /> 
+  
+    </resultMap>
+    <sql id="Base_Column_List">
+    	 t.accountId as accountId ,
+ 		 t.accountName as accountName ,
+ 		 t.uuid as uuid ,
+ 		 t.certId as certId ,
+ 		 t.customerId as customerId ,
+ 		 t.custNo as custNo ,
+ 		 t.status as status ,
+ 		 t.source as source ,
+ 		 t.createTime as createTime ,
+ 		 t.updatedTime as updatedTime ,
+ 		 t.realNameTime as realNameTime ,
+ 		 t.isOld as isOld ,
+ 		 t.active as active ,
+ 		 t.inviteCode as inviteCode ,
+ 		 t.operator as operator ,
+ 		 t.location as location ,
+ 		 t.prodid as prodid ,
+ 		 t.openid as openid ,
+ 		 t.inviteAcode as inviteAcode ,
+ 		 t.inviteRcode as inviteRcode ,
+ 		 t.utmMedium as utmMedium ,
+ 		 t.utmCampaign as utmCampaign ,
+ 		 t.registerId as registerId ,
+ 		 t.appType as appType ,
+ 		 t.isNew as isNew ,
+ 		 t.lable as lable ,
+ 		 t.md5Mobile as md5Mobile ,
+ 		 t.tenant_id as tenantId ,
+ 		 t.proId as proId ,
+ 		 t.wechatType as wechatType ,
+ 		 t.proCertIdMD5 as proCertIdMD5 ,
+ 		 t.proMobileMD5 as proMobileMD5 ,
+ 		 t.proMobileCertId as proMobileCertId
+    </sql>
+    
+    <select id="findById" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from t_account t
+ 		  where t.accountid = ${symbol_pound}{ accountid }
+	</select>
+	<select id="findByMobile" resultMap="BaseResultMap"
+			parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_account t
+		where t.accountName = ${symbol_pound}{ mobile }
+	</select>
+	<delete id="deleteById" parameterType="java.lang.Long">
+		 delete 
+ 		  from t_account
+ 		  where accountid = ${symbol_pound}{ accountid }
+	</delete>
+	
+	<insert id="insertSelective" parameterType="${package}.infrastructure.persistence.entity.${appName}.AccountDO">
+		 insert into  t_account
+ 		  <trim prefix="(" suffix=")" suffixOverrides=","> 
+ 			 <if test="accountId != null">
+ 				 accountId,
+ 			  </if>
+ 			 <if test="accountName != null">
+ 				 accountName,
+ 			  </if>
+ 			 <if test="uuid != null">
+ 				 uuid,
+ 			  </if>
+ 			 <if test="certId != null">
+ 				 certId,
+ 			  </if>
+ 			 <if test="customerId != null">
+ 				 customerId,
+ 			  </if>
+ 			 <if test="custNo != null">
+ 				 custNo,
+ 			  </if>
+ 			 <if test="status != null">
+ 				 status,
+ 			  </if>
+ 			 <if test="source != null">
+ 				 source,
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 createTime,
+ 			  </if>
+ 			 <if test="updatedTime != null">
+ 				 updatedTime,
+ 			  </if>
+ 			 <if test="realNameTime != null">
+ 				 realNameTime,
+ 			  </if>
+ 			 <if test="isOld != null">
+ 				 isOld,
+ 			  </if>
+ 			 <if test="active != null">
+ 				 active,
+ 			  </if>
+ 			 <if test="inviteCode != null">
+ 				 inviteCode,
+ 			  </if>
+ 			 <if test="operator != null">
+ 				 operator,
+ 			  </if>
+ 			 <if test="location != null">
+ 				 location,
+ 			  </if>
+ 			 <if test="prodid != null">
+ 				 prodid,
+ 			  </if>
+ 			 <if test="openid != null">
+ 				 openid,
+ 			  </if>
+ 			 <if test="inviteAcode != null">
+ 				 inviteAcode,
+ 			  </if>
+ 			 <if test="inviteRcode != null">
+ 				 inviteRcode,
+ 			  </if>
+ 			 <if test="utmMedium != null">
+ 				 utmMedium,
+ 			  </if>
+ 			 <if test="utmCampaign != null">
+ 				 utmCampaign,
+ 			  </if>
+ 			 <if test="registerId != null">
+ 				 registerId,
+ 			  </if>
+ 			 <if test="appType != null">
+ 				 appType,
+ 			  </if>
+ 			 <if test="isNew != null">
+ 				 isNew,
+ 			  </if>
+ 			 <if test="lable != null">
+ 				 lable,
+ 			  </if>
+ 			 <if test="md5Mobile != null">
+ 				 md5Mobile,
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 tenant_id,
+ 			  </if>
+ 			 <if test="proId != null">
+ 				 proId,
+ 			  </if>
+ 			 <if test="wechatType != null">
+ 				 wechatType,
+ 			  </if>
+ 			 <if test="proCertIdMD5 != null">
+ 				 proCertIdMD5,
+ 			  </if>
+ 			 <if test="proMobileMD5 != null">
+ 				 proMobileMD5,
+ 			  </if>
+ 			 <if test="proMobileCertId != null">
+ 				 proMobileCertId,
+ 			  </if>
+ 		  </trim>
+ 		  <trim prefix="values (" suffix=")" suffixOverrides="," >
+ 			 <if test="accountId != null">
+ 				 ${symbol_pound}{accountId},
+ 			  </if>
+ 			 <if test="accountName != null">
+ 				 ${symbol_pound}{accountName},
+ 			  </if>
+ 			 <if test="uuid != null">
+ 				 ${symbol_pound}{uuid},
+ 			  </if>
+ 			 <if test="certId != null">
+ 				 ${symbol_pound}{certId},
+ 			  </if>
+ 			 <if test="customerId != null">
+ 				 ${symbol_pound}{customerId},
+ 			  </if>
+ 			 <if test="custNo != null">
+ 				 ${symbol_pound}{custNo},
+ 			  </if>
+ 			 <if test="status != null">
+ 				 ${symbol_pound}{status},
+ 			  </if>
+ 			 <if test="source != null">
+ 				 ${symbol_pound}{source},
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 ${symbol_pound}{createTime},
+ 			  </if>
+ 			 <if test="updatedTime != null">
+ 				 ${symbol_pound}{updatedTime},
+ 			  </if>
+ 			 <if test="realNameTime != null">
+ 				 ${symbol_pound}{realNameTime},
+ 			  </if>
+ 			 <if test="isOld != null">
+ 				 ${symbol_pound}{isOld},
+ 			  </if>
+ 			 <if test="active != null">
+ 				 ${symbol_pound}{active},
+ 			  </if>
+ 			 <if test="inviteCode != null">
+ 				 ${symbol_pound}{inviteCode},
+ 			  </if>
+ 			 <if test="operator != null">
+ 				 ${symbol_pound}{operator},
+ 			  </if>
+ 			 <if test="location != null">
+ 				 ${symbol_pound}{location},
+ 			  </if>
+ 			 <if test="prodid != null">
+ 				 ${symbol_pound}{prodid},
+ 			  </if>
+ 			 <if test="openid != null">
+ 				 ${symbol_pound}{openid},
+ 			  </if>
+ 			 <if test="inviteAcode != null">
+ 				 ${symbol_pound}{inviteAcode},
+ 			  </if>
+ 			 <if test="inviteRcode != null">
+ 				 ${symbol_pound}{inviteRcode},
+ 			  </if>
+ 			 <if test="utmMedium != null">
+ 				 ${symbol_pound}{utmMedium},
+ 			  </if>
+ 			 <if test="utmCampaign != null">
+ 				 ${symbol_pound}{utmCampaign},
+ 			  </if>
+ 			 <if test="registerId != null">
+ 				 ${symbol_pound}{registerId},
+ 			  </if>
+ 			 <if test="appType != null">
+ 				 ${symbol_pound}{appType},
+ 			  </if>
+ 			 <if test="isNew != null">
+ 				 ${symbol_pound}{isNew},
+ 			  </if>
+ 			 <if test="lable != null">
+ 				 ${symbol_pound}{lable},
+ 			  </if>
+ 			 <if test="md5Mobile != null">
+ 				 ${symbol_pound}{md5Mobile},
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 ${symbol_pound}{tenantId},
+ 			  </if>
+ 			 <if test="proId != null">
+ 				 ${symbol_pound}{proId},
+ 			  </if>
+ 			 <if test="wechatType != null">
+ 				 ${symbol_pound}{wechatType},
+ 			  </if>
+ 			 <if test="proCertIdMD5 != null">
+ 				 ${symbol_pound}{proCertIdMD5},
+ 			  </if>
+ 			 <if test="proMobileMD5 != null">
+ 				 ${symbol_pound}{proMobileMD5},
+ 			  </if>
+ 			 <if test="proMobileCertId != null">
+ 				 ${symbol_pound}{proMobileCertId},
+ 			  </if>
+ 		  </trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="${package}.infrastructure.persistence.entity.${appName}.AccountDO">
+		 update   t_account
+ 		 <set>
+ 			 <if test="accountId != null">
+ 				 accountId = ${symbol_pound}{accountId},
+ 			  </if>
+ 			 <if test="accountName != null">
+ 				 accountName = ${symbol_pound}{accountName},
+ 			  </if>
+ 			 <if test="uuid != null">
+ 				 uuid = ${symbol_pound}{uuid},
+ 			  </if>
+ 			 <if test="certId != null">
+ 				 certId = ${symbol_pound}{certId},
+ 			  </if>
+ 			 <if test="customerId != null">
+ 				 customerId = ${symbol_pound}{customerId},
+ 			  </if>
+ 			 <if test="custNo != null">
+ 				 custNo = ${symbol_pound}{custNo},
+ 			  </if>
+ 			 <if test="status != null">
+ 				 status = ${symbol_pound}{status},
+ 			  </if>
+ 			 <if test="source != null">
+ 				 source = ${symbol_pound}{source},
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 createTime = ${symbol_pound}{createTime},
+ 			  </if>
+ 			 <if test="updatedTime != null">
+ 				 updatedTime = ${symbol_pound}{updatedTime},
+ 			  </if>
+ 			 <if test="realNameTime != null">
+ 				 realNameTime = ${symbol_pound}{realNameTime},
+ 			  </if>
+ 			 <if test="isOld != null">
+ 				 isOld = ${symbol_pound}{isOld},
+ 			  </if>
+ 			 <if test="active != null">
+ 				 active = ${symbol_pound}{active},
+ 			  </if>
+ 			 <if test="inviteCode != null">
+ 				 inviteCode = ${symbol_pound}{inviteCode},
+ 			  </if>
+ 			 <if test="operator != null">
+ 				 operator = ${symbol_pound}{operator},
+ 			  </if>
+ 			 <if test="location != null">
+ 				 location = ${symbol_pound}{location},
+ 			  </if>
+ 			 <if test="prodid != null">
+ 				 prodid = ${symbol_pound}{prodid},
+ 			  </if>
+ 			 <if test="openid != null">
+ 				 openid = ${symbol_pound}{openid},
+ 			  </if>
+ 			 <if test="inviteAcode != null">
+ 				 inviteAcode = ${symbol_pound}{inviteAcode},
+ 			  </if>
+ 			 <if test="inviteRcode != null">
+ 				 inviteRcode = ${symbol_pound}{inviteRcode},
+ 			  </if>
+ 			 <if test="utmMedium != null">
+ 				 utmMedium = ${symbol_pound}{utmMedium},
+ 			  </if>
+ 			 <if test="utmCampaign != null">
+ 				 utmCampaign = ${symbol_pound}{utmCampaign},
+ 			  </if>
+ 			 <if test="registerId != null">
+ 				 registerId = ${symbol_pound}{registerId},
+ 			  </if>
+ 			 <if test="appType != null">
+ 				 appType = ${symbol_pound}{appType},
+ 			  </if>
+ 			 <if test="isNew != null">
+ 				 isNew = ${symbol_pound}{isNew},
+ 			  </if>
+ 			 <if test="lable != null">
+ 				 lable = ${symbol_pound}{lable},
+ 			  </if>
+ 			 <if test="md5Mobile != null">
+ 				 md5Mobile = ${symbol_pound}{md5Mobile},
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 tenant_id = ${symbol_pound}{tenantId},
+ 			  </if>
+ 			 <if test="proId != null">
+ 				 proId = ${symbol_pound}{proId},
+ 			  </if>
+ 			 <if test="wechatType != null">
+ 				 wechatType = ${symbol_pound}{wechatType},
+ 			  </if>
+ 			 <if test="proCertIdMD5 != null">
+ 				 proCertIdMD5 = ${symbol_pound}{proCertIdMD5},
+ 			  </if>
+ 			 <if test="proMobileMD5 != null">
+ 				 proMobileMD5 = ${symbol_pound}{proMobileMD5},
+ 			  </if>
+ 			 <if test="proMobileCertId != null">
+ 				 proMobileCertId = ${symbol_pound}{proMobileCertId},
+ 			  </if>
+ 		 </set>
+     where accountid = ${symbol_pound}{accountid}
+	</update>
+	
+	 <select id="getList" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from t_account t
+ 		  where 1=1 
+ 		 <if test="accountId != null">
+ 			 and t.accountId = ${symbol_pound}{accountId}
+ 		  </if>
+ 		 <if test="accountName != null">
+ 			 and t.accountName = ${symbol_pound}{accountName}
+ 		  </if>
+ 		 <if test="uuid != null">
+ 			 and t.uuid = ${symbol_pound}{uuid}
+ 		  </if>
+ 		 <if test="certId != null">
+ 			 and t.certId = ${symbol_pound}{certId}
+ 		  </if>
+ 		 <if test="customerId != null">
+ 			 and t.customerId = ${symbol_pound}{customerId}
+ 		  </if>
+ 		 <if test="custNo != null">
+ 			 and t.custNo = ${symbol_pound}{custNo}
+ 		  </if>
+ 		 <if test="status != null">
+ 			 and t.status = ${symbol_pound}{status}
+ 		  </if>
+ 		 <if test="source != null">
+ 			 and t.source = ${symbol_pound}{source}
+ 		  </if>
+ 		 <if test="createTime != null">
+ 			 and t.createTime = ${symbol_pound}{createTime}
+ 		  </if>
+ 		 <if test="updatedTime != null">
+ 			 and t.updatedTime = ${symbol_pound}{updatedTime}
+ 		  </if>
+ 		 <if test="realNameTime != null">
+ 			 and t.realNameTime = ${symbol_pound}{realNameTime}
+ 		  </if>
+ 		 <if test="isOld != null">
+ 			 and t.isOld = ${symbol_pound}{isOld}
+ 		  </if>
+ 		 <if test="active != null">
+ 			 and t.active = ${symbol_pound}{active}
+ 		  </if>
+ 		 <if test="inviteCode != null">
+ 			 and t.inviteCode = ${symbol_pound}{inviteCode}
+ 		  </if>
+ 		 <if test="operator != null">
+ 			 and t.operator = ${symbol_pound}{operator}
+ 		  </if>
+ 		 <if test="location != null">
+ 			 and t.location = ${symbol_pound}{location}
+ 		  </if>
+ 		 <if test="prodid != null">
+ 			 and t.prodid = ${symbol_pound}{prodid}
+ 		  </if>
+ 		 <if test="openid != null">
+ 			 and t.openid = ${symbol_pound}{openid}
+ 		  </if>
+ 		 <if test="inviteAcode != null">
+ 			 and t.inviteAcode = ${symbol_pound}{inviteAcode}
+ 		  </if>
+ 		 <if test="inviteRcode != null">
+ 			 and t.inviteRcode = ${symbol_pound}{inviteRcode}
+ 		  </if>
+ 		 <if test="utmMedium != null">
+ 			 and t.utmMedium = ${symbol_pound}{utmMedium}
+ 		  </if>
+ 		 <if test="utmCampaign != null">
+ 			 and t.utmCampaign = ${symbol_pound}{utmCampaign}
+ 		  </if>
+ 		 <if test="registerId != null">
+ 			 and t.registerId = ${symbol_pound}{registerId}
+ 		  </if>
+ 		 <if test="appType != null">
+ 			 and t.appType = ${symbol_pound}{appType}
+ 		  </if>
+ 		 <if test="isNew != null">
+ 			 and t.isNew = ${symbol_pound}{isNew}
+ 		  </if>
+ 		 <if test="lable != null">
+ 			 and t.lable = ${symbol_pound}{lable}
+ 		  </if>
+ 		 <if test="md5Mobile != null">
+ 			 and t.md5Mobile = ${symbol_pound}{md5Mobile}
+ 		  </if>
+ 		 <if test="tenantId != null">
+ 			 and t.tenant_id = ${symbol_pound}{tenantId}
+ 		  </if>
+ 		 <if test="proId != null">
+ 			 and t.proId = ${symbol_pound}{proId}
+ 		  </if>
+ 		 <if test="wechatType != null">
+ 			 and t.wechatType = ${symbol_pound}{wechatType}
+ 		  </if>
+ 		 <if test="proCertIdMD5 != null">
+ 			 and t.proCertIdMD5 = ${symbol_pound}{proCertIdMD5}
+ 		  </if>
+ 		 <if test="proMobileMD5 != null">
+ 			 and t.proMobileMD5 = ${symbol_pound}{proMobileMD5}
+ 		  </if>
+ 		 <if test="proMobileCertId != null">
+ 			 and t.proMobileCertId = ${symbol_pound}{proMobileCertId}
+ 		  </if>
+	</select>
+	 <select id="getListCount" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		 select 
+ 		  count(t.accountid)
+ 		  from t_account t
+ 		  where 1=1 
+ 		 <if test="accountId != null">
+ 			 and t.accountId = ${symbol_pound}{accountId}
+ 		  </if>
+ 		 <if test="accountName != null">
+ 			 and t.accountName = ${symbol_pound}{accountName}
+ 		  </if>
+ 		 <if test="uuid != null">
+ 			 and t.uuid = ${symbol_pound}{uuid}
+ 		  </if>
+ 		 <if test="certId != null">
+ 			 and t.certId = ${symbol_pound}{certId}
+ 		  </if>
+ 		 <if test="customerId != null">
+ 			 and t.customerId = ${symbol_pound}{customerId}
+ 		  </if>
+ 		 <if test="custNo != null">
+ 			 and t.custNo = ${symbol_pound}{custNo}
+ 		  </if>
+ 		 <if test="status != null">
+ 			 and t.status = ${symbol_pound}{status}
+ 		  </if>
+ 		 <if test="source != null">
+ 			 and t.source = ${symbol_pound}{source}
+ 		  </if>
+ 		 <if test="createTime != null">
+ 			 and t.createTime = ${symbol_pound}{createTime}
+ 		  </if>
+ 		 <if test="updatedTime != null">
+ 			 and t.updatedTime = ${symbol_pound}{updatedTime}
+ 		  </if>
+ 		 <if test="realNameTime != null">
+ 			 and t.realNameTime = ${symbol_pound}{realNameTime}
+ 		  </if>
+ 		 <if test="isOld != null">
+ 			 and t.isOld = ${symbol_pound}{isOld}
+ 		  </if>
+ 		 <if test="active != null">
+ 			 and t.active = ${symbol_pound}{active}
+ 		  </if>
+ 		 <if test="inviteCode != null">
+ 			 and t.inviteCode = ${symbol_pound}{inviteCode}
+ 		  </if>
+ 		 <if test="operator != null">
+ 			 and t.operator = ${symbol_pound}{operator}
+ 		  </if>
+ 		 <if test="location != null">
+ 			 and t.location = ${symbol_pound}{location}
+ 		  </if>
+ 		 <if test="prodid != null">
+ 			 and t.prodid = ${symbol_pound}{prodid}
+ 		  </if>
+ 		 <if test="openid != null">
+ 			 and t.openid = ${symbol_pound}{openid}
+ 		  </if>
+ 		 <if test="inviteAcode != null">
+ 			 and t.inviteAcode = ${symbol_pound}{inviteAcode}
+ 		  </if>
+ 		 <if test="inviteRcode != null">
+ 			 and t.inviteRcode = ${symbol_pound}{inviteRcode}
+ 		  </if>
+ 		 <if test="utmMedium != null">
+ 			 and t.utmMedium = ${symbol_pound}{utmMedium}
+ 		  </if>
+ 		 <if test="utmCampaign != null">
+ 			 and t.utmCampaign = ${symbol_pound}{utmCampaign}
+ 		  </if>
+ 		 <if test="registerId != null">
+ 			 and t.registerId = ${symbol_pound}{registerId}
+ 		  </if>
+ 		 <if test="appType != null">
+ 			 and t.appType = ${symbol_pound}{appType}
+ 		  </if>
+ 		 <if test="isNew != null">
+ 			 and t.isNew = ${symbol_pound}{isNew}
+ 		  </if>
+ 		 <if test="lable != null">
+ 			 and t.lable = ${symbol_pound}{lable}
+ 		  </if>
+ 		 <if test="md5Mobile != null">
+ 			 and t.md5Mobile = ${symbol_pound}{md5Mobile}
+ 		  </if>
+ 		 <if test="tenantId != null">
+ 			 and t.tenant_id = ${symbol_pound}{tenantId}
+ 		  </if>
+ 		 <if test="proId != null">
+ 			 and t.proId = ${symbol_pound}{proId}
+ 		  </if>
+ 		 <if test="wechatType != null">
+ 			 and t.wechatType = ${symbol_pound}{wechatType}
+ 		  </if>
+ 		 <if test="proCertIdMD5 != null">
+ 			 and t.proCertIdMD5 = ${symbol_pound}{proCertIdMD5}
+ 		  </if>
+ 		 <if test="proMobileMD5 != null">
+ 			 and t.proMobileMD5 = ${symbol_pound}{proMobileMD5}
+ 		  </if>
+ 		 <if test="proMobileCertId != null">
+ 			 and t.proMobileCertId = ${symbol_pound}{proMobileCertId}
+ 		  </if>
+	</select>
+</mapper>

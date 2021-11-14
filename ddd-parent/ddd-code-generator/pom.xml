@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.yxkong</groupId>
+        <artifactId>ddd-parent</artifactId>
+        <version>0.1</version>
+    </parent>
+    <groupId>com.yxkong</groupId>
+    <artifactId>ddd-code-generator</artifactId>
+    <version>0.1</version>
+    <packaging>jar</packaging>
+    <properties>
+        <argLine>-Dfile.encoding=UTF-8</argLine>
+        <java.version>1.8</java.version>
+        <sourceEncoding>UTF-8</sourceEncoding>
+        <mysql.version>8.0.20</mysql.version>
+        <freemarker.version>2.3.31</freemarker.version>
+        <commons-lang3.version>3.10</commons-lang3.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>${freemarker.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+    </dependencies>
+    <!-- 配置远程仓库 -->
+    <distributionManagement>
+        <repository>
+            <id>aliyun</id>
+            <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+    </distributionManagement>
+    <repositories>
+        <repository>
+            <id>aliyun-public</id>
+            <name>aliyun-public</name>
+            <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
+
+    <build>
+        <defaultGoal>compile</defaultGoal>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <plugins>
+            <!-- 编译插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${sourceEncoding}</encoding>
+                    <!--屏蔽test-->
+                    <skip>true</skip>
+                    <!--传递额外的编译参数-->
+                    <compilerArgs>
+                        <arg>-verbose</arg>
+                        <!--                        <arg>-Xlint:all,-options,-path</arg>-->
+                        <arg>-Xlint:unchecked</arg>
+                        <arg>-Xlint:deprecation</arg>
+                        <!--添加一些jar，让bootstrap ClassLoader加载-->
+                        <!--                        <arg>-Xbootclasspath:${java.home}/lib/rt.jar${path.separator}${java.home}/lib/jce.jar</arg>-->
+                        <!--解决本地jar包依赖问题-->
+                        <!--                        <arg>-Xextdirs:${basedir}\lib</arg>-->
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <!-- 跳过单元测试-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            <!--打源码包-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

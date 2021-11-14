@@ -1,0 +1,144 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+#set( $symbol_left = '{' )
+#set( $symbol_right = '}' )
+server:
+  port: ${webPort}
+  # 开启优雅停机kill -2 可以优雅停机
+  shutdown: GRACEFUL
+  compression:
+    enabled: true
+  servlet:
+    session:
+      timeout: 3600
+    encoding: # 解决http请求编码问题
+      force: true
+      charset: UTF-8
+      enabled: true
+  tomcat:
+    uri-encoding: UTF-8 # tomcat编码
+    accept-count: 200
+    max-connections: 1200
+    connection-timeout: 5000
+    threads:
+      max: 1000
+      min-spare: 50
+    max-http-form-post-size: 209715200
+
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: true
+
+# ===== 自定义swagger配置 ===== #
+swagger:
+  show: true
+  profiles : dev,test
+  title: ${symbol_dollar}${symbol_left}spring.application.name${symbol_right}
+  version: 1.0
+  description: '项目描述'
+  contactName: '项目维护人'
+  contactUrl: '联系网址'
+  contactEmail: '项目联系邮箱'
+  serviceUrl: http://localhost:${symbol_dollar}${symbol_left}server.port${symbol_right}
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: ${parentArtifactId}
+  main:
+    allow-bean-definition-overriding: false # 重复id的bean不允许覆盖，必须手动检查
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  resources:
+    add-mappings: true  #是否开启默认的资源处理，默认为true, 为false swagger不可用
+  mvc:
+    servlet:
+      path: /
+  cache:
+    type: redis # 配置使用redis
+    redis:
+      time-to-live: 1800
+      cache-expires: #对于redis的key，根据各自的项目情况来定制，不能都一样,失效时间单位秒
+        c10s: 10
+        c30s: 30
+        c1m: 60
+        c2m: 60
+        c3m: 180
+        c5m: 300
+        c10m: 600
+        c30m: 1800
+        c1h: 3600
+        c24h: 86400
+        c1d: 86400
+        c7d: 604800
+        c30d: 2592000
+
+# 通过eureka调用都放到这里
+eureka:
+  instance:
+    service:
+      userService: userservice  #用户
+      userApi: userapi  #用户
+      userinfoApi: userinfoApi  #个人信息ocr服务
+      paymentService: onecard-payment-api  #支付
+      faceService: auth-face  #人脸
+      publicAdmin: publicAdmin
+      userDeposit: userdeposit
+      quotaService: quotaService
+      quotaCheckService: quotaCheckService
+
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jLoggerImpl
+
+#健康检查
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+  health:
+    status:
+      http-mapping: {'UP':200}
+    mail:
+      enabled: false
+
+feign:
+  #开启熔断功能
+  hystrix:
+    enabled: false
+  client:
+    config:
+      default:
+        #loggerLevel: FULL  #fegion的级别,记录所有的日志
+        connectTimeout: 1000
+        readTimeout: 3000
+        loggerLevel: FULL
+#Apollo 配置
+app:
+  id: ${symbol_dollar}${symbol_left}spring.application.name${symbol_right}                        #应用ID
+apollo:
+  cacheDir: /opt/data/                       #配置本地配置缓存目录
+  cluster: default                           #指定使用哪个集群的配置
+  meta: http://192.168.192.24:8080    #DEV环境配置中心地址
+  autoUpdateInjectedSpringProperties: true   #是否开启 Spring 参数自动更新
+  bootstrap:
+    enabled: false                            #是否开启 Apollo
+    namespaces: ${appName}Application                  #设置 Namespace
+    eagerLoad:
+      enabled: false                         #将 Apollo 加载提到初始化日志系统之前
+
+# 分页配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

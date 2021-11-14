@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yxkong.demo.infrastructure.persistence.mapper.demoandx.UnionAccountMapper">
+
+	 <resultMap type="com.yxkong.demo.infrastructure.persistence.entity.demo.UnionAccountDO" id="BaseResultMap">
+    	 <id column="id" property="id" /> 
+		  <id column="openUuid" property="openUuid" /> 
+		  <id column="openPlatform" property="openPlatform" /> 
+		  <id column="uuid" property="uuid" /> 
+		  <id column="createTime" property="createTime" /> 
+		  <id column="updatedTime" property="updatedTime" /> 
+  
+    </resultMap>
+    <sql id="Base_Column_List">
+    	 t.id as id ,
+ 		 t.open_uuid as openUuid ,
+ 		 t.open_platform as openPlatform ,
+ 		 t.uuid as uuid ,
+ 		 t.create_time as createTime ,
+ 		 t.updated_time as updatedTime
+    </sql>
+    
+    <select id="findById" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from t_union_account t
+ 		  where t.id = #{ id }
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		 delete 
+ 		  from t_union_account
+ 		  where id = #{ id }
+	</delete>
+	
+	<insert id="insertSelective" parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.UnionAccountDO">
+		 insert into  t_union_account
+ 		  <trim prefix="(" suffix=")" suffixOverrides=","> 
+ 			 <if test="id != null">
+ 				 id,
+ 			  </if>
+ 			 <if test="openUuid != null">
+ 				 open_uuid,
+ 			  </if>
+ 			 <if test="openPlatform != null">
+ 				 open_platform,
+ 			  </if>
+ 			 <if test="uuid != null">
+ 				 uuid,
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 create_time,
+ 			  </if>
+ 			 <if test="updatedTime != null">
+ 				 updated_time,
+ 			  </if>
+ 		  </trim>
+ 		  <trim prefix="values (" suffix=")" suffixOverrides="," >
+ 			 <if test="id != null">
+ 				 #{id},
+ 			  </if>
+ 			 <if test="openUuid != null">
+ 				 #{openUuid},
+ 			  </if>
+ 			 <if test="openPlatform != null">
+ 				 #{openPlatform},
+ 			  </if>
+ 			 <if test="uuid != null">
+ 				 #{uuid},
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 #{createTime},
+ 			  </if>
+ 			 <if test="updatedTime != null">
+ 				 #{updatedTime},
+ 			  </if>
+ 		  </trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.UnionAccountDO">
+		 update   t_union_account
+ 		 <set>
+ 			 <if test="openUuid != null">
+ 				 open_uuid = #{openUuid},
+ 			  </if>
+ 			 <if test="openPlatform != null">
+ 				 open_platform = #{openPlatform},
+ 			  </if>
+ 			 <if test="uuid != null">
+ 				 uuid = #{uuid},
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 create_time = #{createTime},
+ 			  </if>
+ 			 <if test="updatedTime != null">
+ 				 updated_time = #{updatedTime},
+ 			  </if>
+ 		 </set>
+     where id = #{id}
+	</update>
+	
+	 <select id="getList" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from t_union_account t
+ 		  where 1=1 
+ 		 <if test="id != null">
+ 			 and t.id = #{id}
+ 		  </if>
+ 		 <if test="openUuid != null">
+ 			 and t.open_uuid = #{openUuid}
+ 		  </if>
+ 		 <if test="openPlatform != null">
+ 			 and t.open_platform = #{openPlatform}
+ 		  </if>
+ 		 <if test="uuid != null">
+ 			 and t.uuid = #{uuid}
+ 		  </if>
+ 		 <if test="createTime != null">
+ 			 and t.create_time = #{createTime}
+ 		  </if>
+ 		 <if test="updatedTime != null">
+ 			 and t.updated_time = #{updatedTime}
+ 		  </if>
+	</select>
+	 <select id="getListCount" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		 select 
+ 		  count(t.id)
+ 		  from t_union_account t
+ 		  where 1=1 
+ 		 <if test="id != null">
+ 			 and t.id = #{id}
+ 		  </if>
+ 		 <if test="openUuid != null">
+ 			 and t.open_uuid = #{openUuid}
+ 		  </if>
+ 		 <if test="openPlatform != null">
+ 			 and t.open_platform = #{openPlatform}
+ 		  </if>
+ 		 <if test="uuid != null">
+ 			 and t.uuid = #{uuid}
+ 		  </if>
+ 		 <if test="createTime != null">
+ 			 and t.create_time = #{createTime}
+ 		  </if>
+ 		 <if test="updatedTime != null">
+ 			 and t.updated_time = #{updatedTime}
+ 		  </if>
+	</select>
+</mapper>

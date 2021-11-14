@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yxkong.demo.infrastructure.persistence.mapper.demo.SysConfigMapper">
+
+	 <resultMap type="com.yxkong.demo.infrastructure.persistence.entity.demo.SysConfigDO" id="BaseResultMap">
+    	 <id column="id" property="id" /> 
+		  <id column="optionKey" property="optionKey" /> 
+		  <id column="optionValue" property="optionValue" /> 
+		  <id column="valueType" property="valueType" /> 
+		  <id column="remark" property="remark" /> 
+		  <id column="status" property="status" /> 
+		  <id column="system" property="system" /> 
+		  <id column="creator" property="creator" /> 
+		  <id column="createDate" property="createDate" /> 
+		  <id column="updator" property="updator" /> 
+		  <id column="updateDate" property="updateDate" /> 
+		  <id column="tenantId" property="tenantId" /> 
+  
+    </resultMap>
+    <sql id="Base_Column_List">
+    	 t.id as id ,
+ 		 t.optionKey as optionKey ,
+ 		 t.optionValue as optionValue ,
+ 		 t.valueType as valueType ,
+ 		 t.remark as remark ,
+ 		 t.status as status ,
+ 		 t.system as system ,
+ 		 t.creator as creator ,
+ 		 t.createDate as createDate ,
+ 		 t.updator as updator ,
+ 		 t.updateDate as updateDate ,
+ 		 t.tenant_id as tenantId
+    </sql>
+    
+    <select id="findById" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from t_sysconfig t
+ 		  where t.id = #{ id }
+	</select>
+	<select id="findByKey" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_sysconfig t
+		where  optionKey = #{optionKey} and `system` = #{system} limit 1
+	</select>
+	<delete id="deleteById" parameterType="java.lang.Long">
+		 delete 
+ 		  from t_sysconfig
+ 		  where id = #{ id }
+	</delete>
+	
+	<insert id="insertSelective" parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.SysConfigDO">
+		 insert into  t_sysconfig
+ 		  <trim prefix="(" suffix=")" suffixOverrides=","> 
+ 			 <if test="id != null">
+ 				 id,
+ 			  </if>
+ 			 <if test="optionKey != null">
+ 				 optionKey,
+ 			  </if>
+ 			 <if test="optionValue != null">
+ 				 optionValue,
+ 			  </if>
+ 			 <if test="valueType != null">
+ 				 valueType,
+ 			  </if>
+ 			 <if test="remark != null">
+ 				 remark,
+ 			  </if>
+ 			 <if test="status != null">
+ 				 status,
+ 			  </if>
+ 			 <if test="system != null">
+ 				 system,
+ 			  </if>
+ 			 <if test="creator != null">
+ 				 creator,
+ 			  </if>
+ 			 <if test="createDate != null">
+ 				 createDate,
+ 			  </if>
+ 			 <if test="updator != null">
+ 				 updator,
+ 			  </if>
+ 			 <if test="updateDate != null">
+ 				 updateDate,
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 tenant_id,
+ 			  </if>
+ 		  </trim>
+ 		  <trim prefix="values (" suffix=")" suffixOverrides="," >
+ 			 <if test="id != null">
+ 				 #{id},
+ 			  </if>
+ 			 <if test="optionKey != null">
+ 				 #{optionKey},
+ 			  </if>
+ 			 <if test="optionValue != null">
+ 				 #{optionValue},
+ 			  </if>
+ 			 <if test="valueType != null">
+ 				 #{valueType},
+ 			  </if>
+ 			 <if test="remark != null">
+ 				 #{remark},
+ 			  </if>
+ 			 <if test="status != null">
+ 				 #{status},
+ 			  </if>
+ 			 <if test="system != null">
+ 				 #{system},
+ 			  </if>
+ 			 <if test="creator != null">
+ 				 #{creator},
+ 			  </if>
+ 			 <if test="createDate != null">
+ 				 #{createDate},
+ 			  </if>
+ 			 <if test="updator != null">
+ 				 #{updator},
+ 			  </if>
+ 			 <if test="updateDate != null">
+ 				 #{updateDate},
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 #{tenantId},
+ 			  </if>
+ 		  </trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.SysConfigDO">
+		 update   t_sysconfig
+ 		 <set>
+ 			 <if test="optionKey != null">
+ 				 optionKey = #{optionKey},
+ 			  </if>
+ 			 <if test="optionValue != null">
+ 				 optionValue = #{optionValue},
+ 			  </if>
+ 			 <if test="valueType != null">
+ 				 valueType = #{valueType},
+ 			  </if>
+ 			 <if test="remark != null">
+ 				 remark = #{remark},
+ 			  </if>
+ 			 <if test="status != null">
+ 				 status = #{status},
+ 			  </if>
+ 			 <if test="system != null">
+ 				 system = #{system},
+ 			  </if>
+ 			 <if test="creator != null">
+ 				 creator = #{creator},
+ 			  </if>
+ 			 <if test="createDate != null">
+ 				 createDate = #{createDate},
+ 			  </if>
+ 			 <if test="updator != null">
+ 				 updator = #{updator},
+ 			  </if>
+ 			 <if test="updateDate != null">
+ 				 updateDate = #{updateDate},
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 tenant_id = #{tenantId},
+ 			  </if>
+ 		 </set>
+     where id = #{id}
+	</update>
+	
+	 <select id="getList" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from t_sysconfig t
+ 		  where 1=1 
+ 		 <if test="id != null">
+ 			 and t.id = #{id}
+ 		  </if>
+ 		 <if test="optionKey != null">
+ 			 and t.optionKey = #{optionKey}
+ 		  </if>
+ 		 <if test="optionValue != null">
+ 			 and t.optionValue = #{optionValue}
+ 		  </if>
+ 		 <if test="valueType != null">
+ 			 and t.valueType = #{valueType}
+ 		  </if>
+ 		 <if test="remark != null">
+ 			 and t.remark = #{remark}
+ 		  </if>
+ 		 <if test="status != null">
+ 			 and t.status = #{status}
+ 		  </if>
+ 		 <if test="system != null">
+ 			 and t.system = #{system}
+ 		  </if>
+ 		 <if test="creator != null">
+ 			 and t.creator = #{creator}
+ 		  </if>
+ 		 <if test="createDate != null">
+ 			 and t.createDate = #{createDate}
+ 		  </if>
+ 		 <if test="updator != null">
+ 			 and t.updator = #{updator}
+ 		  </if>
+ 		 <if test="updateDate != null">
+ 			 and t.updateDate = #{updateDate}
+ 		  </if>
+ 		 <if test="tenantId != null">
+ 			 and t.tenant_id = #{tenantId}
+ 		  </if>
+	</select>
+	 <select id="getListCount" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		 select 
+ 		  count(t.id)
+ 		  from t_sysconfig t
+ 		  where 1=1 
+ 		 <if test="id != null">
+ 			 and t.id = #{id}
+ 		  </if>
+ 		 <if test="optionKey != null">
+ 			 and t.optionKey = #{optionKey}
+ 		  </if>
+ 		 <if test="optionValue != null">
+ 			 and t.optionValue = #{optionValue}
+ 		  </if>
+ 		 <if test="valueType != null">
+ 			 and t.valueType = #{valueType}
+ 		  </if>
+ 		 <if test="remark != null">
+ 			 and t.remark = #{remark}
+ 		  </if>
+ 		 <if test="status != null">
+ 			 and t.status = #{status}
+ 		  </if>
+ 		 <if test="system != null">
+ 			 and t.system = #{system}
+ 		  </if>
+ 		 <if test="creator != null">
+ 			 and t.creator = #{creator}
+ 		  </if>
+ 		 <if test="createDate != null">
+ 			 and t.createDate = #{createDate}
+ 		  </if>
+ 		 <if test="updator != null">
+ 			 and t.updator = #{updator}
+ 		  </if>
+ 		 <if test="updateDate != null">
+ 			 and t.updateDate = #{updateDate}
+ 		  </if>
+ 		 <if test="tenantId != null">
+ 			 and t.tenant_id = #{tenantId}
+ 		  </if>
+	</select>
+</mapper>

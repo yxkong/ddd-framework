@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yxkong.demo.infrastructure.persistence.mapper.demoandx.AccountMapper">
+
+	 <resultMap type="com.yxkong.demo.infrastructure.persistence.entity.demo.AccountDO" id="BaseResultMap">
+    	 <id column="id" property="id" /> 
+		  <id column="uuid" property="uuid" /> 
+		  <id column="mobile" property="mobile" /> 
+		  <id column="pwd" property="pwd" /> 
+		  <id column="salt" property="salt" /> 
+		  <id column="status" property="status" /> 
+		  <id column="tenantId" property="tenantId" /> 
+		  <id column="proId" property="proId" /> 
+		  <id column="createTime" property="createTime" /> 
+		  <id column="updatedTime" property="updatedTime" /> 
+  
+    </resultMap>
+    <sql id="Base_Column_List">
+    	 t.id as id ,
+ 		 t.uuid as uuid ,
+ 		 t.mobile as mobile ,
+ 		 t.pwd as pwd ,
+ 		 t.salt as salt ,
+ 		 t.status as status ,
+ 		 t.tenant_id as tenantId ,
+ 		 t.proId as proId ,
+ 		 t.create_time as createTime ,
+ 		 t.updated_time as updatedTime
+    </sql>
+    
+    <select id="findById" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from t_account t
+ 		  where t.id = #{ id }
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		 delete 
+ 		  from t_account
+ 		  where id = #{ id }
+	</delete>
+	
+	<insert id="insertSelective" parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.AccountDO">
+		 insert into  t_account
+ 		  <trim prefix="(" suffix=")" suffixOverrides=","> 
+ 			 <if test="id != null">
+ 				 id,
+ 			  </if>
+ 			 <if test="uuid != null">
+ 				 uuid,
+ 			  </if>
+ 			 <if test="mobile != null">
+ 				 mobile,
+ 			  </if>
+ 			 <if test="pwd != null">
+ 				 pwd,
+ 			  </if>
+ 			 <if test="salt != null">
+ 				 salt,
+ 			  </if>
+ 			 <if test="status != null">
+ 				 status,
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 tenant_id,
+ 			  </if>
+ 			 <if test="proId != null">
+ 				 proId,
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 create_time,
+ 			  </if>
+ 			 <if test="updatedTime != null">
+ 				 updated_time,
+ 			  </if>
+ 		  </trim>
+ 		  <trim prefix="values (" suffix=")" suffixOverrides="," >
+ 			 <if test="id != null">
+ 				 #{id},
+ 			  </if>
+ 			 <if test="uuid != null">
+ 				 #{uuid},
+ 			  </if>
+ 			 <if test="mobile != null">
+ 				 #{mobile},
+ 			  </if>
+ 			 <if test="pwd != null">
+ 				 #{pwd},
+ 			  </if>
+ 			 <if test="salt != null">
+ 				 #{salt},
+ 			  </if>
+ 			 <if test="status != null">
+ 				 #{status},
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 #{tenantId},
+ 			  </if>
+ 			 <if test="proId != null">
+ 				 #{proId},
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 #{createTime},
+ 			  </if>
+ 			 <if test="updatedTime != null">
+ 				 #{updatedTime},
+ 			  </if>
+ 		  </trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.AccountDO">
+		 update   t_account
+ 		 <set>
+ 			 <if test="uuid != null">
+ 				 uuid = #{uuid},
+ 			  </if>
+ 			 <if test="mobile != null">
+ 				 mobile = #{mobile},
+ 			  </if>
+ 			 <if test="pwd != null">
+ 				 pwd = #{pwd},
+ 			  </if>
+ 			 <if test="salt != null">
+ 				 salt = #{salt},
+ 			  </if>
+ 			 <if test="status != null">
+ 				 status = #{status},
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 tenant_id = #{tenantId},
+ 			  </if>
+ 			 <if test="proId != null">
+ 				 proId = #{proId},
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 create_time = #{createTime},
+ 			  </if>
+ 			 <if test="updatedTime != null">
+ 				 updated_time = #{updatedTime},
+ 			  </if>
+ 		 </set>
+     where id = #{id}
+	</update>
+	
+	 <select id="getList" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from t_account t
+ 		  where 1=1 
+ 		 <if test="id != null">
+ 			 and t.id = #{id}
+ 		  </if>
+ 		 <if test="uuid != null">
+ 			 and t.uuid = #{uuid}
+ 		  </if>
+ 		 <if test="mobile != null">
+ 			 and t.mobile = #{mobile}
+ 		  </if>
+ 		 <if test="pwd != null">
+ 			 and t.pwd = #{pwd}
+ 		  </if>
+ 		 <if test="salt != null">
+ 			 and t.salt = #{salt}
+ 		  </if>
+ 		 <if test="status != null">
+ 			 and t.status = #{status}
+ 		  </if>
+ 		 <if test="tenantId != null">
+ 			 and t.tenant_id = #{tenantId}
+ 		  </if>
+ 		 <if test="proId != null">
+ 			 and t.proId = #{proId}
+ 		  </if>
+ 		 <if test="createTime != null">
+ 			 and t.create_time = #{createTime}
+ 		  </if>
+ 		 <if test="updatedTime != null">
+ 			 and t.updated_time = #{updatedTime}
+ 		  </if>
+	</select>
+	 <select id="getListCount" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		 select 
+ 		  count(t.id)
+ 		  from t_account t
+ 		  where 1=1 
+ 		 <if test="id != null">
+ 			 and t.id = #{id}
+ 		  </if>
+ 		 <if test="uuid != null">
+ 			 and t.uuid = #{uuid}
+ 		  </if>
+ 		 <if test="mobile != null">
+ 			 and t.mobile = #{mobile}
+ 		  </if>
+ 		 <if test="pwd != null">
+ 			 and t.pwd = #{pwd}
+ 		  </if>
+ 		 <if test="salt != null">
+ 			 and t.salt = #{salt}
+ 		  </if>
+ 		 <if test="status != null">
+ 			 and t.status = #{status}
+ 		  </if>
+ 		 <if test="tenantId != null">
+ 			 and t.tenant_id = #{tenantId}
+ 		  </if>
+ 		 <if test="proId != null">
+ 			 and t.proId = #{proId}
+ 		  </if>
+ 		 <if test="createTime != null">
+ 			 and t.create_time = #{createTime}
+ 		  </if>
+ 		 <if test="updatedTime != null">
+ 			 and t.updated_time = #{updatedTime}
+ 		  </if>
+	</select>
+</mapper>

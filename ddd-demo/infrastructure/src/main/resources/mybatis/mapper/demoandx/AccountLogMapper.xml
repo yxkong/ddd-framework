@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yxkong.demo.infrastructure.persistence.mapper.demoandx.AccountLogMapper">
+
+	 <resultMap type="com.yxkong.demo.infrastructure.persistence.entity.demo.AccountLogDO" id="BaseResultMap">
+    	 <id column="id" property="id" /> 
+		  <id column="uuid" property="uuid" /> 
+		  <id column="bizType" property="bizType" /> 
+		  <id column="env" property="env" /> 
+		  <id column="proId" property="proId" /> 
+		  <id column="tenantId" property="tenantId" /> 
+		  <id column="createTime" property="createTime" /> 
+  
+    </resultMap>
+    <sql id="Base_Column_List">
+    	 t.id as id ,
+ 		 t.uuid as uuid ,
+ 		 t.biz_type as bizType ,
+ 		 t.env as env ,
+ 		 t.proId as proId ,
+ 		 t.tenant_id as tenantId ,
+ 		 t.create_time as createTime
+    </sql>
+    
+    <select id="findById" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from t_account_log t
+ 		  where t.id = #{ id }
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		 delete 
+ 		  from t_account_log
+ 		  where id = #{ id }
+	</delete>
+	
+	<insert id="insertSelective" parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.AccountLogDO">
+		 insert into  t_account_log
+ 		  <trim prefix="(" suffix=")" suffixOverrides=","> 
+ 			 <if test="id != null">
+ 				 id,
+ 			  </if>
+ 			 <if test="uuid != null">
+ 				 uuid,
+ 			  </if>
+ 			 <if test="bizType != null">
+ 				 biz_type,
+ 			  </if>
+ 			 <if test="env != null">
+ 				 env,
+ 			  </if>
+ 			 <if test="proId != null">
+ 				 proId,
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 tenant_id,
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 create_time,
+ 			  </if>
+ 		  </trim>
+ 		  <trim prefix="values (" suffix=")" suffixOverrides="," >
+ 			 <if test="id != null">
+ 				 #{id},
+ 			  </if>
+ 			 <if test="uuid != null">
+ 				 #{uuid},
+ 			  </if>
+ 			 <if test="bizType != null">
+ 				 #{bizType},
+ 			  </if>
+ 			 <if test="env != null">
+ 				 #{env},
+ 			  </if>
+ 			 <if test="proId != null">
+ 				 #{proId},
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 #{tenantId},
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 #{createTime},
+ 			  </if>
+ 		  </trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.AccountLogDO">
+		 update   t_account_log
+ 		 <set>
+ 			 <if test="uuid != null">
+ 				 uuid = #{uuid},
+ 			  </if>
+ 			 <if test="bizType != null">
+ 				 biz_type = #{bizType},
+ 			  </if>
+ 			 <if test="env != null">
+ 				 env = #{env},
+ 			  </if>
+ 			 <if test="proId != null">
+ 				 proId = #{proId},
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 tenant_id = #{tenantId},
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 create_time = #{createTime},
+ 			  </if>
+ 		 </set>
+     where id = #{id}
+	</update>
+	
+	 <select id="getList" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from t_account_log t
+ 		  where 1=1 
+ 		 <if test="id != null">
+ 			 and t.id = #{id}
+ 		  </if>
+ 		 <if test="uuid != null">
+ 			 and t.uuid = #{uuid}
+ 		  </if>
+ 		 <if test="bizType != null">
+ 			 and t.biz_type = #{bizType}
+ 		  </if>
+ 		 <if test="env != null">
+ 			 and t.env = #{env}
+ 		  </if>
+ 		 <if test="proId != null">
+ 			 and t.proId = #{proId}
+ 		  </if>
+ 		 <if test="tenantId != null">
+ 			 and t.tenant_id = #{tenantId}
+ 		  </if>
+ 		 <if test="createTime != null">
+ 			 and t.create_time = #{createTime}
+ 		  </if>
+	</select>
+	 <select id="getListCount" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		 select 
+ 		  count(t.id)
+ 		  from t_account_log t
+ 		  where 1=1 
+ 		 <if test="id != null">
+ 			 and t.id = #{id}
+ 		  </if>
+ 		 <if test="uuid != null">
+ 			 and t.uuid = #{uuid}
+ 		  </if>
+ 		 <if test="bizType != null">
+ 			 and t.biz_type = #{bizType}
+ 		  </if>
+ 		 <if test="env != null">
+ 			 and t.env = #{env}
+ 		  </if>
+ 		 <if test="proId != null">
+ 			 and t.proId = #{proId}
+ 		  </if>
+ 		 <if test="tenantId != null">
+ 			 and t.tenant_id = #{tenantId}
+ 		  </if>
+ 		 <if test="createTime != null">
+ 			 and t.create_time = #{createTime}
+ 		  </if>
+	</select>
+</mapper>

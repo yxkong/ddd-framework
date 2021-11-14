@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="${package}.infrastructure.persistence.mapper.${appName}.SysConfigMapper">
+
+	 <resultMap type="${package}.infrastructure.persistence.entity.${appName}.SysConfigDO" id="BaseResultMap">
+    	 <id column="id" property="id" /> 
+		  <id column="optionKey" property="optionKey" /> 
+		  <id column="optionValue" property="optionValue" /> 
+		  <id column="valueType" property="valueType" /> 
+		  <id column="remark" property="remark" /> 
+		  <id column="status" property="status" /> 
+		  <id column="system" property="system" /> 
+		  <id column="creator" property="creator" /> 
+		  <id column="createDate" property="createDate" /> 
+		  <id column="updator" property="updator" /> 
+		  <id column="updateDate" property="updateDate" /> 
+		  <id column="tenantId" property="tenantId" /> 
+  
+    </resultMap>
+    <sql id="Base_Column_List">
+    	 t.id as id ,
+ 		 t.optionKey as optionKey ,
+ 		 t.optionValue as optionValue ,
+ 		 t.valueType as valueType ,
+ 		 t.remark as remark ,
+ 		 t.status as status ,
+ 		 t.system as system ,
+ 		 t.creator as creator ,
+ 		 t.createDate as createDate ,
+ 		 t.updator as updator ,
+ 		 t.updateDate as updateDate ,
+ 		 t.tenant_id as tenantId
+    </sql>
+    
+    <select id="findById" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from t_sysconfig t
+ 		  where t.id = ${symbol_pound}{ id }
+	</select>
+	<select id="findByKey" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_sysconfig t
+		where  optionKey = ${symbol_pound}{optionKey} and `system` = ${symbol_pound}{system} limit 1
+	</select>
+	<delete id="deleteById" parameterType="java.lang.Long">
+		 delete 
+ 		  from t_sysconfig
+ 		  where id = ${symbol_pound}{ id }
+	</delete>
+	
+	<insert id="insertSelective" parameterType="${package}.infrastructure.persistence.entity.${appName}.SysConfigDO">
+		 insert into  t_sysconfig
+ 		  <trim prefix="(" suffix=")" suffixOverrides=","> 
+ 			 <if test="id != null">
+ 				 id,
+ 			  </if>
+ 			 <if test="optionKey != null">
+ 				 optionKey,
+ 			  </if>
+ 			 <if test="optionValue != null">
+ 				 optionValue,
+ 			  </if>
+ 			 <if test="valueType != null">
+ 				 valueType,
+ 			  </if>
+ 			 <if test="remark != null">
+ 				 remark,
+ 			  </if>
+ 			 <if test="status != null">
+ 				 status,
+ 			  </if>
+ 			 <if test="system != null">
+ 				 system,
+ 			  </if>
+ 			 <if test="creator != null">
+ 				 creator,
+ 			  </if>
+ 			 <if test="createDate != null">
+ 				 createDate,
+ 			  </if>
+ 			 <if test="updator != null">
+ 				 updator,
+ 			  </if>
+ 			 <if test="updateDate != null">
+ 				 updateDate,
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 tenant_id,
+ 			  </if>
+ 		  </trim>
+ 		  <trim prefix="values (" suffix=")" suffixOverrides="," >
+ 			 <if test="id != null">
+ 				 ${symbol_pound}{id},
+ 			  </if>
+ 			 <if test="optionKey != null">
+ 				 ${symbol_pound}{optionKey},
+ 			  </if>
+ 			 <if test="optionValue != null">
+ 				 ${symbol_pound}{optionValue},
+ 			  </if>
+ 			 <if test="valueType != null">
+ 				 ${symbol_pound}{valueType},
+ 			  </if>
+ 			 <if test="remark != null">
+ 				 ${symbol_pound}{remark},
+ 			  </if>
+ 			 <if test="status != null">
+ 				 ${symbol_pound}{status},
+ 			  </if>
+ 			 <if test="system != null">
+ 				 ${symbol_pound}{system},
+ 			  </if>
+ 			 <if test="creator != null">
+ 				 ${symbol_pound}{creator},
+ 			  </if>
+ 			 <if test="createDate != null">
+ 				 ${symbol_pound}{createDate},
+ 			  </if>
+ 			 <if test="updator != null">
+ 				 ${symbol_pound}{updator},
+ 			  </if>
+ 			 <if test="updateDate != null">
+ 				 ${symbol_pound}{updateDate},
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 ${symbol_pound}{tenantId},
+ 			  </if>
+ 		  </trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="${package}.infrastructure.persistence.entity.${appName}.SysConfigDO">
+		 update   t_sysconfig
+ 		 <set>
+ 			 <if test="optionKey != null">
+ 				 optionKey = ${symbol_pound}{optionKey},
+ 			  </if>
+ 			 <if test="optionValue != null">
+ 				 optionValue = ${symbol_pound}{optionValue},
+ 			  </if>
+ 			 <if test="valueType != null">
+ 				 valueType = ${symbol_pound}{valueType},
+ 			  </if>
+ 			 <if test="remark != null">
+ 				 remark = ${symbol_pound}{remark},
+ 			  </if>
+ 			 <if test="status != null">
+ 				 status = ${symbol_pound}{status},
+ 			  </if>
+ 			 <if test="system != null">
+ 				 system = ${symbol_pound}{system},
+ 			  </if>
+ 			 <if test="creator != null">
+ 				 creator = ${symbol_pound}{creator},
+ 			  </if>
+ 			 <if test="createDate != null">
+ 				 createDate = ${symbol_pound}{createDate},
+ 			  </if>
+ 			 <if test="updator != null">
+ 				 updator = ${symbol_pound}{updator},
+ 			  </if>
+ 			 <if test="updateDate != null">
+ 				 updateDate = ${symbol_pound}{updateDate},
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 tenant_id = ${symbol_pound}{tenantId},
+ 			  </if>
+ 		 </set>
+     where id = ${symbol_pound}{id}
+	</update>
+	
+	 <select id="getList" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from t_sysconfig t
+ 		  where 1=1 
+ 		 <if test="id != null">
+ 			 and t.id = ${symbol_pound}{id}
+ 		  </if>
+ 		 <if test="optionKey != null">
+ 			 and t.optionKey = ${symbol_pound}{optionKey}
+ 		  </if>
+ 		 <if test="optionValue != null">
+ 			 and t.optionValue = ${symbol_pound}{optionValue}
+ 		  </if>
+ 		 <if test="valueType != null">
+ 			 and t.valueType = ${symbol_pound}{valueType}
+ 		  </if>
+ 		 <if test="remark != null">
+ 			 and t.remark = ${symbol_pound}{remark}
+ 		  </if>
+ 		 <if test="status != null">
+ 			 and t.status = ${symbol_pound}{status}
+ 		  </if>
+ 		 <if test="system != null">
+ 			 and t.system = ${symbol_pound}{system}
+ 		  </if>
+ 		 <if test="creator != null">
+ 			 and t.creator = ${symbol_pound}{creator}
+ 		  </if>
+ 		 <if test="createDate != null">
+ 			 and t.createDate = ${symbol_pound}{createDate}
+ 		  </if>
+ 		 <if test="updator != null">
+ 			 and t.updator = ${symbol_pound}{updator}
+ 		  </if>
+ 		 <if test="updateDate != null">
+ 			 and t.updateDate = ${symbol_pound}{updateDate}
+ 		  </if>
+ 		 <if test="tenantId != null">
+ 			 and t.tenant_id = ${symbol_pound}{tenantId}
+ 		  </if>
+	</select>
+	 <select id="getListCount" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		 select 
+ 		  count(t.id)
+ 		  from t_sysconfig t
+ 		  where 1=1 
+ 		 <if test="id != null">
+ 			 and t.id = ${symbol_pound}{id}
+ 		  </if>
+ 		 <if test="optionKey != null">
+ 			 and t.optionKey = ${symbol_pound}{optionKey}
+ 		  </if>
+ 		 <if test="optionValue != null">
+ 			 and t.optionValue = ${symbol_pound}{optionValue}
+ 		  </if>
+ 		 <if test="valueType != null">
+ 			 and t.valueType = ${symbol_pound}{valueType}
+ 		  </if>
+ 		 <if test="remark != null">
+ 			 and t.remark = ${symbol_pound}{remark}
+ 		  </if>
+ 		 <if test="status != null">
+ 			 and t.status = ${symbol_pound}{status}
+ 		  </if>
+ 		 <if test="system != null">
+ 			 and t.system = ${symbol_pound}{system}
+ 		  </if>
+ 		 <if test="creator != null">
+ 			 and t.creator = ${symbol_pound}{creator}
+ 		  </if>
+ 		 <if test="createDate != null">
+ 			 and t.createDate = ${symbol_pound}{createDate}
+ 		  </if>
+ 		 <if test="updator != null">
+ 			 and t.updator = ${symbol_pound}{updator}
+ 		  </if>
+ 		 <if test="updateDate != null">
+ 			 and t.updateDate = ${symbol_pound}{updateDate}
+ 		  </if>
+ 		 <if test="tenantId != null">
+ 			 and t.tenant_id = ${symbol_pound}{tenantId}
+ 		  </if>
+	</select>
+</mapper>
