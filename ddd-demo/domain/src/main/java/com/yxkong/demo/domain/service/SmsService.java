@@ -22,8 +22,10 @@ public class SmsService {
         /**
          * 同一手机号，1分钟只发1条
          * 同一手机号，3分钟内验证码相同
+         * 同一手机号，10分钟内只能发3条
          * 同一手机号，一天内发送10条，立即锁定，等待明天再来
-         *
+         * 同一ip，一天最多只能发送20条，反欺诈
+         * 用redis的zset实现
          */
         return null;
     }
@@ -33,6 +35,6 @@ public class SmsService {
          * 是否有效
          * 3次验证还未成功，验证码立即失效
          */
-        return false;
+        return true;
     }
 }

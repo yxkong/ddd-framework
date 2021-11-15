@@ -30,14 +30,14 @@
 
   <description>Parent pom providing dependency and plugin management for applications built with Maven</description>
 
-  <url>https://spring.io/projects/spring-boot/onecard-ddd-parent/onecard-ddd-archetype</url>
+  <url>https://github.com/yxkong/ddd-framework/ddd-demo</url>
 
   <developers>
     <developer>
-      <name>Pivotal</name>
-      <email>info@pivotal.io</email>
-      <organization>Pivotal Software, Inc.</organization>
-      <organizationUrl>https://www.spring.io</organizationUrl>
+      <name>yxkong</name>
+      <email>5ycode@sina.com</email>
+      <organization>xx</organization>
+      <organizationUrl>https://www.5ycode.com</organizationUrl>
     </developer>
   </developers>
 
@@ -50,7 +50,7 @@
 
 
   <scm>
-    <url>https://github.com/spring-projects/spring-boot/ddd-parent/ddd-demo</url>
+    <url>https://github.com/yxkong/ddd-framework/ddd-demo</url>
   </scm>
 
   <distributionManagement>

@@ -174,20 +174,20 @@ public class IdWorker {
     /**
      * 测试
      */
-    public static void main(String[] args) {
-
-        IdWorker idWorker = null;
-        try {
-            idWorker = new IdWorker();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        for (int i = 0; i < 10000; i++) {
-            //正常执的业务应该超过System.out.println的执行时间，在使用
-            long id = idWorker.nextId();
-            System.out.println(id);
-        }
-    }
+//    public static void main(String[] args) {
+//
+//        IdWorker idWorker = null;
+//        try {
+//            idWorker = new IdWorker();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        for (int i = 0; i < 10000; i++) {
+//            //正常执的业务应该超过System.out.println的执行时间，在使用
+//            long id = idWorker.nextId();
+//            System.out.println(id);
+//        }
+//    }
 
 
 }

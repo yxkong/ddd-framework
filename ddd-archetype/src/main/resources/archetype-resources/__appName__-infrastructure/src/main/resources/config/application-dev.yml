@@ -123,9 +123,9 @@ eureka:
     metadata-map:
       user:
         name: admin
-        password: 9fbank
+        password: 5ycode
 
-onecard:
+yxkong:
   id-worker:
     cluster: 127.0.0.1
   druid:

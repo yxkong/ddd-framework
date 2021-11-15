@@ -130,7 +130,7 @@ eureka:
     metadata-map:
       user:
         name: admin
-        password: 9fbank
+        password: 5ycode
 
 feign:
   client:
@@ -145,16 +145,16 @@ feign:
         connectTimeout: 2000
         readTimeout: 10000
         loggerLevel: basic
-onecard:
+yxkong:
   id-worker:
     cluster: 172.28.24.54,172.29.24.31
-apollo:
-  cacheDir: /opt/data/                       #配置本地配置缓存目录
-  cluster: default                           #指定使用哪个集群的配置
-  meta: http://inner-apollo-jtgg.9fbank.com    #生产环境配置中心地址
-  autoUpdateInjectedSpringProperties: true   #是否开启 Spring 参数自动更新
-  bootstrap:
-    enabled: false                            #是否开启 Apollo
-    namespaces: ${appName}Application                  #设置 Namespace
-    eagerLoad:
-      enabled: false                         #将 Apollo 加载提到初始化日志系统之前s
+#apollo:
+#  cacheDir: /opt/data/                       #配置本地配置缓存目录
+#  cluster: default                           #指定使用哪个集群的配置
+#  meta: http://inner-apollo-jtgg.5yocde.com    #生产环境配置中心地址
+#  autoUpdateInjectedSpringProperties: true   #是否开启 Spring 参数自动更新
+#  bootstrap:
+#    enabled: false                            #是否开启 Apollo
+#    namespaces: ${appName}Application                  #设置 Namespace
+#    eagerLoad:
+#      enabled: false                         #将 Apollo 加载提到初始化日志系统之前s

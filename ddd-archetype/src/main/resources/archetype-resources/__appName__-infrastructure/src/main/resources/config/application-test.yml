@@ -135,7 +135,7 @@ feign:
         readTimeout: 30000
         loggerLevel: basic
 
-onecard:
+yxkong:
   id-worker:
     cluster: 127.0.0.1
 apollo:

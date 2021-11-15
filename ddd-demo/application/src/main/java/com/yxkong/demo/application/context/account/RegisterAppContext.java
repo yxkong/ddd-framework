@@ -12,14 +12,14 @@ import lombok.Getter;
  * @version: 1.0
  */
 @Getter
-public class RegisterContext {
+public class RegisterAppContext {
     private UserObject user;
     private String  verifyCode;
     private String pwd;
     private Integer registerType;
     private String requestIp;
 
-    public  RegisterContext(Integer tenantId,String mobile,String verifyCode,String requestIp,String pwd){
+    public RegisterAppContext(Integer tenantId, String mobile, String verifyCode, String requestIp, String pwd){
         TenantEnum tenantEnum = TenantEnum.get(tenantId);
         this.verifyCode = verifyCode;
         this.user = new UserObject(mobile,tenantEnum);

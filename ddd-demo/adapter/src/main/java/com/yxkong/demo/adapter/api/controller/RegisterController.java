@@ -3,7 +3,7 @@ package com.yxkong.demo.adapter.api.controller;
 import com.yxkong.common.entity.dto.ResultBean;
 import com.yxkong.demo.adapter.api.command.account.RegisterCmd;
 import com.yxkong.demo.adapter.api.convert.RegisterFactory;
-import com.yxkong.demo.application.context.account.RegisterContext;
+import com.yxkong.demo.application.context.account.RegisterAppContext;
 import com.yxkong.demo.application.executor.RegisterExecutor;
 import io.swagger.annotations.*;
 import org.springframework.validation.annotation.Validated;
@@ -35,7 +35,7 @@ public class RegisterController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", name = "token", value = "用户登录信息（token信息 json格式）", required = true, dataType = "string")})
     @PostMapping(value = "/registerBySms")
     public ResultBean registerBySms(@RequestBody @Validated RegisterCmd register, HttpServletRequest request) {
-        RegisterContext context = RegisterFactory.create(register, request);
+        RegisterAppContext context = RegisterFactory.create(register, request);
         return executor.register(context);
     }
 }
