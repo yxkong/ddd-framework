@@ -2,6 +2,8 @@ package com.yxkong.demo.domain.constant;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+
 /**
  * 租户枚举
  *
@@ -25,5 +27,14 @@ public enum TenantEnum {
 
     public static TenantEnum getDefault() {
         return TenantEnum.main;
+    }
+    public static TenantEnum get(Integer tenantId){
+       for (TenantEnum tenant:TenantEnum.values()){
+           //注意大于128的已经不在缓存里
+           if (tenantId.intValue() == tenant.getTenantId().intValue()){
+               return tenant;
+           }
+       }
+       return TenantEnum.getDefault();
     }
 }

@@ -1,6 +1,6 @@
 CREATE TABLE `t_account` (
  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '账户id',
- `uuid` bigint(25) NOT NULL COMMENT '用户唯一标识,使用分布式id，相对有序',
+ `uuid` bigint(25) NOT NULL COMMENT '用户唯一标识,使用分布式id，相对有序,后续所有的业务都用这个',
  `mobile` varchar(50) NOT NULL DEFAULT '0' COMMENT '用户手机号',
  `pwd` varchar(32) NOT NULL DEFAULT '0' COMMENT '登录密码',
  `salt` varchar(32) NOT NULL DEFAULT '0' COMMENT '密码盐值',

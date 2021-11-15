@@ -1,6 +1,5 @@
 package com.yxkong.demo.infrastructure.gatewayimpl.database;
 
-import com.yxkong.demo.domain.constant.SysConfigConstant;
 import com.yxkong.demo.domain.gateway.ConfigGateway;
 import com.yxkong.demo.infrastructure.service.SysConfigService;
 import org.springframework.stereotype.Service;

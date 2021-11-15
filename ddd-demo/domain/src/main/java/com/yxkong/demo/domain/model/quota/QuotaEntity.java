@@ -1,7 +1,7 @@
 package com.yxkong.demo.domain.model.quota;
 
-import com.yxkong.demo.domain.model.user.CustomerId;
 import com.yxkong.common.annotation.AggregateRoot;
+import com.yxkong.demo.domain.model.user.CustomerId;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

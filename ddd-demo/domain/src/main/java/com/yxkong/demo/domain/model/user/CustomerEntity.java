@@ -33,5 +33,4 @@ public class CustomerEntity {
     private String proId;
     private String sex;
     private String birthday;
-    private CustomerScore score;
 }

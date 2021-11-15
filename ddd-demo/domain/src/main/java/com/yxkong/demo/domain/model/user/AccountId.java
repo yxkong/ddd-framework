@@ -13,9 +13,10 @@ import lombok.Getter;
 @DomainEntity
 @Getter
 public class AccountId {
+    private Long id;
     private Long uuid;
     private Integer tenantId;
-    public AccountId(Long uuid,Integer tenantId) {
+    public AccountId(Long id,Long uuid,Integer tenantId) {
         this.uuid = uuid;
         this.tenantId = tenantId;
     }

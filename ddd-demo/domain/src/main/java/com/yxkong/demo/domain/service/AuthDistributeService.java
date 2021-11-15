@@ -5,7 +5,6 @@
  */
 package com.yxkong.demo.domain.service;
 
-import com.yxkong.demo.domain.constant.SysConfigConstant;
 import com.yxkong.demo.domain.dto.context.DistributeContext;
 import com.yxkong.demo.domain.dto.resp.DistributeDTO;
 import com.yxkong.demo.domain.dto.resp.DistributePath;

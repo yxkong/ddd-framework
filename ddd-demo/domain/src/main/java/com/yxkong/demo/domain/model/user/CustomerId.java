@@ -1,6 +1,7 @@
 package com.yxkong.demo.domain.model.user;
 
 import com.yxkong.common.annotation.DomainEntity;
+import com.yxkong.demo.domain.model.BaseModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,11 +18,9 @@ import java.util.Objects;
 @Data
 @DomainEntity
 @NoArgsConstructor
-public class CustomerId {
-
+public class CustomerId extends BaseModel {
     private Long id;
     private Integer tenantId;
-
     public CustomerId(Long id, Integer tenantId) {
         this.id = id;
         this.tenantId = tenantId;

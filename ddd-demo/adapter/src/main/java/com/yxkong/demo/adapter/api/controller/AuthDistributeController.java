@@ -9,6 +9,7 @@ import com.yxkong.demo.domain.dto.resp.DistributeDTO;
 import com.yxkong.demo.infrastructure.common.annotation.RequiredToken;
 import com.yxkong.demo.infrastructure.common.util.LoginTokenUtil;
 import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

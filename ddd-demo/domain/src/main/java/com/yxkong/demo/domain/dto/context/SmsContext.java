@@ -1,0 +1,29 @@
+package com.yxkong.demo.domain.dto.context;
+
+import com.yxkong.demo.domain.model.user.UserObject;
+import lombok.Getter;
+
+/**
+ * 短信发送上下问
+ *
+ * @Author: yxkong
+ * @Date: 2021/11/15 3:32 PM
+ * @version: 1.0
+ */
+@Getter
+public class SmsContext {
+    private UserObject user;
+    private String requestIp;
+    private String verifyCode;
+    private String message;
+
+    public SmsContext(UserObject user, String requestIp,String verifyCode) {
+        this.user = user;
+        this.requestIp = requestIp;
+        this.verifyCode = verifyCode;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+}

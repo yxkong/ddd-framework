@@ -1,15 +1,14 @@
 package com.yxkong.demo.infrastructure.gatewayimpl.rpc;
 
+import com.yxkong.demo.domain.model.user.CustomerId;
 import com.yxkong.demo.infrastructure.rpc.internal.vo.*;
 import com.yxkong.demo.domain.gateway.QuotaGateway;
 import com.yxkong.demo.domain.model.quota.QuotaEntity;
-import com.yxkong.demo.domain.model.user.CustomerId;
 import com.yxkong.demo.infrastructure.convert.QuotaAppStatusMapping;
 import com.yxkong.demo.infrastructure.convert.QuotaFreezeMapping;
 import com.yxkong.demo.infrastructure.rpc.internal.QuotaCheckFeignService;
 import com.yxkong.demo.infrastructure.rpc.internal.QuotaFeignService;
 import com.yxkong.common.entity.dto.ResultBean;
-import com.yxkong.demo.infrastructure.rpc.internal.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
