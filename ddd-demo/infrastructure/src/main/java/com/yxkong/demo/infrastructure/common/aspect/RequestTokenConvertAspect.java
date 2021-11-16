@@ -1,5 +1,6 @@
 package com.yxkong.demo.infrastructure.common.aspect;
 
+import com.yxkong.common.constant.TenantEnum;
 import com.yxkong.demo.infrastructure.common.constant.HeaderConstant;
 import com.yxkong.demo.infrastructure.common.plugin.token.SecurityContextHolder;
 import com.yxkong.demo.infrastructure.common.util.JsonUtils;
@@ -7,6 +8,7 @@ import com.yxkong.demo.infrastructure.common.util.WebUtil;
 import com.yxkong.common.entity.common.LoginToken;
 import com.yxkong.common.entity.dto.ResultBean;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -32,13 +34,13 @@ public class RequestTokenConvertAspect {
     @Autowired
     private HttpServletRequest httpRequest;
 
-    @Around("execution(* com.onecard..controller.*.*(..))")
+    @Around("execution(* com.yxkong..controller.*.*(..))")
     public Object around(ProceedingJoinPoint jp) throws Throwable {
         String methodName = jp.getSignature().getName();
         String className = jp.getTarget().getClass().getName();
         LoginToken loginToken = null;
         try {
-            /**  经loginToken 放入到本地线程里  **/
+            /**  将loginToken 放入到本地线程里  **/
             String loginStr = getLoginInfoString();
             SecurityContextHolder.clearContext();
             if (StringUtils.isNotBlank(loginStr)) {
@@ -73,8 +75,8 @@ public class RequestTokenConvertAspect {
 
     private void initTenantId(LoginToken loginToken) {
         String tenantId = httpRequest.getHeader(HeaderConstant.TENANT_ID);
-        if (Objects.isNull(loginToken.getTenantId()) && !Objects.isNull(tenantId)) {
-            loginToken.setTenantId(Integer.parseInt(tenantId));
+        if (Objects.isNull(loginToken.getTenant()) && Objects.nonNull(tenantId) && NumberUtils.isCreatable(tenantId)) {
+            loginToken.setTenant(TenantEnum.get(Integer.parseInt(tenantId)));
         }
     }
 

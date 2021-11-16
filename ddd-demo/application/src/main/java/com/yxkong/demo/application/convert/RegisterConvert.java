@@ -11,7 +11,9 @@ import com.yxkong.demo.domain.dto.context.RegisterContext;
  * @version: 1.0
  */
 public class RegisterConvert {
-    public static RegisterContext convert(RegisterAppContext registerAppContext){
+    public static RegisterContext convert(RegisterAppContext registerAppContext,String md5Pwd,String salt,String uuid){
+        RegisterContext.builder().userObject(registerAppContext.getUser())
+                .requestIp(registerAppContext.getRequestIp())
         return null;
     }
 }

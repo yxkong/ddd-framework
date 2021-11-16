@@ -1,7 +1,7 @@
 package com.yxkong.demo.infrastructure.common.plugin.datasource;
 
 import com.yxkong.demo.infrastructure.common.constant.DataSourceKey;
-import com.yxkong.demo.domain.constant.TenantEnum;
+import com.yxkong.common.constant.TenantEnum;
 import com.yxkong.demo.infrastructure.common.util.LoginTokenUtil;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.util.StringUtils;

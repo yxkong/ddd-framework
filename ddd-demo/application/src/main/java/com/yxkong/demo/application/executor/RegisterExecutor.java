@@ -8,9 +8,12 @@ import com.yxkong.demo.domain.dto.context.SmsContext;
 import com.yxkong.demo.domain.gateway.SmsGateway;
 import com.yxkong.demo.domain.service.SmsService;
 import com.yxkong.demo.infrastructure.common.util.IdWorker;
+import com.yxkong.demo.infrastructure.common.util.MD5Utils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 /**
  * 注册应用层
@@ -39,8 +42,15 @@ public class RegisterExecutor {
          * 如果，是密码注册，加密密码
          * 生成用uuid
          */
+        String salt = RandomStringUtils.random(6);
+        String md5Pwd = null;
+        if (Objects.nonNull(context.getPwd())){
+            //加密的密码
+            md5Pwd = MD5Utils.getSaltMD5(context.getPwd(), salt);
+        }
 
         long uuid = idWorker.nextId();
+
 
 
 

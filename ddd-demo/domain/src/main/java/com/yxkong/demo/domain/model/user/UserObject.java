@@ -1,7 +1,7 @@
 package com.yxkong.demo.domain.model.user;
 
 import com.yxkong.common.annotation.DomainValueObject;
-import com.yxkong.demo.domain.constant.TenantEnum;
+import com.yxkong.common.constant.TenantEnum;
 
 /**
  * <TODO>

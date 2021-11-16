@@ -1,6 +1,6 @@
 package com.yxkong.demo.application.context.account;
 
-import com.yxkong.demo.domain.constant.TenantEnum;
+import com.yxkong.common.constant.TenantEnum;
 import com.yxkong.demo.domain.model.user.UserObject;
 import lombok.Getter;
 
@@ -18,13 +18,23 @@ public class RegisterAppContext {
     private String pwd;
     private Integer registerType;
     private String requestIp;
+    /**
+     * 来源渠道
+     */
+    private String proId;
+    /**
+     * 环境
+     */
+    private String env;
 
-    public RegisterAppContext(Integer tenantId, String mobile, String verifyCode, String requestIp, String pwd){
+    public RegisterAppContext(Integer tenantId, String mobile, String verifyCode, String requestIp, String pwd,String proId,String env){
         TenantEnum tenantEnum = TenantEnum.get(tenantId);
         this.verifyCode = verifyCode;
         this.user = new UserObject(mobile,tenantEnum);
         this.requestIp = requestIp;
         this.pwd = pwd;
+        this.proId = proId;
+        this.env = env;
     }
 
 }

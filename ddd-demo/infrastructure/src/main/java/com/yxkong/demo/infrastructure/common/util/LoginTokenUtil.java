@@ -3,7 +3,7 @@ package com.yxkong.demo.infrastructure.common.util;
 import com.yxkong.demo.infrastructure.common.plugin.token.SecurityContext;
 import com.yxkong.demo.infrastructure.common.plugin.token.SecurityContextHolder;
 import com.yxkong.demo.infrastructure.common.plugin.token.SecurityContextImpl;
-import com.yxkong.demo.domain.constant.TenantEnum;
+import com.yxkong.common.constant.TenantEnum;
 import com.yxkong.common.entity.common.LoginToken;
 
 import java.util.Objects;
@@ -21,8 +21,8 @@ public class LoginTokenUtil {
     }
     public static Integer getTenantId() {
         LoginToken loginToken= getLoginToken();
-        if (Objects.nonNull(loginToken) && loginToken.getTenantId() != null) {
-            return loginToken.getTenantId();
+        if (Objects.nonNull(loginToken) && loginToken.getTenant()!= null) {
+            return loginToken.getTenant().getTenantId();
         }
         // 返回一个默认的
         return TenantEnum.getDefault().getTenantId();
@@ -35,7 +35,7 @@ public class LoginTokenUtil {
     public static void reloadTenantId(Integer tenantId) {
         SecurityContextHolder.clearContext();
         LoginToken loginToken = new LoginToken();
-        loginToken.setTenantId(tenantId);
+        loginToken.setTenant(TenantEnum.get(tenantId));
         SecurityContextHolder.setContext(new SecurityContextImpl(loginToken));
     }
 

@@ -44,8 +44,8 @@ public class AuthDistributeService {
      public ResultBean<DistributeDTO> distribute(DistributeContext context){
           String mobile = context.getMobile();
           //获取走新流程的手机尾号或者手机号，满足其一就能走新流程
-          String  mobileOld = configGateway.query(SysConfigConstant.AUTH_DISTRIBUTE_MOBILE, SysConfigConstant.DEFAULT_CLOSE);
-          String  mobileNumOld = configGateway.query(SysConfigConstant.AUTH_DISTRIBUTE_MOBILE_NUM, SysConfigConstant.DEFAULT_CLOSE);
+          String  mobileOld = configGateway.query("xx", "close");
+          String  mobileNumOld = configGateway.query("xx", "close");
           boolean isNewFlow = false;
           if(StringUtils.isNotBlank(mobileOld) && StringUtils.contains(mobileOld, context.getMobile())){
                isNewFlow = true;

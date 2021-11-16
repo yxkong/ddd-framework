@@ -1,5 +1,6 @@
 package com.yxkong.demo.domain.dto.context;
 
+import com.yxkong.common.constant.TenantEnum;
 import com.yxkong.demo.domain.model.user.AccountId;
 import com.yxkong.demo.domain.model.user.CustomerId;
 import lombok.Getter;
@@ -21,8 +22,8 @@ public class UserContext {
         this.customerId = customerId;
     }
 
-    public UserContext(Long accountId, Long customerId, Integer tenantId) {
-        this.accountId = new AccountId(accountId,null,tenantId);
-        this.customerId = new CustomerId(customerId,tenantId);
+    public UserContext(Long accountId, Long customerId, TenantEnum tenant) {
+        this.accountId = new AccountId(accountId,null,tenant);
+        this.customerId = new CustomerId(customerId,tenant);
     }
 }

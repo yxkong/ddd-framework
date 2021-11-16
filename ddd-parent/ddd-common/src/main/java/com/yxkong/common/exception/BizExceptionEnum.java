@@ -22,11 +22,6 @@ public enum BizExceptionEnum implements BaseResult {
      */
     CAPITAL_NAME_IS_NULL("0002", "贷款超市"),
 
-    /**
-     * bnh引导额度分期
-     */
-    BNH_CAPITAL_NAME_IS_NULL("9880", "引导额度分期"),
-
     GUIDE_FAIL("1000", "引导规则未通过"),
 
     FORBID_STATUS("1003", "停留在当前页面"),

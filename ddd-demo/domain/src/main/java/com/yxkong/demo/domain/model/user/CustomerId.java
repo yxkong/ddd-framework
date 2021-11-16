@@ -1,6 +1,7 @@
 package com.yxkong.demo.domain.model.user;
 
 import com.yxkong.common.annotation.DomainEntity;
+import com.yxkong.common.constant.TenantEnum;
 import com.yxkong.demo.domain.model.BaseModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,10 +21,10 @@ import java.util.Objects;
 @NoArgsConstructor
 public class CustomerId extends BaseModel {
     private Long id;
-    private Integer tenantId;
-    public CustomerId(Long id, Integer tenantId) {
+    private TenantEnum tenant;
+    public CustomerId(Long id,  TenantEnum tenant) {
         this.id = id;
-        this.tenantId = tenantId;
+        this.tenant = tenant;
     }
 
     public boolean isRealName(){

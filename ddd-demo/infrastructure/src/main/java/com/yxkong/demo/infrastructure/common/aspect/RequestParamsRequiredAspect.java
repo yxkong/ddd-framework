@@ -1,5 +1,7 @@
 package com.yxkong.demo.infrastructure.common.aspect;
 
+import com.yxkong.common.exception.InfrastructureException;
+import com.yxkong.common.util.ResultBeanUtil;
 import com.yxkong.demo.infrastructure.common.annotation.RequiredRealName;
 import com.yxkong.demo.infrastructure.common.annotation.RequiredToken;
 import com.yxkong.demo.infrastructure.common.util.LoginTokenUtil;
@@ -34,7 +36,7 @@ import java.util.Objects;
 public class RequestParamsRequiredAspect {
     private static final Logger logger = LoggerFactory.getLogger(RequestParamsRequiredAspect.class);
 
-    @Around("execution(* com.onecard..controller.*.*(..))")
+    @Around("execution(* com.yxkong..controller.*.*(..))")
     public Object around(ProceedingJoinPoint jp) throws Throwable {
         Method targetMethod = ((MethodSignature) (jp.getSignature())).getMethod();
         String methodName = jp.getSignature().getName();
@@ -45,7 +47,7 @@ public class RequestParamsRequiredAspect {
             if (Objects.nonNull(requiredToken)) {
                 loginToken = LoginTokenUtil.getLoginToken();
                 if (!loginToken.isValid()) {
-                    return new ResultBean.Builder<>().statusEnum(ResultStatusEnum.TOKEN_INVALID).build();
+                    return ResultBeanUtil.result(ResultStatusEnum.TOKEN_INVALID);
                 }
             }
             RequiredRealName requiredRealName = targetMethod.getAnnotation(RequiredRealName.class);
@@ -54,12 +56,12 @@ public class RequestParamsRequiredAspect {
                     loginToken = LoginTokenUtil.getLoginToken();
                 }
                 if (!loginToken.isRealName()) {
-                    return new ResultBean.Builder<>().statusEnum(BizExceptionEnum.NO_REAL_NAME).build();
+                    return ResultBeanUtil.result(BizExceptionEnum.NO_REAL_NAME);
                 }
             }
         } catch (Exception e) {
             logger.error("请求类:" + className + ",method=" + methodName + " ,loginToken=" + JsonUtils.toJson(loginToken), e);
-            return new ResultBean.Builder<>().fail().message("系统异常，请稍后再试！").build();
+            return new InfrastructureException(ResultStatusEnum.ERROR) ;
 
         }
         Object[] objects = jp.getArgs();

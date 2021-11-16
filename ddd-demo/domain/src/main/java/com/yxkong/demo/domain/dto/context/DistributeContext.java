@@ -16,8 +16,8 @@ public class DistributeContext extends UserContext {
 	private String mobile;
     private CustomerId customerId;
     public DistributeContext(LoginToken loginToken) {
-        super(loginToken.getAccountId(), loginToken.getCustomerId(), loginToken.getTenantId());
+        super(loginToken.getAccountId(), loginToken.getCustomerId(), loginToken.getTenant());
         this.mobile = loginToken.getMobile();
-        this.customerId = new CustomerId(loginToken.getCustomerId(), loginToken.getTenantId());
+        this.customerId = new CustomerId(loginToken.getCustomerId(),  loginToken.getTenant());
     }
 }

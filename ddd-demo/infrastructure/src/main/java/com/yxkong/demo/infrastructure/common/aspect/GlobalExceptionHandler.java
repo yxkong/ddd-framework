@@ -1,12 +1,10 @@
 package com.yxkong.demo.infrastructure.common.aspect;
 
+import com.yxkong.common.exception.*;
+import com.yxkong.common.util.ResultBeanUtil;
 import com.yxkong.demo.infrastructure.common.constant.HeaderConstant;
 import com.yxkong.demo.infrastructure.common.util.WebUtil;
 import com.yxkong.common.entity.dto.ResultBean;
-import com.yxkong.common.exception.BizException;
-import com.yxkong.common.exception.DbException;
-import com.yxkong.common.exception.FeignCallException;
-import com.yxkong.common.exception.ParamsRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
@@ -110,7 +108,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BizException.class)
     public ResultBean<?> bizException(BizException e) {
-        return new ResultBean.Builder<>().status(e.getStatus()).message(e.getMessage()).build();
+        return  ResultBeanUtil.result(e) ;
     }
 
     /**
@@ -119,7 +117,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DbException.class)
     public ResultBean<?> dbException(DbException e) {
         logger.error("数据库操作异常:", e);
-        return new ResultBean.Builder<>().fail().build();
+        return ResultBeanUtil.result(e);
     }
 
     /**
@@ -128,9 +126,40 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(FeignCallException.class)
     public ResultBean<?> feignException(FeignCallException e) {
         logger.error("Feign调用异常:", e);
-        return new ResultBean.Builder<>().status(e.getStatus()).message(e.getMessage()).build();
+        return ResultBeanUtil.result(e);
     }
 
+
+    @ExceptionHandler(ParamsRuntimeException.class)
+    public ResultBean<?> notFount(ParamsRuntimeException e, HttpServletRequest request) {
+        String tokenKey = request.getHeader(HeaderConstant.TOKEN);
+        logger.error("用户token:{},统一拦截到的参数校验异常:", tokenKey, e);
+        return ResultBeanUtil.fail("参数校验异常，请查验参数！",null);
+    }
+    @ExceptionHandler(AdapterException.class)
+    public ResultBean<?> adapterException(AdapterException e, HttpServletRequest request) {
+        String tokenKey = request.getHeader(HeaderConstant.TOKEN);
+        logger.error("用户token:{},统一拦截到的适配层异常:", tokenKey, e);
+        return ResultBeanUtil.result(e);
+    }
+    @ExceptionHandler(ApplicationException.class)
+    public ResultBean<?> applicationException(ApplicationException e, HttpServletRequest request) {
+        String tokenKey = request.getHeader(HeaderConstant.TOKEN);
+        logger.error("用户token:{},统一拦截到的应用层异常:", tokenKey, e);
+        return ResultBeanUtil.result(e);
+    }
+    @ExceptionHandler(DomainException.class)
+    public ResultBean<?> domainException(DomainException e, HttpServletRequest request) {
+        String tokenKey = request.getHeader(HeaderConstant.TOKEN);
+        logger.error("用户token:{},统一拦截到的领域层异常:", tokenKey, e);
+        return ResultBeanUtil.result(e);
+    }
+    @ExceptionHandler(InfrastructureException.class)
+    public ResultBean<?> infrastructureException(InfrastructureException e, HttpServletRequest request) {
+        String tokenKey = request.getHeader(HeaderConstant.TOKEN);
+        logger.error("用户token:{},统一拦截到的基础设施层异常:", tokenKey, e);
+        return ResultBeanUtil.result(e);
+    }
     /**
      * 拦截未知的运行时异常
      */
@@ -138,15 +167,8 @@ public class GlobalExceptionHandler {
     public ResultBean<?> notFount(RuntimeException e, HttpServletRequest request) {
         String tokenKey = request.getHeader(HeaderConstant.TOKEN);
         logger.error("用户token:{},统一拦截到的运行时异常:", tokenKey, e);
-        return new ResultBean.Builder<>().fail().message("系统异常，请稍后重试！").build();
+        return ResultBeanUtil.fail();
     }
-    @ExceptionHandler(ParamsRuntimeException.class)
-    public ResultBean<?> notFount(ParamsRuntimeException e, HttpServletRequest request) {
-        String tokenKey = request.getHeader(HeaderConstant.TOKEN);
-        logger.error("用户token:{},统一拦截到的运行时异常:", tokenKey, e);
-        return new ResultBean.Builder<>().fail().message("参数校验异常，请查验参数！").build();
-    }
-
     /**
      * 终极处理
      * @param e
@@ -157,6 +179,7 @@ public class GlobalExceptionHandler {
     public ResultBean<?> exception(Exception e, HttpServletRequest request) {
         String tokenKey = request.getHeader(HeaderConstant.TOKEN);
         logger.error("用户token:{},统一拦截到的未知异常:", tokenKey, e);
-        return new ResultBean.Builder<>().fail().message("未知异常").data(e.getMessage()).build();
+        return ResultBeanUtil.fail("未知异常",e.getMessage());
     }
+
 }

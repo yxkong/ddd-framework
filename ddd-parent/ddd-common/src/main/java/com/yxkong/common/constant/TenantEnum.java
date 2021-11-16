@@ -1,8 +1,6 @@
-package com.yxkong.demo.domain.constant;
+package com.yxkong.common.constant;
 
 import lombok.Getter;
-
-import java.util.Arrays;
 
 /**
  * 租户枚举

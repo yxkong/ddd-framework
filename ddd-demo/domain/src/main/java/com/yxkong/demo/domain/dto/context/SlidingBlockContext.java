@@ -1,6 +1,6 @@
 package com.yxkong.demo.domain.dto.context;
 
-import com.yxkong.demo.domain.constant.TenantEnum;
+import com.yxkong.common.constant.TenantEnum;
 import com.yxkong.demo.domain.model.slidingblock.SlidingBlock;
 import com.yxkong.demo.domain.model.user.UserObject;
 import lombok.Getter;

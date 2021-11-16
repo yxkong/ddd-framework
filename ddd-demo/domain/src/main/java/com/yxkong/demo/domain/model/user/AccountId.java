@@ -1,6 +1,7 @@
 package com.yxkong.demo.domain.model.user;
 
 import com.yxkong.common.annotation.DomainEntity;
+import com.yxkong.common.constant.TenantEnum;
 import lombok.Getter;
 
 /**
@@ -15,9 +16,9 @@ import lombok.Getter;
 public class AccountId {
     private Long id;
     private Long uuid;
-    private Integer tenantId;
-    public AccountId(Long id,Long uuid,Integer tenantId) {
+    private TenantEnum tenant;
+    public AccountId(Long id, Long uuid, TenantEnum tenant) {
         this.uuid = uuid;
-        this.tenantId = tenantId;
+        this.tenant = tenant;
     }
 }

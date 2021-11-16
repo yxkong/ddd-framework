@@ -1,5 +1,7 @@
 package com.yxkong.common.entity.common;
 
+import com.yxkong.common.constant.TenantEnum;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -33,6 +35,10 @@ public class LoginToken implements Serializable {
      */
     private Long accountId;
     /**
+     * 用户的uuid
+     */
+    private String uuid;
+    /**
      * 姓名
      */
     private String realName;
@@ -49,57 +55,39 @@ public class LoginToken implements Serializable {
      */
     private String birthday;
     /**
-     * 没有赋值
+     * 登录方式
      */
     private String loginType;
+
     /**
-     * 集团用户中心返回的uuid
-     */
-    private String uuid;
-    /**
-     * 没有赋值
+     * 登录时间
      */
     private String loginTime;
     /**
-     * 加密的用户来源，说明decodeSource
+     * 用户来源
      */
     private String source;
-    /**
-     * 用户来源0：万卡，1：叮当，2：闪白条，3：品质商场，" +
-     * "4：钱包，5：超能二类，6：超能5类，7：超能地推，" +
-     * "8：向阳花，9：ofo，10：白条，1000以上：三体定制化来源
-     */
-    private Integer decodeSource;
-    /**
-     * 集团用户中心客户号
-     */
-    private String custNo;
-    private Integer isBack;
+
     /**
      * imei
      */
     private String imei;
     /**
-     * 用户标签
-     */
-    private String lable;
-    /**
-     * 路由化标识0:老用户，1 路由化用户 2 额度三体化用户
-     */
-    private Integer isRoute;
-    /**
-     * 没有赋值
+     * 登录渠道
      */
     private String loginProId;
     /**
-     * 当前操作渠道，在loginProId没值时使用
+     * 当前操作渠道，直接从header中获取
      */
     private String proId;
-    private String createTime;
     /**
-     * 租户id：万卡 1001 小房卡 2001 亿贝卡 2005
+     * 租户id
      */
-    private Integer tenantId;
+    private String registerTime;
+    /**
+     * 租户
+     */
+    private TenantEnum tenant;
 
     /**
      * 是否实名
@@ -221,29 +209,7 @@ public class LoginToken implements Serializable {
         this.source = source;
     }
 
-    public Integer getDecodeSource() {
-        return decodeSource;
-    }
 
-    public void setDecodeSource(Integer decodeSource) {
-        this.decodeSource = decodeSource;
-    }
-
-    public String getCustNo() {
-        return custNo;
-    }
-
-    public void setCustNo(String custNo) {
-        this.custNo = custNo;
-    }
-
-    public Integer getIsBack() {
-        return isBack;
-    }
-
-    public void setIsBack(Integer isBack) {
-        this.isBack = isBack;
-    }
 
     public String getImei() {
         return imei;
@@ -253,21 +219,6 @@ public class LoginToken implements Serializable {
         this.imei = imei;
     }
 
-    public String getLable() {
-        return lable;
-    }
-
-    public void setLable(String lable) {
-        this.lable = lable;
-    }
-
-    public Integer getIsRoute() {
-        return isRoute;
-    }
-
-    public void setIsRoute(Integer isRoute) {
-        this.isRoute = isRoute;
-    }
 
     public String getLoginProId() {
         return loginProId;
@@ -277,35 +228,27 @@ public class LoginToken implements Serializable {
         this.loginProId = loginProId;
     }
 
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getTenantId() {
-        return tenantId;
-    }
-
-    public void setTenantId(Integer tenantId) {
-        this.tenantId = tenantId;
-    }
-
-    /**
-     * 优先使用loginProId，如果没有，则用proid
-     *
-     * @return
-     */
     public String getProId() {
-        if (Objects.isNull(this.loginProId)) {
-            return proId;
-        }
-        return this.loginProId;
+        return proId;
     }
 
     public void setProId(String proId) {
         this.proId = proId;
+    }
+
+    public String getRegisterTime() {
+        return registerTime;
+    }
+
+    public void setRegisterTime(String registerTime) {
+        this.registerTime = registerTime;
+    }
+
+    public TenantEnum getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(TenantEnum tenant) {
+        this.tenant = tenant;
     }
 }

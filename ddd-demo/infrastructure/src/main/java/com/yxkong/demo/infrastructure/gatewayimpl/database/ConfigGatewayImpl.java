@@ -22,7 +22,7 @@ public class ConfigGatewayImpl implements ConfigGateway {
 
     @Override
     public String query(String key, String defaultValue) {
-        String val = sysConfigService.findValue(key, SysConfigConstant.WK_SYSTEM);
+        String val = sysConfigService.findValue(key, "module");
         if (Objects.nonNull(val)){
             return val;
         }
