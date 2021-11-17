@@ -73,9 +73,9 @@ public enum ResultStatusEnum {
      */
     CHECKSMSEXCEPTION("1014", "短信验证码输入错误"),
     /**
-     * 信息获取失败
+     * 灰度
      */
-    INFORMATION_RETRIEVAL_ERROR("0", "产品维护中，暂时不可领取");
+    GRAY("1111", "产品维护中，请您稍后再试");
 
     private String status;
 

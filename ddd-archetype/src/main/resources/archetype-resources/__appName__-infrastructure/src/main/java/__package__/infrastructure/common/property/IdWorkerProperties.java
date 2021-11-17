@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@ConfigurationProperties(prefix = "onecard.id-worker")
+@ConfigurationProperties(prefix = "ddd.id-worker")
 public class IdWorkerProperties {
 
     private List<String> cluster;

@@ -125,14 +125,14 @@ eureka:
         name: admin
         password: 5ycode
 
-yxkong:
+ddd:
   id-worker:
     cluster: 127.0.0.1
   druid:
     monitor:
-      login-username: onecard
-      login-password: onecard123$
-      allow: 111.200.243.194,106.38.54.130,127.0.0.1
+      login-username: yxkong
+      login-password: 5ycode
+      allow: 127.0.0.1
 apollo:
   cacheDir: /opt/data/                       #配置本地配置缓存目录
   cluster: default                           #指定使用哪个集群的配置

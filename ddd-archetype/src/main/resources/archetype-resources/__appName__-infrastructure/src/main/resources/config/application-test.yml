@@ -109,7 +109,7 @@ eureka:
       #开启健康检查
       enabled: true
     service-url:
-      defaultZone: http://xj-onecard-eureka-test.inner-sc.9f.cn/eureka/
+      defaultZone: http://eureka.5ycode.com
   instance:
 #    hostname:${symbol_dollar}\{spring.application.name\}
     #指定本节点的IP

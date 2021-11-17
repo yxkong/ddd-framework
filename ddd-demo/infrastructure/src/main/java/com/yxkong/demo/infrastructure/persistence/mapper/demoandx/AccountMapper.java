@@ -30,6 +30,13 @@ public interface AccountMapper  {
 	 * @return
 	 */
 	AccountDO findById(Long id);
+
+	/**
+	 * 通过手机号查询手机号
+	 * @param mobile
+	 * @return
+	 */
+	AccountDO findByMobile(String mobile);
 	/**
 	 * 通过主键id 更新实体
 	 * @param record

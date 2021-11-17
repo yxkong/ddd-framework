@@ -3,6 +3,7 @@ package com.yxkong.demo.domain.model.user;
 import com.yxkong.common.annotation.AggregateRoot;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * 账户领域对象
@@ -14,13 +15,9 @@ import lombok.Getter;
 @Getter
 @Builder
 @AggregateRoot
+@NoArgsConstructor
 public class AccountEntity {
     private AccountId accountId;
-
-    /**
-     * 用户注册渠道
-     */
-    private String proId;
 
     /**
      * 用户对象
@@ -30,4 +27,9 @@ public class AccountEntity {
      * 用户状态
      */
     private AccountStatusEnum accountStatus;
+    /**
+     * 用户注册渠道
+     */
+    private String proId;
+
 }

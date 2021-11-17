@@ -140,7 +140,7 @@ feign:
         connectTimeout: 1000
         readTimeout: 10000
         loggerLevel: basic
-yxkong:
+ddd:
   id-worker:
     cluster: 172.28.24.54,172.29.24.31
 #apollo:

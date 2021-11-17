@@ -16,9 +16,11 @@ import lombok.Getter;
 public class RegisterContext {
     private UserObject userObject;
     private String requestIp;
-    private String verifyCode;
+    private long uuid;
     private String pwd;
     private String salt;
     private String proId;
     private String env;
+    private Integer status = 1;
+
 }

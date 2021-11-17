@@ -83,13 +83,6 @@ eureka:
     service:
       userService: userservice  #用户
       userApi: userapi  #用户
-      userinfoApi: userinfoApi  #个人信息ocr服务
-      paymentService: onecard-payment-api  #支付
-      faceService: auth-face  #人脸
-      publicAdmin: publicAdmin
-      userDeposit: userdeposit
-      quotaService: quotaService
-      quotaCheckService: quotaCheckService
 
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml

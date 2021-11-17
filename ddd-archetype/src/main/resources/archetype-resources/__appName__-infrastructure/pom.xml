@@ -165,8 +165,8 @@
             <artifactId>${appName}-domain</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.onecard</groupId>
-            <artifactId>onecard-ddd-code-generator</artifactId>
+            <groupId>com.yxkong</groupId>
+            <artifactId>ddd-code-generator</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>

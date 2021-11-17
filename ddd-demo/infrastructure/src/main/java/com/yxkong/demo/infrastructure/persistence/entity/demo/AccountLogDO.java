@@ -35,6 +35,10 @@ public class AccountLogDO implements Serializable  {
      */
     private String proId;
     /**
+     * 操作ip
+     */
+    private String requestIp;
+    /**
      * 租户id
      */
     private Integer tenantId;
@@ -128,4 +132,11 @@ public class AccountLogDO implements Serializable  {
         return this.createTime;
     }
 
+    public String getRequestIp() {
+        return requestIp;
+    }
+
+    public void setRequestIp(String requestIp) {
+        this.requestIp = requestIp;
+    }
 }

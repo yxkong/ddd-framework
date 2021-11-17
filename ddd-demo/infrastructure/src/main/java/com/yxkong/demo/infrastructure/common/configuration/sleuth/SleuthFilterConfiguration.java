@@ -15,8 +15,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "onecard.eagle-eye")
-@ConditionalOnProperty(name = "onecard.eagle-eye.enabled", havingValue = "true", matchIfMissing = true)
+@ConfigurationProperties(prefix = "ddd.sleuth")
+@ConditionalOnProperty(name = "ddd.sleuth.enabled", havingValue = "true", matchIfMissing = true)
 public class SleuthFilterConfiguration {
     private boolean enabled;
 

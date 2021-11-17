@@ -1,6 +1,7 @@
 package com.yxkong.demo.adapter.api.convert;
 
-import com.yxkong.demo.adapter.api.command.account.RegisterCmd;
+import com.yxkong.demo.adapter.api.command.account.RegisterWithPwdCmd;
+import com.yxkong.demo.adapter.api.command.account.RegisterWithoutPwdCmd;
 import com.yxkong.demo.application.context.account.RegisterAppContext;
 import com.yxkong.demo.infrastructure.common.util.WebUtil;
 
@@ -15,14 +16,12 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class RegisterFactory {
 
-    public static RegisterAppContext create(RegisterCmd register, HttpServletRequest request){
+    public static RegisterAppContext create(RegisterWithoutPwdCmd register, HttpServletRequest request){
         String requestIp = WebUtil.getIpAddress(request);
-        /**
-         * 根据注册类型和环境推测 注册方式
-         * 最终会有两种注册方式
-         *    1，验证码注册
-         *    2，密码注册
-         */
-        return new RegisterAppContext(register.getTenantId(),register.getMobile(),register.getVerifyCode(),requestIp, register.getPwd());
+        return new RegisterAppContext(register.getTenantId(),register.getMobile(),register.getVerifyCode(),requestIp, null,register.getProId(), register.getEnv());
+    }
+    public static RegisterAppContext create(RegisterWithPwdCmd register, HttpServletRequest request){
+        String requestIp = WebUtil.getIpAddress(request);
+        return new RegisterAppContext(register.getTenantId(),register.getMobile(),register.getVerifyCode(),requestIp, register.getPwd(),register.getProId(), register.getEnv());
     }
 }

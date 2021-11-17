@@ -8,7 +8,8 @@
 		  <id column="bizType" property="bizType" /> 
 		  <id column="env" property="env" /> 
 		  <id column="proId" property="proId" /> 
-		  <id column="tenantId" property="tenantId" /> 
+		  <id column="request_ip" property="requestIp" />
+		  <id column="tenantId" property="tenantId" />
 		  <id column="createTime" property="createTime" /> 
   
     </resultMap>
@@ -18,6 +19,7 @@
  		 t.biz_type as bizType ,
  		 t.env as env ,
  		 t.proId as proId ,
+		 t.request_ip as requestIp,
  		 t.tenant_id as tenantId ,
  		 t.create_time as createTime
     </sql>
@@ -54,6 +56,9 @@
  			 <if test="proId != null">
  				 proId,
  			  </if>
+			  <if test="requestIp != null">
+				  requestIp,
+			  </if>
  			 <if test="tenantId != null">
  				 tenant_id,
  			  </if>
@@ -76,6 +81,9 @@
  			  </if>
  			 <if test="proId != null">
  				 #{proId},
+ 			  </if>
+			  <if test="requestIp != null">
+ 				 #{requestIp},
  			  </if>
  			 <if test="tenantId != null">
  				 #{tenantId},
@@ -100,6 +108,9 @@
  			  </if>
  			 <if test="proId != null">
  				 proId = #{proId},
+ 			  </if>
+			 <if test="requestIp != null">
+				 requestIp = #{requestIp},
  			  </if>
  			 <if test="tenantId != null">
  				 tenant_id = #{tenantId},
@@ -132,6 +143,9 @@
  		 <if test="proId != null">
  			 and t.proId = #{proId}
  		  </if>
+		 <if test="requestIp != null">
+ 			 and t.requestIp = #{requestIp}
+ 		  </if>
  		 <if test="tenantId != null">
  			 and t.tenant_id = #{tenantId}
  		  </if>
@@ -159,6 +173,9 @@
  		  </if>
  		 <if test="proId != null">
  			 and t.proId = #{proId}
+ 		  </if>
+		 <if test="requestIp != null">
+ 			 and t.requestIp = #{requestIp}
  		  </if>
  		 <if test="tenantId != null">
  			 and t.tenant_id = #{tenantId}

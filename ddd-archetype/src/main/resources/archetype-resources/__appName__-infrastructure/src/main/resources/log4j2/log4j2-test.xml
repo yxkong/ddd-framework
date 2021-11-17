@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-<?xml version="${version}" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <!-- Log4j 2.DSConfig 配置文件。每60秒自动检查和应用配置文件的更新； -->
 <Configuration status="warn" monitorInterval="60"
@@ -11,6 +11,10 @@
 		<Property name="LOG_HOME">/www/webcode/logs/${symbol_dollar}{PROJECT_NAME}</Property>
 		<Property name="COMMON_LEVEL">info</Property>
 		<Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss,SSS} [%C %M %L] %t [%p] - %msg%n</Property>
+		<Property name="kafka.bootstrap.servers">127.0.0.1:9092</Property>
+		<Property name="zipkin.log.info.topic">zipkin.log.info</Property>
+		<Property name="zipkin.log.warn.topic">zipkin.log.warn</Property>
+		<Property name="zipkin.log.error.topic">zipkin.log.error</Property>
 	</Properties>
 	<Appenders>
 		<!-- 输出到控制台 -->
@@ -123,62 +127,62 @@
 				</Delete>
 			</DefaultRolloverStrategy>
 		</RollingFile>
-		<!--<Kafka name="kafka_Log_info_Appender" topic="wk.log.info"-->
-			<!--syncSend="true">-->
-			<!--<Property name="compression.type">gzip</Property>-->
-			<!--<Property name="timeout.ms">5000</Property>-->
-			<!--<Property name="bootstrap.servers">${symbol_dollar}{kafka.bootstrap.servers}</Property>-->
-			<!--<JSONLayout charset="UTF-8" locationInfo="true"-->
-				<!--properties="true" complete="false" compact="true" eventEol="false"-->
-				<!--propertiesAsList="false" includeStacktrace="true">-->
-				<!--<KeyValuePair key="serviceName" value="${symbol_dollar}{PROJECT_NAME}" />-->
-			<!--</JSONLayout>-->
-			<!--<filters>-->
-				<!--<ThresholdFilter level="error" onMatch="DENY"-->
-					<!--onMismatch="NEUTRAL" />-->
-				<!--<ThresholdFilter level="warn" onMatch="DENY"-->
-					<!--onMismatch="NEUTRAL" />-->
-				<!--<ThresholdFilter level="info" onMatch="ACCEPT"-->
-					<!--onMismatch="DENY" />-->
-			<!--</filters>-->
-		<!--</Kafka>-->
-		<!--<Kafka name="kafka_Log_warn_Appender" topic="wk.log.warn"-->
-			<!--syncSend="true">-->
-			<!--<Property name="compression.type">gzip</Property>-->
-			<!--<Property name="timeout.ms">5000</Property>-->
-			<!--<Property name="bootstrap.servers">${symbol_dollar}{kafka.bootstrap.servers}</Property>-->
-			<!--<JSONLayout charset="UTF-8" locationInfo="true"-->
-				<!--properties="true" complete="false" compact="true" eventEol="false"-->
-				<!--propertiesAsList="false" includeStacktrace="true">-->
-				<!--<KeyValuePair key="serviceName" value="${symbol_dollar}{PROJECT_NAME}" />-->
-			<!--</JSONLayout>-->
-			<!--<filters>-->
-				<!--<ThresholdFilter level="error" onMatch="DENY"-->
-					<!--onMismatch="NEUTRAL" />-->
-				<!--<ThresholdFilter level="warn" onMatch="ACCEPT"-->
-					<!--onMismatch="DENY" />-->
-			<!--</filters>-->
-		<!--</Kafka>-->
-		<!--<Kafka name="kafka_Log_error_Appender" topic="wk.log.error"-->
-			<!--syncSend="true">-->
-			<!--<Property name="compression.type">gzip</Property>-->
-			<!--<Property name="timeout.ms">5000</Property>-->
-			<!--<Property name="bootstrap.servers">${symbol_dollar}{kafka.bootstrap.servers}</Property>-->
-			<!--<JSONLayout charset="UTF-8" locationInfo="true"-->
-				<!--properties="true" complete="false" compact="true" eventEol="false"-->
-				<!--propertiesAsList="false" includeStacktrace="true">-->
-				<!--<KeyValuePair key="serviceName" value="${symbol_dollar}{PROJECT_NAME}" />-->
-			<!--</JSONLayout>-->
-			<!--<filters>-->
-				<!--<ThresholdFilter level="error" onMatch="ACCEPT"-->
-					<!--onMismatch="DENY" />-->
-			<!--</filters>-->
-		<!--</Kafka>-->
-		<!--<Async name="KafkaAsyncAppender" includeLocation="true">-->
-			<!--<appender-ref ref="kafka_Log_info_Appender" />-->
-			<!--<appender-ref ref="kafka_Log_warn_Appender" />-->
-			<!--<appender-ref ref="kafka_Log_error_Appender" />-->
-		<!--</Async>-->
+		<Kafka name="kafka_Log_info_Appender" topic="${symbol_dollar}{zipkin.log.info}"
+			syncSend="true">
+			<Property name="compression.type">gzip</Property>
+			<Property name="timeout.ms">5000</Property>
+			<Property name="bootstrap.servers">${symbol_dollar}{kafka.bootstrap.servers}</Property>
+			<JSONLayout charset="UTF-8" locationInfo="true"
+				properties="true" complete="false" compact="true" eventEol="false"
+				propertiesAsList="false" includeStacktrace="true">
+				<KeyValuePair key="serviceName" value="${symbol_dollar}{PROJECT_NAME}" />
+			</JSONLayout>
+			<filters>
+				<ThresholdFilter level="error" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+				<ThresholdFilter level="warn" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+				<ThresholdFilter level="info" onMatch="ACCEPT"
+					onMismatch="DENY" />
+			</filters>
+		</Kafka>
+		<Kafka name="kafka_Log_warn_Appender" topic="${symbol_dollar}{zipkin.log.warn}"
+			syncSend="true">
+			<Property name="compression.type">gzip</Property>
+			<Property name="timeout.ms">5000</Property>
+			<Property name="bootstrap.servers">${symbol_dollar}{kafka.bootstrap.servers}</Property>
+			<JSONLayout charset="UTF-8" locationInfo="true"
+				properties="true" complete="false" compact="true" eventEol="false"
+				propertiesAsList="false" includeStacktrace="true">
+				<KeyValuePair key="serviceName" value="${symbol_dollar}{PROJECT_NAME}" />
+			</JSONLayout>
+			<filters>
+				<ThresholdFilter level="error" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+				<ThresholdFilter level="warn" onMatch="ACCEPT"
+					onMismatch="DENY" />
+			</filters>
+		</Kafka>
+		<Kafka name="kafka_Log_error_Appender" topic="${symbol_dollar}{zipkin.log.error}"
+			syncSend="true">
+			<Property name="compression.type">gzip</Property>
+			<Property name="timeout.ms">5000</Property>
+			<Property name="bootstrap.servers">${symbol_dollar}{kafka.bootstrap.servers}</Property>
+			<JSONLayout charset="UTF-8" locationInfo="true"
+				properties="true" complete="false" compact="true" eventEol="false"
+				propertiesAsList="false" includeStacktrace="true">
+				<KeyValuePair key="serviceName" value="${symbol_dollar}{PROJECT_NAME}" />
+			</JSONLayout>
+			<filters>
+				<ThresholdFilter level="error" onMatch="ACCEPT"
+					onMismatch="DENY" />
+			</filters>
+		</Kafka>
+		<Async name="KafkaAsyncAppender" includeLocation="true">
+			<appender-ref ref="kafka_Log_info_Appender" />
+			<appender-ref ref="kafka_Log_warn_Appender" />
+			<appender-ref ref="kafka_Log_error_Appender" />
+		</Async>
 	</Appenders>
 	<Loggers>
 		<AsyncRoot level="${symbol_dollar}{COMMON_LEVEL}" includeLocation="true">
@@ -187,14 +191,14 @@
 			<AppenderRef ref="infoAppender" />
 			<AppenderRef ref="warnAppender" />
 			<AppenderRef ref="errorAppender" />
-			<!--<appender-ref ref="KafkaAsyncAppender" />-->
+			<appender-ref ref="KafkaAsyncAppender" />
 		</AsyncRoot>
 		<!--myibatis log configure -->
-<!--		<logger name="java.sql.Connection" level="DEBUG" />-->
-<!--		<logger name="java.sql.Statement" level="DEBUG" />-->
-<!--		<logger name="java.sql.PreparedStatement" level="DEBUG" />-->
-<!--		<logger name="${groupId}.wkauth.dao.mapper" level="DEBUG" />-->
-<!--		<logger name="${groupId}" level="DEBUG" />-->
-<!--		<logger name="org.springframework.jdbc" level="DEBUG" />-->
+		<logger name="java.sql.Connection" level="DEBUG" />
+		<logger name="java.sql.Statement" level="DEBUG" />
+		<logger name="java.sql.PreparedStatement" level="DEBUG" />
+		<logger name="${package}.infrastructure.persistence.mapper" level="DEBUG" />
+		<logger name="${groupId}" level="DEBUG" />
+		<logger name="org.springframework.jdbc" level="DEBUG" />
 	</Loggers>
 </Configuration>

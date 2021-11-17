@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-<?xml version="${version}" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <!-- Log4j 2.x 配置文件。每1800秒自动检查和应用配置文件的更新； -->
 <Configuration status="warn" monitorInterval="1800" strict="true">
@@ -12,8 +12,10 @@
         <Property name="COMMON_LEVEL">info</Property>
         <Property name="LOG_PATH">${symbol_dollar}{LOG_HOME}/${symbol_dollar}{PROJECT_NAME}</Property>
         <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss,SSS} [%level]-[Thread:%t]-[%logger{36}]-feignId:%X{feignId} - %msg%n</Property>
-        <Property name="kafka.bootstrap.servers">172.20.134.6:9092,172.20.134.7:9092,172.19.134.6:9092</Property>
-        <Property name="biz.kafka.bootstrap.servers">172.20.134.8:9092,172.20.134.9:9092,172.19.134.8:9092</Property>
+        <Property name="kafka.bootstrap.servers">127.0.0.1:9092</Property>
+        <Property name="zipkin.log.info.topic">zipkin.log.info</Property>
+        <Property name="zipkin.log.warn.topic">zipkin.log.warn</Property>
+        <Property name="zipkin.log.error.topic">zipkin.log.error</Property>
     </Properties>
     <Appenders>
         <RollingFile name="infoAppender" fileName="${symbol_dollar}{LOG_PATH}/info.log"
@@ -58,7 +60,7 @@
                 <SizeBasedTriggeringPolicy size="800 MB"/>
             </Policies>
         </RollingFile>
-        <Kafka name="kafka_Log_info_Appender" topic="wk.log.info"
+        <Kafka name="kafka_Log_info_Appender" topic="${symbol_dollar}{zipkin.log.info}"
                syncSend="true">
             <Property name="bootstrap.servers">${symbol_dollar}{kafka.bootstrap.servers}</Property>
             <Property name="compression.type">gzip</Property>
@@ -80,7 +82,7 @@
                                  onMismatch="DENY"/>
             </filters>
         </Kafka>
-        <Kafka name="kafka_Log_warn_Appender" topic="wk.log.warn"
+        <Kafka name="kafka_Log_warn_Appender" topic="${symbol_dollar}{zipkin.log.warn}"
                syncSend="true">
             <Property name="bootstrap.servers">${symbol_dollar}{kafka.bootstrap.servers}</Property>
             <Property name="compression.type">gzip</Property>
@@ -100,7 +102,7 @@
                                  onMismatch="DENY"/>
             </filters>
         </Kafka>
-        <Kafka name="kafka_Log_error_Appender" topic="wk.log.error"
+        <Kafka name="kafka_Log_error_Appender" topic="${symbol_dollar}{zipkin.log.error}"
                syncSend="true">
             <Property name="bootstrap.servers">${symbol_dollar}{kafka.bootstrap.servers}</Property>
             <Property name="compression.type">gzip</Property>
@@ -118,23 +120,7 @@
                                  onMismatch="DENY"/>
             </filters>
         </Kafka>
-        <Kafka name="kafka_bigdata_Appender" topic="onecard_big_data_save"
-               syncSend="true">
-            <Property name="compression.type">gzip</Property>
-            <Property name="timeout.ms">5000</Property>
-            <Property name="bootstrap.servers">${symbol_dollar}{biz.kafka.bootstrap.servers}</Property>
-            <PatternLayout charset="UTF-8">
-                <pattern>%msg</pattern>
-            </PatternLayout>
-            <filters>
-                <ThresholdFilter level="error" onMatch="DENY"
-                                 onMismatch="NEUTRAL"/>
-                <ThresholdFilter level="warn" onMatch="ACCEPT"
-                                 onMismatch="DENY"/>
-                <ThresholdFilter level="info" onMatch="DENY"
-                                 onMismatch="NEUTRAL"/>
-            </filters>
-        </Kafka>
+
         <Async name="KafkaAsyncAppender" includeLocation="true">
             <appender-ref ref="kafka_Log_info_Appender"/>
             <appender-ref ref="kafka_Log_warn_Appender"/>
@@ -143,10 +129,6 @@
 
     </Appenders>
     <Loggers>
-        <AsyncLogger name="onecardBigDataSaveLogger" level="warn"
-                     includeLocation="true">
-            <AppenderRef ref="kafka_bigdata_Appender"/>
-        </AsyncLogger>
         <!-- 全局配置 -->
         <AsyncRoot level="${symbol_dollar}{COMMON_LEVEL}" includeLocation="true">
             <AppenderRef ref="infoAppender"/>

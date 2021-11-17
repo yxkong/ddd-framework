@@ -23,9 +23,9 @@ import javax.annotation.Resource;
  * @Date: 2021/6/3 10:52 上午
  * @version: 1.0
  */
-@Api(tags = "授信分发")
+@Api(tags = "授信路由")
 @RestController
-@RequestMapping("/test/distribute")
+@RequestMapping("/demo/distribute")
 public class AuthDistributeController {
 
     @Resource

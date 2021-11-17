@@ -4,7 +4,7 @@ logging:
   config: classpath:log4j2/log4j2-test.xml
   level:
     root: info
-    com.onecard.archetype.infrastructure.persistence.mapper.*: debug
+    com.yxkong.archetype.infrastructure.persistence.mapper.*: debug
 
 spring:
   redis:
@@ -130,7 +130,7 @@ feign:
         readTimeout: 30000
         loggerLevel: basic
 
-yxkong:
+ddd:
   id-worker:
     cluster: 127.0.0.1
 apollo:

@@ -21,7 +21,7 @@ public class AccountDO implements Serializable  {
     /**
      * 用户唯一标识
      */
-    private String uuid;
+    private Long uuid;
     /**
      * 用户手机号
      */
@@ -70,13 +70,13 @@ public class AccountDO implements Serializable  {
 	/**
 	 * 设置用户唯一标识
 	 */
-    public void setUuid(String uuid) {
+    public void setUuid(Long uuid) {
         this.uuid = uuid;
     }
     /**
      * 获取用户唯一标识
      */
-    public String getUuid() {
+    public Long getUuid() {
         return this.uuid;
     }
 	/**

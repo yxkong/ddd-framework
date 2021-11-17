@@ -28,7 +28,7 @@ public class HttpFilterConfiguration {
     static class ServletTraceFilterConfiguration {
 
         @Bean
-        // @ConditionalOnProperty(name = "onecard.http.trace.enabled", havingValue = "true")
+        // @ConditionalOnProperty(name = "ddd.http.trace.enabled", havingValue = "true")
         public HttpTraceLogFilter httpTraceLogFilter(MeterRegistry registry) {
             return new HttpTraceLogFilter(registry);
         }

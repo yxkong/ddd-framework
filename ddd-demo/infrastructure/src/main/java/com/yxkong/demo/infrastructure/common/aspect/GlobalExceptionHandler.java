@@ -103,13 +103,6 @@ public class GlobalExceptionHandler {
         return new ResultBean.Builder<>().fail().message("响应内容转json失败！").build();
     }
 
-    /**
-     * 拦截业务异常
-     */
-    @ExceptionHandler(BizException.class)
-    public ResultBean<?> bizException(BizException e) {
-        return  ResultBeanUtil.result(e) ;
-    }
 
     /**
      * 拦截数据库操作异常

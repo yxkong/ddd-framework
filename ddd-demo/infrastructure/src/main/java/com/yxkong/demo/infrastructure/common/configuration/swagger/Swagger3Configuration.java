@@ -52,7 +52,7 @@ public class Swagger3Configuration implements WebMvcConfigurer {
                 .select()
                 //.apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 // .apis(RequestHandlerSelectors.any())
-                .apis(RequestHandlerSelectors.basePackage("com.onecard.archetype"))
+                .apis(RequestHandlerSelectors.basePackage("com.yxkong.archetype"))
                 .paths(PathSelectors.any())
                 .build()
                 // 支持的通讯协议集合

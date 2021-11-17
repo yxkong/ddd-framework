@@ -1,7 +1,8 @@
 package com.yxkong.demo.adapter.api.controller;
 
 import com.yxkong.common.entity.dto.ResultBean;
-import com.yxkong.demo.adapter.api.command.account.RegisterCmd;
+import com.yxkong.demo.adapter.api.command.account.RegisterWithPwdCmd;
+import com.yxkong.demo.adapter.api.command.account.RegisterWithoutPwdCmd;
 import com.yxkong.demo.adapter.api.convert.RegisterFactory;
 import com.yxkong.demo.application.context.account.RegisterAppContext;
 import com.yxkong.demo.application.executor.RegisterExecutor;
@@ -30,11 +31,20 @@ public class RegisterController {
     @Resource
     private RegisterExecutor executor;
 
-    @ApiOperation(value = "注册接口")
+    @ApiOperation(value = "无密码注册接口")
     @ApiResponses({@ApiResponse(code = 1, message = "")})
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", name = "token", value = "用户登录信息（token信息 json格式）", required = true, dataType = "string")})
-    @PostMapping(value = "/registerBySms")
-    public ResultBean registerBySms(@RequestBody @Validated RegisterCmd register, HttpServletRequest request) {
+    @PostMapping(value = "/registerWithoutPwd")
+    public ResultBean registerWithoutPwd(@RequestBody @Validated RegisterWithoutPwdCmd register, HttpServletRequest request) {
+        RegisterAppContext context = RegisterFactory.create(register, request);
+        return executor.register(context);
+    }
+
+    @ApiOperation(value = "有密码注册接口")
+    @ApiResponses({@ApiResponse(code = 1, message = "")})
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", name = "token", value = "用户登录信息（token信息 json格式）", required = true, dataType = "string")})
+    @PostMapping(value = "/registerWithPwd")
+    public ResultBean registerWithPwd(@RequestBody @Validated RegisterWithPwdCmd register, HttpServletRequest request) {
         RegisterAppContext context = RegisterFactory.create(register, request);
         return executor.register(context);
     }

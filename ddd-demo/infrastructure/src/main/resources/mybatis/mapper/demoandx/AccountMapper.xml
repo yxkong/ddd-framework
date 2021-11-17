@@ -35,6 +35,13 @@
  		  from t_account t
  		  where t.id = #{ id }
 	</select>
+	<select id="findByMobile" resultMap="BaseResultMap"
+			parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_account t
+		where t.mobile = #{ mobile }
+	</select>
 
 	<delete id="deleteById" parameterType="java.lang.Long">
 		 delete 

@@ -24,4 +24,15 @@ public class MobileBase {
     @Range(min = 1000, max = 3000, message = "range在[1000,3000]之间")
     @ApiModelProperty(value = "租户id", required = true)
     Integer tenantId;
+    /**
+     * 来源渠道
+     */
+    @ApiModelProperty(value = "来源渠道", required = true)
+    private String proId;
+    /**
+     * 环境
+     */
+    @ApiModelProperty(value = "环境", required = true)
+    private String env;
+
 }
