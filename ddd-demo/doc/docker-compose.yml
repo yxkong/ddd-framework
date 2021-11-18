@@ -1,0 +1,81 @@
+version: '2'
+services:
+  zookeeper:
+    container_name: zookeeper_dev
+    image: zookeeper:3.4.11
+    restart: always
+    hostname: zookeeper
+    ports:
+      - 2181:2181
+    volumes:
+      - "/etc/localtime:/etc/localtime"
+      - "/Users/yxk/docker/zookeeper/data:/data"
+      - "/Users/yxk/docker/zookeeper/log:/var/log/zookeeper"
+  kafka:
+    container_name: kafka_dev
+    image: bitnami/kafka:2.3.1
+    # 配置参数见：https://hub.docker.com/r/bitnami/kafka
+    restart: always
+    ports:
+      - 9092:9092
+    environment:
+#      KAFKA_BROKER_ID: 0
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+      KAFKA_HEAP_OPTS: "-Xmx256m -Xms256m"
+      KAFKA_CFG_LISTENERS: "PLAINTEXT://:9092"
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092
+      KAFKA_CREATE_TOPICS: "zipkin:1:1"
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - "/etc/localtime:/etc/localtime"
+    depends_on:
+      - zookeeper
+  kafka-manager:
+    container_name: kafka_manager_dev
+    image: sheepkiller/kafka-manager
+    restart: always
+#    links:
+#      - kafka
+#      - zookeeper
+    environment:
+      ZK_HOSTS: zookeeper:2181
+      APPLICATION_SECRET: "yxkong"
+      KAFKA_MANAGER_AUTH_ENABLED: "true"  # 开启kafka-manager权限校验
+      KAFKA_MANAGER_USERNAME: admin       # 登陆账户
+      KAFKA_MANAGER_PASSWORD: 123456      # 登陆密码
+    ports:
+      - 9001:9001
+    depends_on:
+      - kafka
+  redis:
+    container_name: redis_dev
+    image: redis
+    restart: always
+    command: redis-server /etc/redis/redis.conf --requirepass 123456 --appendonly yes
+    environment:
+      TZ: Asia/Shanghai
+      LANG: en_US.UTF-8
+    volumes:
+      - "/Users/yxk/docker/redis/data:/data"
+      - "/Users/yxk/docker/redis/redis.conf:/etc/redis/redis.conf"
+    ports:
+      - 6379:6379
+  mysql:
+    container_name: mysql_dev
+    image: "mysql:5.7"
+    # https://hub.docker.com/_/mysql?tab=description
+    environment:
+      TZ: Asia/Shanghai
+      LANG: en_US.UTF-8
+      MYSQL_ROOT_PASSWORD: "123456" # root密码
+#      MYSQL_USER: 'yxkong'  # 新增超级用户（直接访问MYSQL_DATABASE）
+#      MYSQL_PASS: '123456'  # 新增超级用户的密码
+      MYSQL_DATABASE: demo  # 初始化的数据库名称
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - "/Users/yxk/docker/mysql/my.cnf:/etc/mysql/my.cnf"
+      - "/Users/yxk/docker/mysql/data:/var/lib/mysql"
+      - "/Users/yxk/docker/mysql/log/error.log:/var/log/mysql/error.log"
+      - "/Users/yxk/docker/mysql/init:/docker-entrypoint-initdb.d/"
