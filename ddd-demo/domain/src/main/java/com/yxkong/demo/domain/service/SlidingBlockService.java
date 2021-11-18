@@ -21,6 +21,12 @@ public class SlidingBlockService {
 
     SlidingBlockGateway slidingBlockGateway;
     SlidingBlockSupplierGateway slidingBlockSupplierGateway;
+
+    /**
+     * 滑块验证服务
+     * @param context
+     * @return
+     */
     public ResultBean check(SlidingBlockContext context){
         /**
          * 校验滑块id是否使用（校验成功一次后就失效）

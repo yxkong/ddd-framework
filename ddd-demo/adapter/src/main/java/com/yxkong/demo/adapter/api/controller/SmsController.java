@@ -5,6 +5,7 @@ import com.yxkong.demo.adapter.api.command.account.SmsBySlidingBlockCmd;
 import com.yxkong.demo.application.executor.SmsExecutor;
 import com.yxkong.demo.domain.dto.context.SlidingBlockContext;
 import com.yxkong.demo.domain.dto.resp.DistributeDTO;
+import com.yxkong.demo.infrastructure.common.util.LoginTokenUtil;
 import com.yxkong.demo.infrastructure.common.util.WebUtil;
 import io.swagger.annotations.*;
 import org.springframework.validation.annotation.Validated;
@@ -34,6 +35,7 @@ public class SmsController {
     @ApiResponses({@ApiResponse(code = 1, message = "")})
     @PostMapping(value = "/sendBySlidingBlock")
     public ResultBean sendBySlidingBlock(@RequestBody @Validated SmsBySlidingBlockCmd smsCmd, HttpServletRequest request) {
+        LoginTokenUtil.reloadTenantId(smsCmd.getTenantId());
         String requestIp = WebUtil.getIpAddress(request);
         SlidingBlockContext context = new SlidingBlockContext(smsCmd.getTenantId(),smsCmd.getMobile(), smsCmd.getSlidingBlockId(), smsCmd.getSlidingBlockSupplier(),requestIp);
         return smsExecutor.sendBySlidingBlock(context);

@@ -1,0 +1,49 @@
+version: "3"
+services:
+  redis:
+    container_name: redis_demo
+    image: redis
+    command: redis-server /etc/redis/redis.conf --requirepass 123456 --appendonly yes
+    environment:
+      TZ: Asia/Shanghai
+      LANG: en_US.UTF-8
+    volumes:
+      - "/Users/yxk/docker/redis/data:/data"
+      - "/Users/yxk/docker/redis/redis.conf:/etc/redis/redis.conf"
+    ports:
+      - 6380:6379
+    deploy:
+      mode：replicated # replicated：复制服务，复制指定服务到集群的机器上；global：全局服务，服务将部署至集群的每个节点。
+      replicas: 2 # replicated模式下的节点数量
+      labels:
+        description: "This redis service label"
+      resources: #配置服务可使用的资源限制
+        limits:
+          cpus: '0.50'
+          memory: 200M
+        reservations:
+          cpus: '0.25'
+          memory: 200M
+      restart_policy: # 重启策略
+        condition: on-failure # 可选 none、on-failure、any（默认：any）
+        delay: 2s # 延迟5秒重启，默认0
+        max_attempts: 2  # 最大重试测试，默认一直重试
+        window: 60s  # 重启超时时间
+      rollback_config: # 回滚策略
+        parallelism: 1 # 一次回滚的容器，0，一下子全回滚
+        delay: 5s # 每个容器回滚的等待时间
+        failure_action: pause # 回滚失败pause，还有一个是continue
+        monitor: 10s # 更新后观察10s是否有异常
+        max_failure_ratio: 0 # 容忍的故障率
+        order: stop-first # 操作顺序 stop-first 串行回滚，start-first 并行回滚，默认stop-first
+    logging:
+      driver: json-file #json-file、syslog、none
+      options:
+        #syslog-address: "tcp://127.0.0.1:22" 使用syslog时，可以指定
+        max-size: "200k" # 单个文件大小为200k
+        max-file: "10" # 最多10个文件
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 10240
+        hard: 10240

@@ -18,7 +18,7 @@ public class SmsService {
 
     SmsGateway smsGateway;
 
-    public ResultBean registerSend(SmsContext smsContext){
+    public ResultBean registerSend(SmsContext context){
         /**
          * 同一手机号，1分钟只发1条
          * 同一手机号，3分钟内验证码相同
@@ -27,6 +27,7 @@ public class SmsService {
          * 同一ip，一天最多只能发送20条，反欺诈
          * 用redis的zset实现
          */
+        Boolean flag = smsGateway.validate(context.getUser(),context.getRequestIp());
         return null;
     }
 

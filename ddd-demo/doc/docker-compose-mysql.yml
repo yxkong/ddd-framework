@@ -1,0 +1,21 @@
+version: '3' #
+services:
+  mysql:
+    container_name: mysql_dev
+    image: "mysql:5.7"
+    # https://hub.docker.com/_/mysql?tab=description
+    environment:
+      TZ: Asia/Shanghai
+      LANG: en_US.UTF-8
+      MYSQL_ROOT_PASSWORD: "123456" # root密码
+      #      MYSQL_USER: 'yxkong'  # 新增超级用户（直接访问MYSQL_DATABASE）
+      #      MYSQL_PASS: '123456'  # 新增超级用户的密码
+      MYSQL_DATABASE: demo  # 初始化的数据库名称
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - "/Users/yxk/docker/mysql/my.cnf:/etc/mysql/my.cnf"
+      - "/Users/yxk/docker/mysql/data:/var/lib/mysql"
+      - "/Users/yxk/docker/mysql/log/error.log:/var/log/mysql/error.log"
+      - "/Users/yxk/docker/mysql/init:/docker-entrypoint-initdb.d/"

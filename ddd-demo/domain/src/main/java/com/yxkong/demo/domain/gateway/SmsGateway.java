@@ -18,4 +18,12 @@ public interface SmsGateway {
      * @return
      */
     ResultBean send(UserObject user,String requestIp);
+
+    /**
+     * 发送前校验
+     * @param user
+     * @param requestIp
+     * @return
+     */
+    Boolean validate(UserObject user, String requestIp);
 }

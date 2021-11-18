@@ -5,6 +5,7 @@
  */
 package com.yxkong.demo.domain.service;
 
+import com.yxkong.common.util.ResultBeanUtil;
 import com.yxkong.demo.domain.dto.context.DistributeContext;
 import com.yxkong.demo.domain.dto.resp.DistributeDTO;
 import com.yxkong.demo.domain.dto.resp.DistributePath;
@@ -64,15 +65,9 @@ public class AuthDistributeService {
                return resultBean(DistributePath.list);
           }
 
-          return new ResultBean.Builder<DistributeDTO>()
-                  .success(DistributeDTO.builder()
-                          .distributePath(DistributePath.waiting).taskId(1L).build()
-             ).build();
+          return resultBean(DistributePath.waiting);
      }
      private ResultBean<DistributeDTO> resultBean(DistributePath distributePath){
-          return new ResultBean.Builder<DistributeDTO>()
-                  .success(DistributeDTO.builder()
-                               .distributePath(distributePath).build()
-                  ).build();
+          return ResultBeanUtil.success(DistributeDTO.builder().distributePath(distributePath).build()) ;
      }
 }

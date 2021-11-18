@@ -42,6 +42,7 @@ public class SmsExecutor {
         if (!check.isSucc()){
             return check;
         }
+
         /**
          * 滑块验证通过发送短信验证码
          *  1，获取验证码模板

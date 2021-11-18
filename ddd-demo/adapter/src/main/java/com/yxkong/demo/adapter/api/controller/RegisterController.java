@@ -6,6 +6,7 @@ import com.yxkong.demo.adapter.api.command.account.RegisterWithoutPwdCmd;
 import com.yxkong.demo.adapter.api.convert.RegisterFactory;
 import com.yxkong.demo.application.context.account.RegisterAppContext;
 import com.yxkong.demo.application.executor.RegisterExecutor;
+import com.yxkong.demo.infrastructure.common.util.LoginTokenUtil;
 import io.swagger.annotations.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,7 @@ public class RegisterController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", name = "token", value = "用户登录信息（token信息 json格式）", required = true, dataType = "string")})
     @PostMapping(value = "/registerWithoutPwd")
     public ResultBean registerWithoutPwd(@RequestBody @Validated RegisterWithoutPwdCmd register, HttpServletRequest request) {
+        LoginTokenUtil.reloadTenantId(register.getTenantId());
         RegisterAppContext context = RegisterFactory.create(register, request);
         return executor.register(context);
     }
@@ -45,6 +47,7 @@ public class RegisterController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", name = "token", value = "用户登录信息（token信息 json格式）", required = true, dataType = "string")})
     @PostMapping(value = "/registerWithPwd")
     public ResultBean registerWithPwd(@RequestBody @Validated RegisterWithPwdCmd register, HttpServletRequest request) {
+        LoginTokenUtil.reloadTenantId(register.getTenantId());
         RegisterAppContext context = RegisterFactory.create(register, request);
         return executor.register(context);
     }
