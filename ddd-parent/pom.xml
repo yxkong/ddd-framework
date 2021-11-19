@@ -17,6 +17,7 @@
     <modules>
         <module>ddd-code-generator</module>
         <module>ddd-common</module>
+        <module>eureka-server</module>
     </modules>
     <properties>
         <argLine>-Dfile.encoding=UTF-8</argLine>
