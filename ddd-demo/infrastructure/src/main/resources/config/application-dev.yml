@@ -5,7 +5,7 @@ logging:
     com.yxkong.demo.infrastructure.persistence.mapper.*: debug
 spring:
   redis:
-    host: 10.255.200.214
+    host: 127.0.0.1
     password: 123456
     port: 6379
     timeout: 3000
@@ -18,8 +18,8 @@ spring:
   kafka:
     biz:
       enabled: true
-    bootstrap-servers: 10.255.200.214:9092
-    biz-bootstrap-servers: 10.255.200.214:9092
+    bootstrap-servers: 127.0.0.1:9092
+    biz-bootstrap-servers: 127.0.0.1:9092
     consumer:
       group-id: ${spring.application.name}
       enable-auto-commit: true
@@ -53,7 +53,7 @@ datasource:
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/db_ddd?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+    url: jdbc:mysql://127.0.0.1:3306/demo?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
     username: root
     password: 123456
     filters: stat
@@ -72,7 +72,7 @@ datasource:
   xdemo:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/xdb_ddd?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+    url: jdbc:mysql://127.0.0.1:3306/xdemo?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
     username: root
     password: 123456
     filters: stat

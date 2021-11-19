@@ -1,6 +1,6 @@
 version: '3' #
 services:
-  mysql1:
+  mysql:
     container_name: mysql_test
     image: "mysql:5.7"
     # https://hub.docker.com/_/mysql?tab=description
@@ -14,7 +14,7 @@ services:
     restart: always
     ports:
       - 3307:3306
-    volumes: # 想看哪些log，就映射出来
+    volumes:
       - "/etc/localtime:/etc/localtime"
       - "./conf/my.cnf:/etc/mysql/my.cnf"
       - "./data:/var/lib/mysql"
