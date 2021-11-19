@@ -1,7 +1,7 @@
 version: '3' #
 services:
-  mysql:
-    container_name: mysql_dev
+  mysql1:
+    container_name: mysql_test
     image: "mysql:5.7"
     # https://hub.docker.com/_/mysql?tab=description
     environment:
@@ -13,9 +13,10 @@ services:
       MYSQL_DATABASE: demo  # 初始化的数据库名称
     restart: always
     ports:
-      - 3306:3306
-    volumes:
-      - "/Users/yxk/docker/mysql/my.cnf:/etc/mysql/my.cnf"
-      - "/Users/yxk/docker/mysql/data:/var/lib/mysql"
-      - "/Users/yxk/docker/mysql/log/error.log:/var/log/mysql/error.log"
-      - "/Users/yxk/docker/mysql/init:/docker-entrypoint-initdb.d/"
+      - 3307:3306
+    volumes: # 想看哪些log，就映射出来
+      - "/etc/localtime:/etc/localtime"
+      - "./conf/my.cnf:/etc/mysql/my.cnf"
+      - "./data:/var/lib/mysql"
+      - "./conf/error.log:/var/log/mysql/error.log"
+      - "./init/:/docker-entrypoint-initdb.d/"

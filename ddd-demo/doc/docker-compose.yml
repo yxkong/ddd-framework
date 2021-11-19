@@ -47,6 +47,8 @@ services:
       - 9001:9001
     depends_on:
       - kafka
+    volumes:
+      - "/etc/localtime:/etc/localtime"
   redis:
     container_name: redis_dev
     image: redis
@@ -56,6 +58,7 @@ services:
       TZ: Asia/Shanghai
       LANG: en_US.UTF-8
     volumes:
+      - "/etc/localtime:/etc/localtime"
       - "/Users/yxk/docker/redis/data:/data"
       - "/Users/yxk/docker/redis/redis.conf:/etc/redis/redis.conf"
     ports:
@@ -75,6 +78,7 @@ services:
     ports:
       - 3306:3306
     volumes:
+      - "/etc/localtime:/etc/localtime"
       - "/Users/yxk/docker/mysql/my.cnf:/etc/mysql/my.cnf"
       - "/Users/yxk/docker/mysql/data:/var/lib/mysql"
       - "/Users/yxk/docker/mysql/log/error.log:/var/log/mysql/error.log"
