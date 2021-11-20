@@ -167,6 +167,12 @@
             <id>aliyun-public</id>
             <name>aliyun-public</name>
             <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
 
