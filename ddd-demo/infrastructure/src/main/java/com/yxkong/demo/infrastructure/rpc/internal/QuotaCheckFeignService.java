@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author navyzhung
  * @date 2021/6/16-17:31
  */
-@FeignClient(value = "${eureka.instance.service.quotaCheckService}")
+//@FeignClient(value = "${eureka.instance.service.quotaCheckService}")
+@FeignClient(value = "quotaCheckService")
 public interface QuotaCheckFeignService {
 
     @RequestMapping(value = "api/wkcheck/quota/findStatusByCustomerId", method = {RequestMethod.POST})

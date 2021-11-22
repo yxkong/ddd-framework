@@ -123,8 +123,7 @@
 				</Delete>
 			</DefaultRolloverStrategy>
 		</RollingFile>
-		<Kafka name="kafka_Log_info_Appender" topic="${zipkin.log.info.topic}"
-			   syncSend="true">
+		<Kafka name="kafka_Log_info_Appender" topic="${zipkin.log.info.topic}"  syncSend="true">
 			<Property name="compression.type">gzip</Property>
 			<Property name="timeout.ms">5000</Property>
 			<Property name="bootstrap.servers">${kafka.bootstrap.servers}</Property>

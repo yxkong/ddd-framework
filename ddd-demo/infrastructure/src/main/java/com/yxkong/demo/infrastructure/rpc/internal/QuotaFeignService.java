@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient("${eureka.instance.service.quotaService}")
+//@FeignClient("${eureka.instance.service.quotaService}")
+@FeignClient("quotaService")
 public interface QuotaFeignService {
 
     /**

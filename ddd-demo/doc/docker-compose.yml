@@ -13,18 +13,20 @@ services:
       - "/Users/yxk/docker/zookeeper/log:/var/log/zookeeper"
   kafka:
     container_name: kafka_dev
-    image: bitnami/kafka:2.3.1
-    # 配置参数见：https://hub.docker.com/r/bitnami/kafka
+    image: wurstmeister/kafka
+    hostname: kafka
+    # 配置参数见：https://hub.docker.com/r/wurstmeister/kafka
     restart: always
     ports:
       - 9092:9092
     environment:
-#      KAFKA_BROKER_ID: 0
-      ALLOW_PLAINTEXT_LISTENER: "yes"
-      KAFKA_HEAP_OPTS: "-Xmx256m -Xms256m"
-      KAFKA_CFG_LISTENERS: "PLAINTEXT://:9092"
-      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092
-      KAFKA_CREATE_TOPICS: "zipkin:1:1"
+      KAFKA_BROKER_ID: 1
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ADVERTISED_PORT: 9092                                      # 端口
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092  #不配置，或者配置宿主机ip ，这个配置是kafka发布到zk上的，供外部使用，默认使用容器的id
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092                        # 全网监听，定义kafka的服务监听地址
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "zipkin:1:1,zipkin.log.info:1:1,zipkin.log.warn:1:1,zipkin.log.error:1:1"
       KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - "/etc/localtime:/etc/localtime"
@@ -84,48 +86,51 @@ services:
       - "/Users/yxk/docker/mysql/data:/var/lib/mysql"
       - "/Users/yxk/docker/mysql/log/error.log:/var/log/mysql/error.log"
       - "/Users/yxk/docker/mysql/init:/docker-entrypoint-initdb.d/"
-  nacos:
-    container_name: nacos_dev
-    image: "nacos/nacos-server:v2.0.3"
-    #    env_file:
-    #      - ../nacos/nacos-standlone-mysql.env
-    environment:
-      - "/etc/localtime:/etc/localtime"
-      - PREFER_HOST_MODE=hostname                 # 如果支持主机名可以使用hostname,否则使用ip，默认也是ip
-      - MODE=standalone                           # 单机模式启动
-#      - SPRING_DATASOURCE_PLATFORM=mysql          # 数据源平台 仅支持mysql或不保存empty
-      # TODO 修改mysql连接信息
-      - MYSQL_SERVICE_HOST=127.0.0.1    # 注：这里不能为`127.0.0.1`或`localhost`方式！！！
-      - MYSQL_SERVICE_DB_NAME=nacos
-      - MYSQL_SERVICE_PORT=3306
-      - MYSQL_SERVICE_USER=root
-      - MYSQL_SERVICE_PASSWORD=123456
-      - MYSQL_SERVICE_DB_PARAM=characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false
-      # TODO 修改JVM调优参数
-      - JVM_XMS=128m   #-Xms default :2g
-      - JVM_XMX=128m   #-Xmx default :2g
-      - JVM_XMN=64m    #-Xmn default :1g
-      - JVM_MS=32m     #-XX:MetaspaceSize default :128m
-      - JVM_MMS=32m    #-XX:MaxMetaspaceSize default :320m
-      - NACOS_DEBUG=n  #是否开启远程debug，y/n，默认n
-      - TOMCAT_ACCESSLOG_ENABLED=false #是否开始tomcat访问日志的记录，默认false
-    restart: always
-    ports:
-      - "8848:8848"
-      - "9848:9848"
-      - "9555:9555"
-    volumes:
-      - "./logs:/home/nacos/logs/"
-      - "./custom.properties:/home/nacos/init.d/custom.properties"
-      - "./nacos/application.properties:/home/nacos/conf/application.properties"
-    depends_on:
-      - mysql
+#  nacos:
+#    container_name: nacos_dev
+#    image: "nacos/nacos-server:v2.0.3"
+#    #    env_file:
+#    #      - ../nacos/nacos-standlone-mysql.env
+#    environment:
+#      - "/etc/localtime:/etc/localtime"
+#      - PREFER_HOST_MODE=hostname                 # 如果支持主机名可以使用hostname,否则使用ip，默认也是ip
+#      - MODE=standalone                           # 单机模式启动
+##      - SPRING_DATASOURCE_PLATFORM=mysql          # 数据源平台 仅支持mysql或不保存empty
+#      # TODO 修改mysql连接信息
+#      - MYSQL_SERVICE_HOST=127.0.0.1    # 注：这里不能为`127.0.0.1`或`localhost`方式！！！
+#      - MYSQL_SERVICE_DB_NAME=nacos
+#      - MYSQL_SERVICE_PORT=3306
+#      - MYSQL_SERVICE_USER=root
+#      - MYSQL_SERVICE_PASSWORD=123456
+#      - MYSQL_SERVICE_DB_PARAM=characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false
+#      # TODO 修改JVM调优参数
+#      - JVM_XMS=128m   #-Xms default :2g
+#      - JVM_XMX=128m   #-Xmx default :2g
+#      - JVM_XMN=64m    #-Xmn default :1g
+#      - JVM_MS=32m     #-XX:MetaspaceSize default :128m
+#      - JVM_MMS=32m    #-XX:MaxMetaspaceSize default :320m
+#      - NACOS_DEBUG=n  #是否开启远程debug，y/n，默认n
+#      - TOMCAT_ACCESSLOG_ENABLED=false #是否开始tomcat访问日志的记录，默认false
+#    restart: always
+#    ports:
+#      - "8848:8848"
+#      - "9848:9848"
+#      - "9555:9555"
+#    volumes:
+#      - "./logs:/home/nacos/logs/"
+#      - "./custom.properties:/home/nacos/init.d/custom.properties"
+#      - "./nacos/application.properties:/home/nacos/conf/application.properties"
+#    depends_on:
+#      - mysql
   eureka-server:
-    image: springcloud/eureka
+    image: 5ycode/eureka:0.1
     container_name: eureka-server_dev
     restart: always
     environment:
       - "/etc/localtime:/etc/localtime"
+      - JVM_XMS=312m
+      - JVM_XMX=312m
+      - REMOTE_DEBUG=y
     ports:
       - "8765:8765"
     volumes:

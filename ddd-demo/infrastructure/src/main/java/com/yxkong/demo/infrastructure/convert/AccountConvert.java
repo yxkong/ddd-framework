@@ -37,11 +37,7 @@ public class AccountConvert {
 
     public static AccountEntity entity(AccountDO accountDO){
         TenantEnum  tenant= TenantEnum.get(accountDO.getTenantId());
-        return AccountEntity.builder().accountId(new AccountId(accountDO.getId(), accountDO.getUuid(), tenant))
-                .accountStatus(AccountStatusEnum.get(accountDO.getStatus()))
-                .proId(accountDO.getProId())
-                .user(new UserObject(accountDO.getMobile(),tenant))
-                .build();
+        return new AccountEntity(new AccountId(accountDO.getId(), accountDO.getUuid(), tenant),new UserObject(accountDO.getMobile(),tenant), AccountStatusEnum.get(accountDO.getStatus()),accountDO.getProId());
     }
     public static AccountLogDO accountLog(RegisterContext context){
         AccountLogDO log = new AccountLogDO();

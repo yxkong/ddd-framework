@@ -72,6 +72,7 @@ public enum ResultStatusEnum {
      * 短信验证码输入不正确
      */
     CHECKSMSEXCEPTION("1014", "短信验证码输入错误"),
+    NOT_REALNAME("1015", "用户未实名"),
     /**
      * 灰度
      */

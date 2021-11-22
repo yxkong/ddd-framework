@@ -1,6 +1,7 @@
 package com.yxkong.demo.domain.model.user;
 
 import com.yxkong.common.annotation.AggregateRoot;
+import com.yxkong.common.annotation.DomainValueObject;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,11 +13,16 @@ import lombok.NoArgsConstructor;
  * @Date: 2021/5/31 6:13 下午
  * @version: 1.0
  */
-@Getter
-@Builder
 @AggregateRoot
-@NoArgsConstructor
+@Getter
 public class AccountEntity {
+    public AccountEntity(AccountId accountId, UserObject user, AccountStatusEnum accountStatus, String proId) {
+        this.accountId = accountId;
+        this.user = user;
+        this.accountStatus = accountStatus;
+        this.proId = proId;
+    }
+
     private AccountId accountId;
 
     /**

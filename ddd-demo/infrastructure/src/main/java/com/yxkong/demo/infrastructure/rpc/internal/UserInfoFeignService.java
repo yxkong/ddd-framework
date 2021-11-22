@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author 
  * @date 2021/6/15 19:36
  */
-@FeignClient(value = "${eureka.instance.service.userinfoApi}")
+//@FeignClient(value = "${eureka.instance.service.userinfoApi}")
+@FeignClient(value = "userinfoApi")
 public interface UserInfoFeignService {
 
     @PostMapping(value = "/route/gather/confCheck")

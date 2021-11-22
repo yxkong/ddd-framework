@@ -54,7 +54,7 @@ public class RequestParamsRequiredAspect {
                     loginToken = LoginTokenUtil.getLoginToken();
                 }
                 if (!loginToken.isRealName()) {
-                    return ResultBeanUtil.result(BizExceptionEnum.NO_REAL_NAME);
+                    return ResultBeanUtil.result(ResultStatusEnum.NOT_REALNAME);
                 }
             }
         } catch (Exception e) {

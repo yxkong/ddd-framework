@@ -11,7 +11,8 @@ import com.yxkong.common.entity.dto.ResultBean;
  * @author 
  * @date 2021/6/15 19:36
  */
-@FeignClient(value = "${eureka.instance.service.faceService}")
+//@FeignClient(value = "${eureka.instance.service.faceService}")
+@FeignClient(value = "faceService")
 public interface FaceFeignService {
 
     @PostMapping(value = "/faceApi/faceQuery/hasFaceForServe")
