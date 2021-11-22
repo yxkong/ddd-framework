@@ -2,32 +2,11 @@ server:
   port: 8765
   # 开启优雅停机kill -2 可以优雅停机
   shutdown: GRACEFUL
-  compression:
-    enabled: true
-  servlet:
-    encoding: # 解决http请求编码问题
-      force: true
-      charset: UTF-8
-      enabled: true
-  tomcat:
-    uri-encoding: UTF-8 # tomcat编码
-    accept-count: 200
-    max-connections: 1200
-    connection-timeout: 5000
-    threads:
-      max: 1000
-      min-spare: 50
-    max-http-form-post-size: 209715200
 eureka:
-  #此处设置会改变eureka控制台的显示
+  #此处设置会改变eureka控制台System Status的显示
   datacenter: cloud
-  #此处设置会改变eureka控制台的显示
-  environment: prod
-  dashboard:
-    #控制台路径
-    path: /dashboard
-    #是否启用控制台
-    enabled: true
+  #此处设置会改变eureka控制台System Status的显示
+  environment: dev
   instance:
     appname: eureka-server
     lease-renewal-interval-in-seconds: 5 # 设置心跳的时间间隔（默认是30秒）
@@ -39,7 +18,7 @@ eureka:
     fetch-registry: true # 不通过eureka获取注册信息
     register-with-eureka: true # 不注册该服务到eureka上
     service-url:
-      # 默认向 http://localhost:8761/eureka 发发请求
+      # 默认向 http://localhost:8761/eureka 发发请求 EurekaClientConfigBean中
 #      defaultZone: http://${spring.cloud.client.ip-address}:${server.port}/eureka/
       defaultZone: http://127.0.0.1:${server.port}/eureka/
   server:

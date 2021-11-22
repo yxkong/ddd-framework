@@ -24,14 +24,16 @@ ARG HOT_FIX_FLAG=""
 WORKDIR $BASE_DIR
 
 RUN set -x \
-    && yum update -y \
-    && yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel wget iputils nc  vim libcurl
-ADD target/eureka-server.jar /home/appuser/
+#     && yum update -y \
+    && yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel
+#     libcurl nc iputils wget vim
 # RUN wget  https://maven.aliyun.com/nexus/content/groups/public/com/yxkong/eureka-server/${EUREKA_VERSION}/eureka-server-${EUREKA_VERSION}.jar -P /home/appuser
-RUN yum autoremove -y wget \
-    && ln -snf /usr/share/zoneinfo/$TIME_ZONE /etc/localtime && echo $TIME_ZONE > /etc/timezone \
-    && yum clean all
+# 修改远程下载为本地下载
+ADD target/eureka-server.jar /home/appuser/
 
+# RUN yum autoremove -y wget \
+RUN  ln -snf /usr/share/zoneinfo/$TIME_ZONE /etc/localtime && echo $TIME_ZONE > /etc/timezone \
+    && yum clean all
 
 
 ADD bin/docker-startup.sh bin/docker-startup.sh
