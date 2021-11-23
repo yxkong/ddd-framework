@@ -45,7 +45,7 @@ public class SlidingBlockService {
 
         SlidingBlockDto blockDto = slidingBlockSupplierGateway.check(context);
         if (blockDto.getResult()){
-            return ResultBeanUtil.success();
+            return ResultBeanUtil.success(blockDto.getMessage(),null);
         }
         return ResultBeanUtil.fail(blockDto.getMessage(),null);
     }

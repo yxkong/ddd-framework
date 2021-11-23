@@ -4,6 +4,7 @@
 out
 gen
 target/
+doc/logs/
 
 ### Java template
 # Compiled class file

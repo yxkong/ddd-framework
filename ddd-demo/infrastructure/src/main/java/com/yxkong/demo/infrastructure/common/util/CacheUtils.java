@@ -19,6 +19,13 @@ public class CacheUtils {
     static {
         redisTemplate = ApplicationContextHolder.getBean("stringRedisTemplate");
     }
+    public static String generatorKey(String ...keys){
+        StringBuffer sb = new StringBuffer();
+        for (String key:keys){
+            sb.append(key).append(":");
+        }
+        return sb.substring(0,sb.length()-1);
+    }
 
     // =============================common============================
 

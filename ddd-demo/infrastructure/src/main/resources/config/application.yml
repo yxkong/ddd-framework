@@ -113,20 +113,6 @@ feign:
         connectTimeout: 1000
         readTimeout: 3000
         loggerLevel: FULL
-#Apollo 配置
-#app:
-#  id: ${spring.application.name}                           #应用ID
-#apollo:
-#  cacheDir: /opt/data/                       #配置本地配置缓存目录
-#  cluster: default                           #指定使用哪个集群的配置
-#  meta: http://192.168.192.24:8080    #DEV环境配置中心地址
-#  autoUpdateInjectedSpringProperties: true   #是否开启 Spring 参数自动更新
-#  bootstrap:
-#    enabled: false                            #是否开启 Apollo
-#    namespaces: application                  #设置 Namespace
-#    eagerLoad:
-#      enabled: false                         #将 Apollo 加载提到初始化日志系统之前
-
 # 分页配置
 pagehelper:
   helper-dialect: mysql

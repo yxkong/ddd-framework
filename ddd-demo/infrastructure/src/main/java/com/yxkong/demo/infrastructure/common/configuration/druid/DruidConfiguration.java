@@ -69,7 +69,7 @@ public class DruidConfiguration {
      */
     @Bean(name = "demoDynamicDataSource")
     public DataSource demoDynamicDataSource() {
-        log.info("-------------------- archetypeDynamicDataSource init ---------------------");
+        log.info("-------------------- demoDynamicDataSource init ---------------------");
         DynamicRoutingDataSource dynamicRoutingDataSource = new DynamicRoutingDataSource();
         Map<Object, Object> dataSourceMap = new HashMap<>();
         dataSourceMap.put(DataSourceKey.main.name(), demoDataSource());

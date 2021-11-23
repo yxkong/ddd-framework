@@ -16,6 +16,6 @@ import org.springframework.stereotype.Service;
 public class YidunSlidingBlockGatewayImpl implements SlidingBlockSupplierGateway {
     @Override
     public SlidingBlockDto check(SlidingBlockContext context) {
-        return null;
+        return SlidingBlockDto.builder().result(true).message("易盾校验成功！").build();
     }
 }
