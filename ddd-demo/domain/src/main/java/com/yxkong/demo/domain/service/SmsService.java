@@ -2,6 +2,7 @@ package com.yxkong.demo.domain.service;
 
 import com.yxkong.common.annotation.DomainService;
 import com.yxkong.common.entity.dto.ResultBean;
+import com.yxkong.common.util.ResultBeanUtil;
 import com.yxkong.demo.domain.dto.context.SmsContext;
 import com.yxkong.demo.domain.gateway.SmsGateway;
 import lombok.Builder;
@@ -28,7 +29,10 @@ public class SmsService {
          * 用redis的zset实现
          */
         Boolean flag = smsGateway.validate(context.getUser(),context.getRequestIp());
-        return null;
+        if (!flag){
+            return ResultBeanUtil.fail("校验失败","");
+        }
+        return ResultBeanUtil.success();
     }
 
     public Boolean verifyCodeCheck(SmsContext context){

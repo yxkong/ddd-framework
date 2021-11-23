@@ -4,10 +4,13 @@ import com.yxkong.common.entity.dto.ResultBean;
 import com.yxkong.demo.domain.gateway.SmsGateway;
 import com.yxkong.demo.domain.model.user.UserObject;
 import com.yxkong.demo.infrastructure.common.util.CacheUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -19,10 +22,11 @@ import java.util.concurrent.TimeUnit;
  * @version: 1.0
  */
 @Service
+@Slf4j
 public class SmsGatewayImpl implements SmsGateway {
     public static final  String PREFIX = "userApi:registerSms:";
-    @Resource(name="stringRedisTemplate")
-    private RedisTemplate template;
+    @Resource(name = "stringRedisTemplate")
+    private StringRedisTemplate redisTemplate;
     @Override
     public ResultBean send(UserObject user, String requestIp) {
         return null;
@@ -41,19 +45,43 @@ public class SmsGatewayImpl implements SmsGateway {
         String key = CacheUtils.generatorKey("userApi","registerSms",user.getTenantEnum().getTenantId()+"",user.getMobile());
         long l = System.currentTimeMillis();
         int preMinute = 60*24;
-        Set set = template.opsForZSet().rangeByScore(key, getScore(preMinute), l);
+        Set set = redisTemplate.opsForZSet().rangeByScore(key, getScore(preMinute), l);
         if (set.size()> 10){
+
             return false;
         }
-        template.opsForZSet().add(key,null,l);
-        template.expire(key,preMinute, TimeUnit.MINUTES);
+        if (count(set,1,1)){
+            return false;
+        }
+        if (count(set,3,10)){
+            return false;
+        }
+        if (count(set,3,60*24)){
+            //锁定用户
+            return false;
+        }
+
+        //内存内判断
+        redisTemplate.opsForZSet().add(key,l+"",l);
+        redisTemplate.expire(key,preMinute, TimeUnit.MINUTES);
         String ipKey = CacheUtils.generatorKey("userApi","registerSms",requestIp);
-        Long count = template.opsForZSet().count(ipKey, getScore(preMinute), l);
+        Long count = redisTemplate.opsForZSet().count(ipKey, getScore(preMinute), l);
         if (count.longValue()>20L){
             return false;
         }
-        template.opsForZSet().add(ipKey,null,l);
-        template.expire(ipKey,preMinute, TimeUnit.MINUTES);
+        redisTemplate.opsForZSet().add(ipKey,l+"",l);
+        redisTemplate.expire(ipKey,preMinute, TimeUnit.MINUTES);
+        return true;
+    }
+    private boolean count(Set set,int count,int minute){
+        int num = 0;
+        double score = getScore(minute);
+        while (set.iterator().hasNext() && num>=count){
+            Object next = set.iterator().next();
+            if (Long.parseLong(next.toString())>score){
+                return false;
+            }
+        }
         return true;
     }
     private double getScore(int minute){
