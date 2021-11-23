@@ -10,6 +10,7 @@ import com.yxkong.common.exception.BaseResult;
  * @version: 1.0
  */
 public enum InfrastructureResultEnum implements BaseResult {
+
     ;
 
     InfrastructureResultEnum(String status, String message) {

@@ -4,6 +4,7 @@ import com.yxkong.common.entity.dto.ResultBean;
 import com.yxkong.demo.domain.gateway.SmsGateway;
 import com.yxkong.demo.domain.model.user.UserObject;
 import com.yxkong.demo.infrastructure.common.util.CacheUtils;
+import javafx.util.Pair;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -33,7 +34,7 @@ public class SmsGatewayImpl implements SmsGateway {
     }
 
     @Override
-    public Boolean validate(UserObject user, String requestIp) {
+    public Pair<Boolean,String> validate(UserObject user, String requestIp) {
         /**
          * 同一手机号，1分钟只发1条
          * 同一手机号，3分钟内验证码相同
@@ -47,18 +48,14 @@ public class SmsGatewayImpl implements SmsGateway {
         int preMinute = 60*24;
         Set set = redisTemplate.opsForZSet().rangeByScore(key, getScore(preMinute), l);
         if (set.size()> 10){
-
-            return false;
+            log.info("锁定用户24小时");
+            return new Pair<>(false,"同一手机号，一天内发送10条，立即锁定，等待明天再来");
         }
         if (count(set,1,1)){
-            return false;
+            return new Pair<>(false,"同一手机号，1分钟只发1条");
         }
         if (count(set,3,10)){
-            return false;
-        }
-        if (count(set,3,60*24)){
-            //锁定用户
-            return false;
+            return new Pair<>(false,"同一手机号，10分钟内只能发3条");
         }
 
         //内存内判断
@@ -67,11 +64,11 @@ public class SmsGatewayImpl implements SmsGateway {
         String ipKey = CacheUtils.generatorKey("userApi","registerSms",requestIp);
         Long count = redisTemplate.opsForZSet().count(ipKey, getScore(preMinute), l);
         if (count.longValue()>20L){
-            return false;
+            return new Pair<>(false,"同一ip，一天最多只能发送20条，反欺诈");
         }
         redisTemplate.opsForZSet().add(ipKey,l+"",l);
         redisTemplate.expire(ipKey,preMinute, TimeUnit.MINUTES);
-        return true;
+        return new Pair<>(true,"校验通过！");
     }
     private boolean count(Set set,int count,int minute){
         int num = 0;

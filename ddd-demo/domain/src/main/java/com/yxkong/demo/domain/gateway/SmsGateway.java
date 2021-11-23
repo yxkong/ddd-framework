@@ -2,6 +2,7 @@ package com.yxkong.demo.domain.gateway;
 
 import com.yxkong.common.entity.dto.ResultBean;
 import com.yxkong.demo.domain.model.user.UserObject;
+import javafx.util.Pair;
 
 /**
  * 短信网关
@@ -25,5 +26,5 @@ public interface SmsGateway {
      * @param requestIp
      * @return
      */
-    Boolean validate(UserObject user, String requestIp);
+    Pair<Boolean,String> validate(UserObject user, String requestIp);
 }

@@ -5,6 +5,7 @@ import com.yxkong.common.entity.dto.ResultBean;
 import com.yxkong.common.util.ResultBeanUtil;
 import com.yxkong.demo.domain.dto.context.SmsContext;
 import com.yxkong.demo.domain.gateway.SmsGateway;
+import javafx.util.Pair;
 import lombok.Builder;
 
 /**
@@ -28,10 +29,11 @@ public class SmsService {
          * 同一ip，一天最多只能发送20条，反欺诈
          * 用redis的zset实现
          */
-        Boolean flag = smsGateway.validate(context.getUser(),context.getRequestIp());
-        if (!flag){
-            return ResultBeanUtil.fail("校验失败","");
+        Pair<Boolean,String> pair = smsGateway.validate(context.getUser(),context.getRequestIp());
+        if (!pair.getKey()){
+            return ResultBeanUtil.fail(pair.getValue(),"");
         }
+        //TODO 短信验证码入库
         return ResultBeanUtil.success();
     }
 
