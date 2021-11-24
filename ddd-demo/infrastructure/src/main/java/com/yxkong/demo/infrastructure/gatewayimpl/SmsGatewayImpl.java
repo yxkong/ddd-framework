@@ -15,6 +15,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -83,20 +84,23 @@ public class SmsGatewayImpl implements SmsGateway {
         return new Pair<>(true,"校验通过！");
     }
     private boolean count(Set set,int count,int minute){
-        int num = 0;
         double score = getScore(minute);
-        while (set.iterator().hasNext() && num>=count){
-            Object next = set.iterator().next();
-            if (Long.parseLong(next.toString())>score){
-                num++;
-            }
-        }
+//        long num = 0;
+        long num = set.stream().filter(s-> Long.parseLong(s.toString())>score).count();
+//
+//        Iterator it = set.iterator();
+//        while (it.hasNext() && num<=count){
+//            Object next = it.next();
+//            if (Long.parseLong(next.toString())>score){
+//                num++;
+//            }
+//        }
         if (num>=count){
             return true;
         }
         return false;
     }
-    private double getScore(int minute){
+    private long getScore(int minute){
         return System.currentTimeMillis()-minute*60*1000;
     }
 }

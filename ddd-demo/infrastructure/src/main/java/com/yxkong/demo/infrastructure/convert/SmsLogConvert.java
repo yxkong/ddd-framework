@@ -21,6 +21,7 @@ public class SmsLogConvert {
         sms.setRequestIp(context.getRequestIp());
         sms.setSmsContent(context.getMessage());
         sms.setSmsType("1");
+        sms.setSendStatus(1);
         sms.setTenantId(context.getUser().getTenantEnum().getTenantId());
         sms.setSendTime(new Date());
         sms.setVerifyCode(context.getVerifyCode());
