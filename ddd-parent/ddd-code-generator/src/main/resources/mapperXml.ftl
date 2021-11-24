@@ -18,7 +18,7 @@
 		${deleteSql}
 	</delete>
 	
-	<insert id="insertSelective" parameterType="${resultType}">
+	<insert id="insertSelective" useGeneratedKeys="true"  keyProperty="id" parameterType="${resultType}">
 		${insertSql}
 	</insert>
 	
