@@ -38,6 +38,7 @@ public class SmsController {
         LoginTokenUtil.reloadTenantId(smsCmd.getTenantId());
         String requestIp = WebUtil.getIpAddress(request);
         SlidingBlockContext context = new SlidingBlockContext(smsCmd.getTenantId(),smsCmd.getMobile(), smsCmd.getSlidingBlockId(), smsCmd.getSlidingBlockSupplier(),requestIp);
+        context.setProId(smsCmd.getProId());
         return smsExecutor.sendBySlidingBlock(context);
     }
 }

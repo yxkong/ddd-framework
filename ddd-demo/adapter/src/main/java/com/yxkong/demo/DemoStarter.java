@@ -36,9 +36,9 @@ public class DemoStarter {
         // ApplicationArguments 参数获取形如：--name=zhangsan --gender=nan 格式的命令行参数
         return args -> {
             log.info("Engine started...");
-            // for(String argKey : args.getOptionNames()) {
-            //     log.info("参数key: " + argKey+"，参数值：" + args.getOptionValues(argKey));
-            // }
+             for(String argKey : args.getOptionNames()) {
+                 log.info("参数key: " + argKey+"，参数值：" + args.getOptionValues(argKey));
+             }
         };
     }
 }

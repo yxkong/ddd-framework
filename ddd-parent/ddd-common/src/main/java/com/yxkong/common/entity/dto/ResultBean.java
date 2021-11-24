@@ -114,7 +114,12 @@ public class ResultBean<T> implements Serializable {
 			this.init(ResultStatusEnum.ERROR);
 			return this;
 		}
-
+		public Builder<T> fail(String message,T data) {
+			this.init(ResultStatusEnum.ERROR);
+			this.data = data;
+			this.message = message;
+			return this;
+		}
 		public Builder<T> fail(T data) {
 			this.init(ResultStatusEnum.ERROR);
 			this.data = data;
@@ -124,6 +129,12 @@ public class ResultBean<T> implements Serializable {
 		public Builder<T> success(T data) {
 			this.init(ResultStatusEnum.SUCCESS);
 			this.data = data;
+			return this;
+		}
+		public Builder<T> success(String message,T data) {
+			this.init(ResultStatusEnum.SUCCESS);
+			this.data = data;
+			this.message = message;
 			return this;
 		}
 

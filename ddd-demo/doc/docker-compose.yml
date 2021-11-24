@@ -33,8 +33,9 @@ services:
       KAFKA_NUM_PARTITIONS: 2
     volumes:
       - "/etc/localtime:/etc/localtime"
-      - "/Users/yxk/docker/kafka/docker.sock:/var/run/docker.sock"
-      - "/Users/yxk/docker/kafka/data:/kafka"   # kafka数据
+#      - "/Users/yxk/docker/kafka/docker.sock:/var/run/docker.sock"
+#      - "/Users/yxk/docker/kafka/data:/kafka"   # kafka数据
+#      - "/Users/yxk/docker/kafka/logs:/tmp/kafka-logs"
     depends_on:
       - zookeeper
   kafka-manager:

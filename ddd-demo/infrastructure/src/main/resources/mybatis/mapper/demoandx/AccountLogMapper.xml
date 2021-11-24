@@ -38,7 +38,7 @@
  		  where id = #{ id }
 	</delete>
 	
-	<insert id="insertSelective" parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.AccountLogDO">
+	<insert id="insertSelective" useGeneratedKeys="true"  keyProperty="id"  parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.AccountLogDO">
 		 insert into  t_account_log
  		  <trim prefix="(" suffix=")" suffixOverrides=","> 
  			 <if test="id != null">

@@ -37,7 +37,7 @@ public class ResultBeanUtil {
      * @return
      */
     public static ResultBean success(String msg,Object data){
-        return new ResultBean.Builder().success(data).message(msg).build();
+        return new ResultBean.Builder().success(msg,data).build();
     }
 
     /**
@@ -64,7 +64,7 @@ public class ResultBeanUtil {
      * @return
      */
     public static ResultBean fail(String msg,Object data){
-        return new ResultBean.Builder().message(msg).fail(data).build();
+        return new ResultBean.Builder().fail(msg,data).build();
     }
 
     /**

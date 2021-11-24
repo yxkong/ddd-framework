@@ -5,6 +5,7 @@ import com.yxkong.common.entity.dto.ResultBean;
 import com.yxkong.common.util.ResultBeanUtil;
 import com.yxkong.demo.domain.dto.context.SmsContext;
 import com.yxkong.demo.domain.gateway.SmsGateway;
+import com.yxkong.demo.domain.model.sms.SmsLogId;
 import javafx.util.Pair;
 import lombok.Builder;
 
@@ -33,8 +34,13 @@ public class SmsService {
         if (!pair.getKey()){
             return ResultBeanUtil.fail(pair.getValue(),"");
         }
-        //TODO 短信验证码入库
-        return ResultBeanUtil.success();
+        //短信记录入库
+        SmsLogId smsLogId = smsGateway.saveLog(context);
+        if (smsLogId!=null && smsLogId.getId()!=null){
+            return ResultBeanUtil.success();
+        }
+        return ResultBeanUtil.fail("验证码入库失败！",null);
+
     }
 
     public Boolean verifyCodeCheck(SmsContext context){

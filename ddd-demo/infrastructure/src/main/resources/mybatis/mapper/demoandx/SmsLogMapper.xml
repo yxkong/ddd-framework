@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yxkong.demo.infrastructure.persistence.mapper.demoandx.SmsLogMapper">
+
+	 <resultMap type="com.yxkong.demo.infrastructure.persistence.entity.demo.SmsLogDO" id="BaseResultMap">
+    	 <id column="id" property="id" /> 
+		  <id column="proId" property="proId" /> 
+		  <id column="verifyCode" property="verifyCode" /> 
+		  <id column="mobile" property="mobile" /> 
+		  <id column="smsType" property="smsType" /> 
+		  <id column="sendStatus" property="sendStatus" /> 
+		  <id column="useStatus" property="useStatus" /> 
+		  <id column="smsContent" property="smsContent" /> 
+		  <id column="result" property="result" /> 
+		  <id column="sendTime" property="sendTime" /> 
+		  <id column="updateTime" property="updateTime" /> 
+		  <id column="requestIp" property="requestIp" /> 
+		  <id column="tenantId" property="tenantId" /> 
+  
+    </resultMap>
+    <sql id="Base_Column_List">
+    	 t.id as id ,
+ 		 t.proId as proId ,
+ 		 t.verify_code as verifyCode ,
+ 		 t.mobile as mobile ,
+ 		 t.sms_type as smsType ,
+ 		 t.send_status as sendStatus ,
+ 		 t.use_status as useStatus ,
+ 		 t.sms_content as smsContent ,
+ 		 t.result as result ,
+ 		 t.send_time as sendTime ,
+ 		 t.update_time as updateTime ,
+ 		 t.request_ip as requestIp ,
+ 		 t.tenant_id as tenantId
+    </sql>
+    
+    <select id="findById" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from t_sms_log t
+ 		  where t.id = #{ id }
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		 delete 
+ 		  from t_sms_log
+ 		  where id = #{ id }
+	</delete>
+	
+	<insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.SmsLogDO">
+		 insert into  t_sms_log
+ 		  <trim prefix="(" suffix=")" suffixOverrides=","> 
+ 			 <if test="id != null">
+ 				 id,
+ 			  </if>
+ 			 <if test="proId != null">
+ 				 proId,
+ 			  </if>
+ 			 <if test="verifyCode != null">
+ 				 verify_code,
+ 			  </if>
+ 			 <if test="mobile != null">
+ 				 mobile,
+ 			  </if>
+ 			 <if test="smsType != null">
+ 				 sms_type,
+ 			  </if>
+ 			 <if test="sendStatus != null">
+ 				 send_status,
+ 			  </if>
+ 			 <if test="useStatus != null">
+ 				 use_status,
+ 			  </if>
+ 			 <if test="smsContent != null">
+ 				 sms_content,
+ 			  </if>
+ 			 <if test="result != null">
+ 				 result,
+ 			  </if>
+ 			 <if test="sendTime != null">
+ 				 send_time,
+ 			  </if>
+ 			 <if test="updateTime != null">
+ 				 update_time,
+ 			  </if>
+ 			 <if test="requestIp != null">
+ 				 request_ip,
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 tenant_id,
+ 			  </if>
+ 		  </trim>
+ 		  <trim prefix="values (" suffix=")" suffixOverrides="," >
+ 			 <if test="id != null">
+ 				 #{id},
+ 			  </if>
+ 			 <if test="proId != null">
+ 				 #{proId},
+ 			  </if>
+ 			 <if test="verifyCode != null">
+ 				 #{verifyCode},
+ 			  </if>
+ 			 <if test="mobile != null">
+ 				 #{mobile},
+ 			  </if>
+ 			 <if test="smsType != null">
+ 				 #{smsType},
+ 			  </if>
+ 			 <if test="sendStatus != null">
+ 				 #{sendStatus},
+ 			  </if>
+ 			 <if test="useStatus != null">
+ 				 #{useStatus},
+ 			  </if>
+ 			 <if test="smsContent != null">
+ 				 #{smsContent},
+ 			  </if>
+ 			 <if test="result != null">
+ 				 #{result},
+ 			  </if>
+ 			 <if test="sendTime != null">
+ 				 #{sendTime},
+ 			  </if>
+ 			 <if test="updateTime != null">
+ 				 #{updateTime},
+ 			  </if>
+ 			 <if test="requestIp != null">
+ 				 #{requestIp},
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 #{tenantId},
+ 			  </if>
+ 		  </trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.SmsLogDO">
+		 update   t_sms_log
+ 		 <set>
+ 			 <if test="proId != null">
+ 				 proId = #{proId},
+ 			  </if>
+ 			 <if test="verifyCode != null">
+ 				 verify_code = #{verifyCode},
+ 			  </if>
+ 			 <if test="mobile != null">
+ 				 mobile = #{mobile},
+ 			  </if>
+ 			 <if test="smsType != null">
+ 				 sms_type = #{smsType},
+ 			  </if>
+ 			 <if test="sendStatus != null">
+ 				 send_status = #{sendStatus},
+ 			  </if>
+ 			 <if test="useStatus != null">
+ 				 use_status = #{useStatus},
+ 			  </if>
+ 			 <if test="smsContent != null">
+ 				 sms_content = #{smsContent},
+ 			  </if>
+ 			 <if test="result != null">
+ 				 result = #{result},
+ 			  </if>
+ 			 <if test="sendTime != null">
+ 				 send_time = #{sendTime},
+ 			  </if>
+ 			 <if test="updateTime != null">
+ 				 update_time = #{updateTime},
+ 			  </if>
+ 			 <if test="requestIp != null">
+ 				 request_ip = #{requestIp},
+ 			  </if>
+ 			 <if test="tenantId != null">
+ 				 tenant_id = #{tenantId},
+ 			  </if>
+ 		 </set>
+     where id = #{id}
+	</update>
+	
+	 <select id="getList" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from t_sms_log t
+ 		  where 1=1 
+ 		 <if test="id != null">
+ 			 and t.id = #{id}
+ 		  </if>
+ 		 <if test="proId != null">
+ 			 and t.proId = #{proId}
+ 		  </if>
+ 		 <if test="verifyCode != null">
+ 			 and t.verify_code = #{verifyCode}
+ 		  </if>
+ 		 <if test="mobile != null">
+ 			 and t.mobile = #{mobile}
+ 		  </if>
+ 		 <if test="smsType != null">
+ 			 and t.sms_type = #{smsType}
+ 		  </if>
+ 		 <if test="sendStatus != null">
+ 			 and t.send_status = #{sendStatus}
+ 		  </if>
+ 		 <if test="useStatus != null">
+ 			 and t.use_status = #{useStatus}
+ 		  </if>
+ 		 <if test="smsContent != null">
+ 			 and t.sms_content = #{smsContent}
+ 		  </if>
+ 		 <if test="result != null">
+ 			 and t.result = #{result}
+ 		  </if>
+ 		 <if test="sendTime != null">
+ 			 and t.send_time = #{sendTime}
+ 		  </if>
+ 		 <if test="updateTime != null">
+ 			 and t.update_time = #{updateTime}
+ 		  </if>
+ 		 <if test="requestIp != null">
+ 			 and t.request_ip = #{requestIp}
+ 		  </if>
+ 		 <if test="tenantId != null">
+ 			 and t.tenant_id = #{tenantId}
+ 		  </if>
+	</select>
+	 <select id="getListCount" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		 select 
+ 		  count(t.id)
+ 		  from t_sms_log t
+ 		  where 1=1 
+ 		 <if test="id != null">
+ 			 and t.id = #{id}
+ 		  </if>
+ 		 <if test="proId != null">
+ 			 and t.proId = #{proId}
+ 		  </if>
+ 		 <if test="verifyCode != null">
+ 			 and t.verify_code = #{verifyCode}
+ 		  </if>
+ 		 <if test="mobile != null">
+ 			 and t.mobile = #{mobile}
+ 		  </if>
+ 		 <if test="smsType != null">
+ 			 and t.sms_type = #{smsType}
+ 		  </if>
+ 		 <if test="sendStatus != null">
+ 			 and t.send_status = #{sendStatus}
+ 		  </if>
+ 		 <if test="useStatus != null">
+ 			 and t.use_status = #{useStatus}
+ 		  </if>
+ 		 <if test="smsContent != null">
+ 			 and t.sms_content = #{smsContent}
+ 		  </if>
+ 		 <if test="result != null">
+ 			 and t.result = #{result}
+ 		  </if>
+ 		 <if test="sendTime != null">
+ 			 and t.send_time = #{sendTime}
+ 		  </if>
+ 		 <if test="updateTime != null">
+ 			 and t.update_time = #{updateTime}
+ 		  </if>
+ 		 <if test="requestIp != null">
+ 			 and t.request_ip = #{requestIp}
+ 		  </if>
+ 		 <if test="tenantId != null">
+ 			 and t.tenant_id = #{tenantId}
+ 		  </if>
+	</select>
+</mapper>

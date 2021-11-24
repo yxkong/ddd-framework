@@ -34,7 +34,7 @@
  		  where id = #{ id }
 	</delete>
 	
-	<insert id="insertSelective" parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.UnionAccountDO">
+	<insert id="insertSelective" useGeneratedKeys="true"  keyProperty="id"  parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.UnionAccountDO">
 		 insert into  t_union_account
  		  <trim prefix="(" suffix=")" suffixOverrides=","> 
  			 <if test="id != null">

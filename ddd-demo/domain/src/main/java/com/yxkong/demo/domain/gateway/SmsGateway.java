@@ -1,6 +1,8 @@
 package com.yxkong.demo.domain.gateway;
 
 import com.yxkong.common.entity.dto.ResultBean;
+import com.yxkong.demo.domain.dto.context.SmsContext;
+import com.yxkong.demo.domain.model.sms.SmsLogId;
 import com.yxkong.demo.domain.model.user.UserObject;
 import javafx.util.Pair;
 
@@ -20,6 +22,14 @@ public interface SmsGateway {
      */
     ResultBean send(UserObject user,String requestIp);
 
+
+    /**
+     * 保存发送记录
+     * @param context
+     * @return
+     */
+    SmsLogId saveLog(SmsContext context);
+
     /**
      * 发送前校验
      * @param user
@@ -27,4 +37,6 @@ public interface SmsGateway {
      * @return
      */
     Pair<Boolean,String> validate(UserObject user, String requestIp);
+
+
 }

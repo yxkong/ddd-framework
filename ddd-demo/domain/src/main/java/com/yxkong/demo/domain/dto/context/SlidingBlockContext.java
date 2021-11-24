@@ -19,6 +19,7 @@ public class SlidingBlockContext {
     private UserObject user;
     private String validate;
     private String requestIp;
+    private String proId;
     public  SlidingBlockContext(Integer tenantId,String mobile,String slidingBlockId,String slidingBlockSupplier,String requestIp){
         TenantEnum tenantEnum = TenantEnum.get(tenantId);
         this.slidingBlock = new SlidingBlock(tenantEnum,slidingBlockId,slidingBlockSupplier);
@@ -32,5 +33,9 @@ public class SlidingBlockContext {
      */
     public void setValidate(String validate) {
         this.validate = validate;
+    }
+
+    public void setProId(String proId) {
+        this.proId = proId;
     }
 }

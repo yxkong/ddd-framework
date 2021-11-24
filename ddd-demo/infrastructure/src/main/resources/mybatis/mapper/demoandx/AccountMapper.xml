@@ -49,7 +49,7 @@
  		  where id = #{ id }
 	</delete>
 	
-	<insert id="insertSelective" parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.AccountDO">
+	<insert id="insertSelective" useGeneratedKeys="true"  keyProperty="id"  parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.AccountDO">
 		 insert into  t_account
  		  <trim prefix="(" suffix=")" suffixOverrides=","> 
  			 <if test="id != null">

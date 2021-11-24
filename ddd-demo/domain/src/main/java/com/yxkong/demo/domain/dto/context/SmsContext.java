@@ -16,6 +16,7 @@ public class SmsContext {
     private String requestIp;
     private String verifyCode;
     private String message;
+    private String proId;
 
     public SmsContext(UserObject user, String requestIp,String verifyCode) {
         this.user = user;
@@ -25,5 +26,9 @@ public class SmsContext {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public void setProId(String proId) {
+        this.proId = proId;
     }
 }

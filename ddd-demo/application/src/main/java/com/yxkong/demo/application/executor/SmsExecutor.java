@@ -72,6 +72,7 @@ public class SmsExecutor {
             SmsService smsService = SmsService.builder().smsGateway(smsGateway).build();
             SmsContext smsContext = new SmsContext(context.getUser(),context.getRequestIp(),verifyCode);
             smsContext.setMessage(message);
+            smsContext.setProId(context.getProId());
             resultBean = smsService.registerSend(smsContext);
             //以下异步操作
             if (resultBean.isSucc()){
