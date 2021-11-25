@@ -8,8 +8,8 @@
 		  <id column="bizType" property="bizType" /> 
 		  <id column="env" property="env" /> 
 		  <id column="proId" property="proId" /> 
-		  <id column="request_ip" property="requestIp" />
-		  <id column="tenantId" property="tenantId" />
+		  <id column="requestIp" property="requestIp" /> 
+		  <id column="tenantId" property="tenantId" /> 
 		  <id column="createTime" property="createTime" /> 
   
     </resultMap>
@@ -19,7 +19,7 @@
  		 t.biz_type as bizType ,
  		 t.env as env ,
  		 t.proId as proId ,
-		 t.request_ip as requestIp,
+ 		 t.request_ip as requestIp ,
  		 t.tenant_id as tenantId ,
  		 t.create_time as createTime
     </sql>
@@ -38,7 +38,7 @@
  		  where id = #{ id }
 	</delete>
 	
-	<insert id="insertSelective" useGeneratedKeys="true"  keyProperty="id"  parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.AccountLogDO">
+	<insert id="insertSelective" useGeneratedKeys="true"  keyProperty="id" parameterType="com.yxkong.demo.infrastructure.persistence.entity.demo.AccountLogDO">
 		 insert into  t_account_log
  		  <trim prefix="(" suffix=")" suffixOverrides=","> 
  			 <if test="id != null">
@@ -56,9 +56,9 @@
  			 <if test="proId != null">
  				 proId,
  			  </if>
-			  <if test="requestIp != null">
-				  requestIp,
-			  </if>
+ 			 <if test="requestIp != null">
+ 				 request_ip,
+ 			  </if>
  			 <if test="tenantId != null">
  				 tenant_id,
  			  </if>
@@ -82,7 +82,7 @@
  			 <if test="proId != null">
  				 #{proId},
  			  </if>
-			  <if test="requestIp != null">
+ 			 <if test="requestIp != null">
  				 #{requestIp},
  			  </if>
  			 <if test="tenantId != null">
@@ -109,8 +109,8 @@
  			 <if test="proId != null">
  				 proId = #{proId},
  			  </if>
-			 <if test="requestIp != null">
-				 requestIp = #{requestIp},
+ 			 <if test="requestIp != null">
+ 				 request_ip = #{requestIp},
  			  </if>
  			 <if test="tenantId != null">
  				 tenant_id = #{tenantId},
@@ -143,8 +143,8 @@
  		 <if test="proId != null">
  			 and t.proId = #{proId}
  		  </if>
-		 <if test="requestIp != null">
- 			 and t.requestIp = #{requestIp}
+ 		 <if test="requestIp != null">
+ 			 and t.request_ip = #{requestIp}
  		  </if>
  		 <if test="tenantId != null">
  			 and t.tenant_id = #{tenantId}
@@ -174,8 +174,8 @@
  		 <if test="proId != null">
  			 and t.proId = #{proId}
  		  </if>
-		 <if test="requestIp != null">
- 			 and t.requestIp = #{requestIp}
+ 		 <if test="requestIp != null">
+ 			 and t.request_ip = #{requestIp}
  		  </if>
  		 <if test="tenantId != null">
  			 and t.tenant_id = #{tenantId}

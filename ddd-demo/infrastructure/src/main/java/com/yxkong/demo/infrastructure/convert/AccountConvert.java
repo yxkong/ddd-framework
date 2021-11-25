@@ -30,6 +30,7 @@ public class AccountConvert {
         accountDO.setSalt(context.getSalt());
         accountDO.setStatus(context.getStatus());
         accountDO.setUuid(context.getUuid());
+        accountDO.setStatus(AccountStatusEnum.ON.getStatus());
         accountDO.setCreateTime(date);
         accountDO.setUpdatedTime(date);
         return accountDO;

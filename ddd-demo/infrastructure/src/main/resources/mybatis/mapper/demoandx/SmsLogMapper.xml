@@ -41,7 +41,12 @@
  		  from t_sms_log t
  		  where t.id = #{ id }
 	</select>
-
+	<select id="findByMobile" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />
+		from t_sms_log t
+		where t.mobile = #{ mobile } and  t.sms_type =#{smsType} order by id desc limit 1
+	</select>
 	<delete id="deleteById" parameterType="java.lang.Long">
 		 delete 
  		  from t_sms_log
@@ -176,8 +181,11 @@
  		 </set>
      where id = #{id}
 	</update>
-	
-	 <select id="getList" resultMap="BaseResultMap"
+	<update id="updateByMobile">
+		update   t_sms_log set use_status =1  where mobile = #{mobile} and  sms_type = #{smsType} and verify_code = #{verifyCode}
+	</update>
+
+	<select id="getList" resultMap="BaseResultMap"
 		parameterType="java.util.Map">
 		 select 
  		  <include refid="Base_Column_List" />

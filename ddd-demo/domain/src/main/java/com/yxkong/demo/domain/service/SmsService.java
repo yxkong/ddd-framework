@@ -6,6 +6,7 @@ import com.yxkong.common.util.ResultBeanUtil;
 import com.yxkong.demo.domain.dto.context.SmsContext;
 import com.yxkong.demo.domain.gateway.SmsGateway;
 import com.yxkong.demo.domain.model.sms.SmsLogId;
+import com.yxkong.demo.domain.model.user.UserObject;
 import javafx.util.Pair;
 import lombok.Builder;
 
@@ -30,7 +31,7 @@ public class SmsService {
          * 同一ip，一天最多只能发送20条，反欺诈
          * 用redis的zset实现
          */
-        Pair<Boolean,String> pair = smsGateway.validate(context.getUser(),context.getRequestIp());
+        Pair<Boolean,String> pair = smsGateway.beforeValidate(context.getUser(),context.getRequestIp());
         if (!pair.getKey()){
             return ResultBeanUtil.fail(pair.getValue(),"");
         }
@@ -43,11 +44,15 @@ public class SmsService {
 
     }
 
-    public Boolean verifyCodeCheck(SmsContext context){
+    public ResultBean verifyCodeCheck(UserObject user,String verifyCode,Integer smsType){
         /**
          * 是否有效
          * 3次验证还未成功，验证码立即失效
          */
-        return true;
+        Pair<Boolean,String> pair = smsGateway.verifyCodeCheck(user,verifyCode,smsType);
+        if (!pair.getKey()){
+            return ResultBeanUtil.fail(pair.getValue(),null);
+        }
+        return ResultBeanUtil.success();
     }
 }

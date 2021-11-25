@@ -20,7 +20,7 @@ import java.util.Objects;
  */
 @DomainService
 @Builder
-public class RegisterService {
+public class AccountService {
 
 
 

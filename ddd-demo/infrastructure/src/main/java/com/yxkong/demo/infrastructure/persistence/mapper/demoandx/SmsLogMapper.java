@@ -3,6 +3,8 @@ package com.yxkong.demo.infrastructure.persistence.mapper.demoandx;
 import com.yxkong.demo.infrastructure.persistence.entity.demo.SmsLogDO;
 import java.util.Map;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 /**
  *
@@ -30,6 +32,23 @@ public interface SmsLogMapper  {
 	 * @return
 	 */
 	SmsLogDO findById(Long id);
+
+	/**
+	 * 根据手机号和指定类型查询验证码
+	 * @param mobile
+	 * @param smsType
+	 * @return
+	 */
+	SmsLogDO findByMobile(@Param("mobile") String mobile,@Param("smsType") Integer smsType);
+
+	/**
+	 * 更新对应类型的验证码
+	 * @param mobile
+	 * @param smsType
+	 * @param verifyCode
+	 * @return
+	 */
+	int updateByMobile(@Param("mobile") String mobile,@Param("smsType") Integer smsType,@Param("verifyCode") String verifyCode);
 	/**
 	 * 通过主键id 更新实体
 	 * @param record
@@ -54,5 +73,6 @@ public interface SmsLogMapper  {
 	 * @return int
 	 */
 	int getListCount(Map<String,Object> params);
+
 
 }

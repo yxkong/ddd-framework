@@ -40,7 +40,7 @@ swagger:
 
 spring:
   profiles:
-    active: dev
+    active: office
   application:
     name: ddd-demo
   main:

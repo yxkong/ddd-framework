@@ -36,7 +36,21 @@ public interface SmsGateway {
      * @param requestIp
      * @return
      */
-    Pair<Boolean,String> validate(UserObject user, String requestIp);
+    Pair<Boolean,String> beforeValidate(UserObject user, String requestIp);
 
 
+    /**
+     * 验证验校验
+     * @param user
+     * @param verifyCode
+     * @return
+     */
+    Pair<Boolean, String> verifyCodeCheck(UserObject user, String verifyCode,Integer smsType);
+
+    /**
+     * 更新验证码使用状态
+     * @param user
+     * @param verifyCode
+     */
+    void useStatus(UserObject user, String verifyCode,Integer smsType);
 }

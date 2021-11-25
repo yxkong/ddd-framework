@@ -5,7 +5,7 @@ import com.yxkong.demo.adapter.api.command.account.RegisterWithPwdCmd;
 import com.yxkong.demo.adapter.api.command.account.RegisterWithoutPwdCmd;
 import com.yxkong.demo.adapter.api.convert.RegisterFactory;
 import com.yxkong.demo.application.context.account.RegisterAppContext;
-import com.yxkong.demo.application.executor.RegisterExecutor;
+import com.yxkong.demo.application.executor.AccountExecutor;
 import com.yxkong.demo.infrastructure.common.util.LoginTokenUtil;
 import io.swagger.annotations.*;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 用户注册
+ * 用户接口
  *
  * @Author: yxkong
  * @Date: 2021/11/15 11:06 AM
@@ -26,11 +26,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(tags = "注册demo")
 @RestController
-@RequestMapping("/demo/register")
-public class RegisterController {
+@RequestMapping("/demo/account")
+public class AccountController {
 
     @Resource
-    private RegisterExecutor executor;
+    private AccountExecutor executor;
 
     @ApiOperation(value = "无密码注册接口")
     @ApiResponses({@ApiResponse(code = 1, message = "")})

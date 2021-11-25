@@ -6,6 +6,7 @@ import com.yxkong.demo.domain.gateway.SmsGateway;
 import com.yxkong.demo.domain.model.sms.SmsLogId;
 import com.yxkong.demo.domain.model.user.UserObject;
 import com.yxkong.demo.infrastructure.common.util.CacheUtils;
+import com.yxkong.demo.infrastructure.common.util.DateUtils;
 import com.yxkong.demo.infrastructure.convert.SmsLogConvert;
 import com.yxkong.demo.infrastructure.persistence.entity.demo.SmsLogDO;
 import com.yxkong.demo.infrastructure.persistence.mapper.demoandx.SmsLogMapper;
@@ -15,7 +16,9 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -47,7 +50,7 @@ public class SmsGatewayImpl implements SmsGateway {
     }
 
     @Override
-    public Pair<Boolean,String> validate(UserObject user, String requestIp) {
+    public Pair<Boolean,String> beforeValidate(UserObject user, String requestIp) {
         /**
          * 同一手机号，1分钟只发1条
          * 同一手机号，3分钟内验证码相同
@@ -83,6 +86,41 @@ public class SmsGatewayImpl implements SmsGateway {
         redisTemplate.expire(ipKey,preMinute, TimeUnit.MINUTES);
         return new Pair<>(true,"校验通过！");
     }
+
+    @Override
+    public Pair<Boolean, String> verifyCodeCheck(UserObject user, String verifyCode,Integer smsType) {
+        SmsLogDO smsLog = smsLogMapper.findByMobile(user.getMobile(),smsType);
+        if (Objects.nonNull(smsLog) ){
+            //TODO 判断是否3分钟内的验证码
+            Date sendTime = smsLog.getSendTime();
+            Date date = DateUtils.addMinutes(sendTime, 3);
+            int i = DateUtils.compareDateWithNow(date);
+            if (i<0){
+                return new Pair<>(false,"验证码已失效！");
+            }
+            //判断验证码是否相等
+            if ( smsLog.getVerifyCode().equals(verifyCode)){
+                return new Pair<>(true,"验证码校验通过！");
+            }
+
+        }
+        //这里的不正确，可能是用户刷接口，所以只校验最后一条
+        return new Pair<>(false,"验证码不正确！");
+    }
+
+    @Override
+    public void useStatus(UserObject user, String verifyCode,Integer smsType) {
+        //原则上到这一步，一定是对应类型的验证码
+        smsLogMapper.updateByMobile(user.getMobile(),smsType,verifyCode);
+    }
+
+    /**
+     * 单位时间内多少用户访问了
+     * @param set zset保存的内容一定要是时间戳
+     * @param count
+     * @param minute
+     * @return
+     */
     private boolean count(Set set,int count,int minute){
         double score = getScore(minute);
 //        long num = 0;
@@ -100,6 +138,12 @@ public class SmsGatewayImpl implements SmsGateway {
         }
         return false;
     }
+
+    /**
+     * 获取多少分钟之前的时间戳
+     * @param minute
+     * @return
+     */
     private long getScore(int minute){
         return System.currentTimeMillis()-minute*60*1000;
     }

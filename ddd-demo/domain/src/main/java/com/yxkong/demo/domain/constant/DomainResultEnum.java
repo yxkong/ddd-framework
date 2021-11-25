@@ -10,7 +10,9 @@ import com.yxkong.common.exception.BaseResult;
  * @version: 1.0
  */
 public enum DomainResultEnum implements BaseResult {
-    REGISTERED("2001","您已注册，请登录！")
+    //这个比较特殊，主要是为了屏蔽后端信息
+    REGISTERED("1","您已注册，请登录！"),
+    REGISTERFAIL("2002","注册异常，请稍后再试！")
     ;
 
     DomainResultEnum(String status, String message) {
