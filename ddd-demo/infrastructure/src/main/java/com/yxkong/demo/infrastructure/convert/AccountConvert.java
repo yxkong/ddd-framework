@@ -62,7 +62,7 @@ public class AccountConvert {
     }
 
     public static LoginToken token(String token,AccountEntity entity,Integer loginType,String proId) {
-        LoginToken loginToken = new LoginToken(token,entity.getUser().getMobile(),entity.getAccountId().getId(),entity.getAccountId().getUuid(),entity.getAccountId().getTenant());
+        LoginToken loginToken = new LoginToken(token,entity.getUser().getMobile(),entity.getAccountId().getId(),entity.getAccountId().getUuid(),entity.getAccountId().getTenant().getTenantId());
         loginToken.setLoginTime(DateUtils.getNowTime());
         loginToken.setLoginType(loginType);
         loginToken.setProId(entity.getProId());

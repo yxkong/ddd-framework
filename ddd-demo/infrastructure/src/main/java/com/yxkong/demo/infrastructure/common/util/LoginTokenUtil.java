@@ -21,8 +21,8 @@ public class LoginTokenUtil {
     }
     public static Integer getTenantId() {
         LoginToken loginToken= getLoginToken();
-        if (Objects.nonNull(loginToken) && loginToken.getTenant()!= null) {
-            return loginToken.getTenant().getTenantId();
+        if (Objects.nonNull(loginToken) && loginToken.getTenantId()!= null) {
+            return loginToken.getTenantId();
         }
         // 返回一个默认的
         return TenantEnum.getDefault().getTenantId();
@@ -35,7 +35,7 @@ public class LoginTokenUtil {
     public static void reloadTenantId(Integer tenantId) {
         SecurityContextHolder.clearContext();
         LoginToken loginToken = new LoginToken();
-        loginToken.setTenant(TenantEnum.get(tenantId));
+        loginToken.setTenantId(tenantId);
         SecurityContextHolder.setContext(new SecurityContextImpl(loginToken));
     }
 
@@ -72,5 +72,14 @@ public class LoginTokenUtil {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 获取redis的key
+     * @param token
+     * @return
+     */
+    public static String getKey(String token){
+        return "userApi:token:"+token;
     }
 }

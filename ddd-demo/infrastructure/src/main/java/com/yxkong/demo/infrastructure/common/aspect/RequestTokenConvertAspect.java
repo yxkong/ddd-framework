@@ -4,6 +4,7 @@ import com.yxkong.common.constant.TenantEnum;
 import com.yxkong.demo.infrastructure.common.constant.HeaderConstant;
 import com.yxkong.demo.infrastructure.common.plugin.token.SecurityContextHolder;
 import com.yxkong.demo.infrastructure.common.util.JsonUtils;
+import com.yxkong.demo.infrastructure.common.util.LoginTokenUtil;
 import com.yxkong.demo.infrastructure.common.util.WebUtil;
 import com.yxkong.common.entity.common.LoginToken;
 import com.yxkong.common.entity.dto.ResultBean;
@@ -16,8 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -29,10 +32,10 @@ import java.util.Objects;
 public class RequestTokenConvertAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(RequestTokenConvertAspect.class);
-    //@Autowired
-    //private UserApiService userApiService;
     @Autowired
     private HttpServletRequest httpRequest;
+    @Resource(name = "stringRedisTemplate")
+    private StringRedisTemplate redisTemplate;
 
     @Around("execution(* com.yxkong..controller.*.*(..))")
     public Object around(ProceedingJoinPoint jp) throws Throwable {
@@ -42,15 +45,20 @@ public class RequestTokenConvertAspect {
         try {
             /**  将loginToken 放入到本地线程里  **/
             String loginStr = getLoginInfoString();
+            String token = getToken();
             SecurityContextHolder.clearContext();
             if (StringUtils.isNotBlank(loginStr)) {
                 loginToken = JsonUtils.fromJson(loginStr, LoginToken.class);
-            } else {
+            } else if(Objects.nonNull(token) && "".equals(token)) {
+                loginStr = redisTemplate.opsForValue().get(LoginTokenUtil.getKey(token));
+                loginToken =  JsonUtils.fromJson(loginStr, LoginToken.class);
+            }else {
                 loginToken = new LoginToken();
+                loginToken.setToken(getToken());
+                loginToken.setProId(getProId());
+                initTenantId(loginToken);
             }
-            loginToken.setToken(getToken());
-            loginToken.setProId(getProId());
-            initTenantId(loginToken);
+
             SecurityContextHolder.setLoginToken(loginToken);
             return jp.proceed(jp.getArgs());
         } catch (Exception e) {
@@ -75,8 +83,8 @@ public class RequestTokenConvertAspect {
 
     private void initTenantId(LoginToken loginToken) {
         String tenantId = httpRequest.getHeader(HeaderConstant.TENANT_ID);
-        if (Objects.isNull(loginToken.getTenant()) && Objects.nonNull(tenantId) && NumberUtils.isCreatable(tenantId)) {
-            loginToken.setTenant(TenantEnum.get(Integer.parseInt(tenantId)));
+        if (Objects.isNull(loginToken.getTenantId()) && Objects.nonNull(tenantId) && NumberUtils.isCreatable(tenantId)) {
+            loginToken.setTenantId(Integer.parseInt(tenantId));
         }
     }
 

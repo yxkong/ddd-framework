@@ -2,10 +2,13 @@ package com.yxkong.demo.domain.gateway;
 
 import com.yxkong.common.constant.TenantEnum;
 import com.yxkong.common.entity.common.LoginToken;
+import com.yxkong.common.entity.dto.ResultBean;
 import com.yxkong.demo.domain.dto.context.RegisterContext;
 import com.yxkong.demo.domain.model.user.AccountEntity;
 import com.yxkong.demo.domain.model.user.AccountId;
 import com.yxkong.demo.domain.model.user.UserObject;
+
+import java.util.List;
 
 /**
  * 注册网关
@@ -51,6 +54,10 @@ public interface AccountGateway {
     LoginToken generatorToken(AccountEntity entity,Integer loginType,String proId);
 
 
-
-
+    /**
+     * 获取accountLog
+     * @param uuid
+     * @return
+     */
+    ResultBean accountLog(Long uuid);
 }

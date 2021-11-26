@@ -1,4 +1,4 @@
-package com.yxkong.demo.infrastructure.event;
+package com.yxkong.demo.infrastructure.service;
 
 import com.yxkong.demo.infrastructure.common.util.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import javax.annotation.Resource;
@@ -15,15 +16,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * DomainEventPublisher, this is for archetype purpose, the Event is sent to EventBus
- * <p>
- * Normally DomainEvent should be sent to Messaging Middleware
- *
- * @author Frank Zhang
- * @date 2019-01-04 11:05 AM
+ * 事件发送
+ * @Author: yxkong
+ * @Date: 2021/11/26 5:37 PM
+ * @version: 1.0
  */
 @Slf4j
-@Component
+@Service
 public class DomainEventPublisher {
 
     @Autowired
@@ -34,7 +33,6 @@ public class DomainEventPublisher {
 
     public void publish(Object domainEvent) {
         applicationEventPublisher.publishEvent(domainEvent);
-        //eventBus.fire(domainEvent);
     }
 
     public void batchPublishUseListener(List<Object> domainEvents) {

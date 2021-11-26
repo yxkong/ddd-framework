@@ -34,7 +34,7 @@ public class AccountService {
      */
     public ResultBean<AccountEntity> register(RegisterContext context){
         AccountEntity accountEntity = accountGateway.findByMobile(context.getUserObject());
-        if (Objects.isNull(accountEntity)){
+        if (Objects.nonNull(accountEntity)){
             return ResultBeanUtil.result(DomainResultEnum.REGISTERED);
         }
         accountEntity = accountGateway.register(context);

@@ -55,4 +55,5 @@ public interface AccountLogMapper  {
 	 */
 	int getListCount(Map<String,Object> params);
 
+    List<AccountLogDO> findByUuid(Long uuid);
 }

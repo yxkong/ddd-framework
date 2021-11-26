@@ -1,15 +1,15 @@
 package com.yxkong.demo.infrastructure.gatewayimpl.database;
 
 import com.yxkong.common.entity.common.LoginToken;
+import com.yxkong.common.entity.dto.ResultBean;
+import com.yxkong.common.util.ResultBeanUtil;
 import com.yxkong.demo.domain.dto.context.RegisterContext;
 import com.yxkong.demo.domain.gateway.AccountGateway;
 import com.yxkong.demo.domain.model.user.AccountEntity;
 import com.yxkong.demo.domain.model.user.AccountId;
 import com.yxkong.demo.domain.model.user.PwdObject;
 import com.yxkong.demo.domain.model.user.UserObject;
-import com.yxkong.demo.infrastructure.common.util.JsonUtils;
-import com.yxkong.demo.infrastructure.common.util.MD5Utils;
-import com.yxkong.demo.infrastructure.common.util.StringUtils;
+import com.yxkong.demo.infrastructure.common.util.*;
 import com.yxkong.demo.infrastructure.convert.AccountConvert;
 import com.yxkong.demo.infrastructure.persistence.entity.demo.AccountDO;
 import com.yxkong.demo.infrastructure.persistence.entity.demo.AccountLogDO;
@@ -20,7 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 账户网关
@@ -76,7 +78,15 @@ public class AccountGatewayImpl implements AccountGateway {
     public LoginToken generatorToken(AccountEntity entity,Integer loginType,String proId) {
         String token = StringUtils.randomUUIDRmLine();
         LoginToken loginToken = AccountConvert.token(token,entity,loginType,proId);
-        redisTemplate.opsForValue().set(token, JsonUtils.toJson(loginToken));
+        redisTemplate.opsForValue().set(LoginTokenUtil.getKey(token), JsonUtils.toJson(loginToken));
+        redisTemplate.expire(token,7, TimeUnit.DAYS);
+        LoginTokenUtil.reloadLoginToken(loginToken);
         return loginToken;
+    }
+
+    @Override
+    public ResultBean accountLog(Long uuid) {
+        List<AccountLogDO> list =  accountLogMapper.findByUuid(uuid);
+        return ResultBeanUtil.success("",list);
     }
 }

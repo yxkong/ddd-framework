@@ -121,9 +121,14 @@
  		 </set>
      where id = #{id}
 	</update>
-	
+	<select id="findByUuid" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_account_log t
+		where t.uuid =  #{uuid}
+	</select>
 	 <select id="getList" resultMap="BaseResultMap"
-		parameterType="java.util.Map">
+		parameterType="java.util.Map" >
 		 select 
  		  <include refid="Base_Column_List" />
  		  from t_account_log t
@@ -184,4 +189,5 @@
  			 and t.create_time = #{createTime}
  		  </if>
 	</select>
+
 </mapper>

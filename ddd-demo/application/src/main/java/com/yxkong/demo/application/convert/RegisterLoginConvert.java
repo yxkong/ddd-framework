@@ -45,7 +45,7 @@ public class RegisterLoginConvert {
                 .pwd(registerAppContext.getPwd())
                 .build();
         context.setLoginType(0);
-        if (Objects.isNull(context.getPwd())){
+        if (Objects.nonNull(context.getPwd())){
             context.setLoginType(1);
         }
         return context;

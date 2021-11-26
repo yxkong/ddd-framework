@@ -1,6 +1,7 @@
 package com.yxkong.demo.adapter.api.controller;
 
 import com.yxkong.common.entity.dto.ResultBean;
+import com.yxkong.demo.adapter.api.command.account.LonginWithPwdCmd;
 import com.yxkong.demo.adapter.api.command.account.RegisterWithPwdCmd;
 import com.yxkong.demo.adapter.api.command.account.RegisterWithoutPwdCmd;
 import com.yxkong.demo.adapter.api.convert.RegisterFactory;
@@ -59,16 +60,23 @@ public class AccountController {
     public ResultBean loginWithoutPwd(@RequestBody @Validated RegisterWithoutPwdCmd register, HttpServletRequest request) {
         LoginTokenUtil.reloadTenantId(register.getTenantId());
         RegisterAppContext context = RegisterFactory.create(register, request);
-        return executor.loginByPwd(context);
+        return executor.loginWithoutPwd(context);
     }
 
     @ApiOperation(value = "有密码登录接口")
     @ApiResponses({@ApiResponse(code = 1, message = "")})
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", name = "token", value = "用户登录信息（token信息 json格式）", required = true, dataType = "string")})
     @PostMapping(value = "/loginWithPwd")
-    public ResultBean loginWithPwd(@RequestBody @Validated RegisterWithPwdCmd register, HttpServletRequest request) {
-        LoginTokenUtil.reloadTenantId(register.getTenantId());
-        RegisterAppContext context = RegisterFactory.create(register, request);
-        return executor.loginWithoutPwd(context);
+    public ResultBean loginWithPwd(@RequestBody @Validated LonginWithPwdCmd longinWithPwdCmd, HttpServletRequest request) {
+        LoginTokenUtil.reloadTenantId(longinWithPwdCmd.getTenantId());
+        RegisterAppContext context = RegisterFactory.create(longinWithPwdCmd, request);
+        return executor.loginByPwd(context);
+    }
+    @ApiOperation(value = "获取account日志")
+    @ApiResponses({@ApiResponse(code = 1, message = "")})
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", name = "token", value = "用户登录信息（token信息 json格式）", required = true, dataType = "string")})
+    @PostMapping(value = "/accountLog")
+    public ResultBean accountLog() {
+        return executor.accountLog();
     }
 }

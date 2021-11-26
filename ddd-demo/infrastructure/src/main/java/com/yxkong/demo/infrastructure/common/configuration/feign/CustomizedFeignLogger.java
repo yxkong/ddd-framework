@@ -73,7 +73,7 @@ public class CustomizedFeignLogger extends feign.Logger {
         if (logger.isInfoEnabled()) {
             MDC.remove(FEIGN_ID);
             // 增加日志标志
-            MDC.put(FEIGN_ID, StringUtils.randomUUIDSplit());
+            MDC.put(FEIGN_ID, StringUtils.randomUUIDRmLine());
             // 记录请求日志
             StringBuilder loggerStr = new StringBuilder(String.format("feign请求,%s,%s,url:%s;", feignLogType.getKeyWord(), configKey, request.url()));
             if (feignLogType.isHeadersFlag()) {

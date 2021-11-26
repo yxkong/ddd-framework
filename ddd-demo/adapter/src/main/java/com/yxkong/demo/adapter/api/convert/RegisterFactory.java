@@ -1,5 +1,6 @@
 package com.yxkong.demo.adapter.api.convert;
 
+import com.yxkong.demo.adapter.api.command.account.LonginWithPwdCmd;
 import com.yxkong.demo.adapter.api.command.account.RegisterWithPwdCmd;
 import com.yxkong.demo.adapter.api.command.account.RegisterWithoutPwdCmd;
 import com.yxkong.demo.application.context.account.RegisterAppContext;
@@ -25,6 +26,10 @@ public class RegisterFactory {
     public static RegisterAppContext create(RegisterWithoutPwdCmd register, HttpServletRequest request){
         String requestIp = WebUtil.getIpAddress(request);
         return new RegisterAppContext(register.getTenantId(),register.getMobile(),register.getVerifyCode(),requestIp, null,register.getProId(), register.getEnv());
+    }
+    public static RegisterAppContext create(LonginWithPwdCmd register, HttpServletRequest request){
+        String requestIp = WebUtil.getIpAddress(request);
+        return new RegisterAppContext(register.getTenantId(),register.getMobile(),null,requestIp, null,register.getProId(), register.getEnv());
     }
 
     /**
