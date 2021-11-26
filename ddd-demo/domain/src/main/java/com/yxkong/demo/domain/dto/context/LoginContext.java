@@ -6,21 +6,26 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * 注册上下文
+ * 登录上下文
  *
  * @Author: yxkong
- * @Date: 2021/11/15 9:54 PM
+ * @Date: 2021/11/26 2:20 PM
  * @version: 1.0
  */
 @Builder
 @Getter
-public class RegisterContext {
+public class LoginContext {
     private UserObject userObject;
     private String requestIp;
-    private long uuid;
-    private PwdObject pwdObject;
+    private String  pwd;
+    /**
+     * 1密码登录
+     */
+    private Integer loginType;
     private String proId;
     private String env;
-    private Integer status = 1;
 
+    public void setLoginType(Integer loginType) {
+        this.loginType = loginType;
+    }
 }

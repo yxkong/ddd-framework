@@ -42,6 +42,12 @@
 		from t_account t
 		where t.mobile = #{ mobile }
 	</select>
+	<select id="findByUuid" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_account t
+		where t.uuid = #{ uuid }
+	</select>
 
 	<delete id="deleteById" parameterType="java.lang.Long">
 		 delete 
@@ -225,4 +231,5 @@
  			 and t.updated_time = #{updatedTime}
  		  </if>
 	</select>
+
 </mapper>

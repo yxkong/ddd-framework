@@ -91,7 +91,7 @@ public class SmsGatewayImpl implements SmsGateway {
     public Pair<Boolean, String> verifyCodeCheck(UserObject user, String verifyCode,Integer smsType) {
         SmsLogDO smsLog = smsLogMapper.findByMobile(user.getMobile(),smsType);
         if (Objects.nonNull(smsLog) ){
-            //TODO 判断是否3分钟内的验证码
+            // 判断是否3分钟内的验证码
             Date sendTime = smsLog.getSendTime();
             Date date = DateUtils.addMinutes(sendTime, 3);
             int i = DateUtils.compareDateWithNow(date);

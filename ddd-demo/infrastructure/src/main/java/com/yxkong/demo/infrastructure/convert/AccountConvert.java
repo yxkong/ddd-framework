@@ -1,16 +1,20 @@
 package com.yxkong.demo.infrastructure.convert;
 
 import com.yxkong.common.constant.TenantEnum;
+import com.yxkong.common.entity.common.LoginToken;
 import com.yxkong.demo.domain.dto.context.RegisterContext;
 import com.yxkong.demo.domain.model.user.AccountEntity;
 import com.yxkong.demo.domain.model.user.AccountId;
 import com.yxkong.demo.domain.model.user.AccountStatusEnum;
 import com.yxkong.demo.domain.model.user.UserObject;
+import com.yxkong.demo.infrastructure.common.util.DateUtils;
+import com.yxkong.demo.infrastructure.common.util.StringUtils;
 import com.yxkong.demo.infrastructure.persistence.entity.demo.AccountDO;
 import com.yxkong.demo.infrastructure.persistence.entity.demo.AccountLogDO;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * <TODO>
@@ -26,8 +30,8 @@ public class AccountConvert {
 //        BeanUtils.copyProperties(registerContext,accountDO);
         accountDO.setMobile(context.getUserObject().getMobile());
         accountDO.setProId(context.getProId());
-        accountDO.setPwd(context.getPwd());
-        accountDO.setSalt(context.getSalt());
+        accountDO.setPwd(context.getPwdObject().getMd5Pwd());
+        accountDO.setSalt(context.getPwdObject().getSalt());
         accountDO.setStatus(context.getStatus());
         accountDO.setUuid(context.getUuid());
         accountDO.setStatus(AccountStatusEnum.ON.getStatus());
@@ -37,8 +41,14 @@ public class AccountConvert {
     }
 
     public static AccountEntity entity(AccountDO accountDO){
+        if (Objects.isNull(accountDO)){
+            return null;
+        }
         TenantEnum  tenant= TenantEnum.get(accountDO.getTenantId());
-        return new AccountEntity(new AccountId(accountDO.getId(), accountDO.getUuid(), tenant),new UserObject(accountDO.getMobile(),tenant), AccountStatusEnum.get(accountDO.getStatus()),accountDO.getProId());
+        AccountEntity  entity=  new AccountEntity(new AccountId(accountDO.getId(), accountDO.getUuid(), tenant),new UserObject(accountDO.getMobile(),tenant), AccountStatusEnum.get(accountDO.getStatus()),accountDO.getProId());
+        entity.setPwdObject(accountDO.getSalt(),accountDO.getPwd());
+        entity.setRegisterTime(accountDO.getCreateTime());
+        return entity;
     }
     public static AccountLogDO accountLog(RegisterContext context){
         AccountLogDO log = new AccountLogDO();
@@ -49,5 +59,17 @@ public class AccountConvert {
         log.setRequestIp(context.getRequestIp());
         log.setTenantId(context.getUserObject().getTenantEnum().getTenantId());
         return log;
+    }
+
+    public static LoginToken token(String token,AccountEntity entity,Integer loginType,String proId) {
+        LoginToken loginToken = new LoginToken(token,entity.getUser().getMobile(),entity.getAccountId().getId(),entity.getAccountId().getUuid(),entity.getAccountId().getTenant());
+        loginToken.setLoginTime(DateUtils.getNowTime());
+        loginToken.setLoginType(loginType);
+        loginToken.setProId(entity.getProId());
+        loginToken.setLoginProId(proId);
+        loginToken.setToken(token);
+        loginToken.setProId(entity.getProId());
+        loginToken.setRegisterTime(DateUtils.formateDateStr(entity.getRegisterTime()));
+        return loginToken;
     }
 }

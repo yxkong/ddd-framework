@@ -15,13 +15,15 @@ public class SmsContext {
     private UserObject user;
     private String requestIp;
     private String verifyCode;
+    private Integer smsType;
     private String message;
     private String proId;
 
-    public SmsContext(UserObject user, String requestIp,String verifyCode) {
+    public SmsContext(UserObject user, String requestIp,String verifyCode,Integer smsType) {
         this.user = user;
         this.requestIp = requestIp;
         this.verifyCode = verifyCode;
+        this.smsType = smsType;
     }
 
     public void setMessage(String message) {

@@ -12,6 +12,7 @@ import com.yxkong.common.exception.BaseResult;
 public enum DomainResultEnum implements BaseResult {
     //这个比较特殊，主要是为了屏蔽后端信息
     REGISTERED("1","您已注册，请登录！"),
+    LONGINFAIL("2003","您的账户或密码错误，请重新登录！"),
     REGISTERFAIL("2002","注册异常，请稍后再试！")
     ;
 

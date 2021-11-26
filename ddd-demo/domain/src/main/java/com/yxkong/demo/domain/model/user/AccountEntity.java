@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 /**
  * 账户领域对象
  *
@@ -37,5 +39,21 @@ public class AccountEntity {
      * 用户注册渠道
      */
     private String proId;
+    /**
+     * 注册时间
+     */
+    private Date registerTime;
 
+    public void setRegisterTime(Date registerTime) {
+        this.registerTime = registerTime;
+    }
+
+    /**
+     * 密码对象
+     */
+    private PwdObject pwdObject;
+
+    public void setPwdObject(String salt,String md5pwd) {
+        this.pwdObject = new PwdObject(salt,md5pwd);
+    }
 }

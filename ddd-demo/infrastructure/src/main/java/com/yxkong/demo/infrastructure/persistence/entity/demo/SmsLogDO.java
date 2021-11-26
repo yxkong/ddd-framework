@@ -31,9 +31,9 @@ public class SmsLogDO implements Serializable  {
      */
     private String mobile;
     /**
-     * 短信类型，1 注册，2重置登录密码，3重置支付密码，4绑卡
+     * 短信类型，1 注册，2登录密码，3重置登录密码
      */
-    private String smsType;
+    private Integer smsType;
     /**
      * 验证码发送状态，0初始状态，1成功，-1失败,-2系统异常
      */
@@ -116,15 +116,15 @@ public class SmsLogDO implements Serializable  {
         return this.mobile;
     }
 	/**
-	 * 设置短信类型，1 注册，2重置登录密码，3重置支付密码，4绑卡
+	 * 设置短信类型，1 注册，2登录密码，3重置登录密码
 	 */
-    public void setSmsType(String smsType) {
+    public void setSmsType(Integer smsType) {
         this.smsType = smsType;
     }
     /**
-     * 获取短信类型，1 注册，2重置登录密码，3重置支付密码，4绑卡
+     * 获取短信类型，1 注册，2登录密码，3重置登录密码
      */
-    public String getSmsType() {
+    public Integer getSmsType() {
         return this.smsType;
     }
 	/**

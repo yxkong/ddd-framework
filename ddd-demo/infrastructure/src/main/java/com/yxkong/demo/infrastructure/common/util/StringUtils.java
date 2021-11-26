@@ -245,7 +245,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      *
      * @return
      */
-    public static final String randomUUIDSplit() {
+    public static final String randomUUIDRmLine() {
         return randomUUID().replaceAll("-", "");
     }
 

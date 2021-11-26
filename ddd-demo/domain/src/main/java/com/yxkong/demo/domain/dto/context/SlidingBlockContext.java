@@ -20,11 +20,13 @@ public class SlidingBlockContext {
     private String validate;
     private String requestIp;
     private String proId;
-    public  SlidingBlockContext(Integer tenantId,String mobile,String slidingBlockId,String slidingBlockSupplier,String requestIp){
+    private Integer smsType;
+    public  SlidingBlockContext(Integer tenantId,String mobile,String slidingBlockId,String slidingBlockSupplier,String requestIp,Integer smsType){
         TenantEnum tenantEnum = TenantEnum.get(tenantId);
         this.slidingBlock = new SlidingBlock(tenantEnum,slidingBlockId,slidingBlockSupplier);
         this.user = new UserObject(mobile,tenantEnum);
         this.requestIp = requestIp;
+        this.smsType = smsType;
     }
 
     /**

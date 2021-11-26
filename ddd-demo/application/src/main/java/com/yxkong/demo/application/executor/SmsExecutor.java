@@ -70,7 +70,7 @@ public class SmsExecutor {
             String message = String.format("【5ycode】欢迎您，您的注册验证码为：%s，请在3分钟内使用。", verifyCode);
             log.debug(message);
             SmsService smsService = SmsService.builder().smsGateway(smsGateway).build();
-            SmsContext smsContext = new SmsContext(context.getUser(),context.getRequestIp(),verifyCode);
+            SmsContext smsContext = new SmsContext(context.getUser(),context.getRequestIp(),verifyCode,context.getSmsType());
             smsContext.setMessage(message);
             smsContext.setProId(context.getProId());
             resultBean = smsService.registerSend(smsContext);

@@ -7,8 +7,7 @@ import org.springframework.beans.BeanUtils;
 import java.util.Date;
 
 /**
- * <TODO>
- *
+ * smsLog
  * @Author: yxkong
  * @Date: 2021/11/24 11:34 AM
  * @version: 1.0
@@ -20,7 +19,7 @@ public class SmsLogConvert {
         sms.setMobile(context.getUser().getMobile());
         sms.setRequestIp(context.getRequestIp());
         sms.setSmsContent(context.getMessage());
-        sms.setSmsType("1");
+        sms.setSmsType(context.getSmsType());
         sms.setSendStatus(1);
         sms.setTenantId(context.getUser().getTenantEnum().getTenantId());
         sms.setSendTime(new Date());

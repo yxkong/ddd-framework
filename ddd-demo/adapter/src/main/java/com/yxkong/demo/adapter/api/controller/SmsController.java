@@ -37,7 +37,7 @@ public class SmsController {
     public ResultBean sendBySlidingBlock(@RequestBody @Validated SmsBySlidingBlockCmd smsCmd, HttpServletRequest request) {
         LoginTokenUtil.reloadTenantId(smsCmd.getTenantId());
         String requestIp = WebUtil.getIpAddress(request);
-        SlidingBlockContext context = new SlidingBlockContext(smsCmd.getTenantId(),smsCmd.getMobile(), smsCmd.getSlidingBlockId(), smsCmd.getSlidingBlockSupplier(),requestIp);
+        SlidingBlockContext context = new SlidingBlockContext(smsCmd.getTenantId(),smsCmd.getMobile(), smsCmd.getSlidingBlockId(), smsCmd.getSlidingBlockSupplier(),requestIp,smsCmd.getSmsType());
         context.setProId(smsCmd.getProId());
         return smsExecutor.sendBySlidingBlock(context);
     }

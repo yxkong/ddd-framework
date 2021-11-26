@@ -1,15 +1,18 @@
 package com.yxkong.demo.application.executor;
 
 import com.yxkong.common.constant.ResultStatusEnum;
+import com.yxkong.common.entity.common.LoginToken;
 import com.yxkong.common.entity.dto.ResultBean;
 import com.yxkong.common.exception.DomainException;
 import com.yxkong.common.util.ResultBeanUtil;
 import com.yxkong.demo.application.context.account.RegisterAppContext;
-import com.yxkong.demo.application.convert.RegisterConvert;
+import com.yxkong.demo.application.convert.RegisterLoginConvert;
+import com.yxkong.demo.domain.dto.context.LoginContext;
 import com.yxkong.demo.domain.dto.context.RegisterContext;
 import com.yxkong.demo.domain.dto.context.SmsContext;
-import com.yxkong.demo.domain.gateway.RegisterGateway;
+import com.yxkong.demo.domain.gateway.AccountGateway;
 import com.yxkong.demo.domain.gateway.SmsGateway;
+import com.yxkong.demo.domain.model.user.AccountEntity;
 import com.yxkong.demo.domain.service.AccountService;
 import com.yxkong.demo.domain.service.SmsService;
 import com.yxkong.demo.infrastructure.common.util.CommonUtil;
@@ -21,7 +24,6 @@ import org.redisson.api.RLock;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -35,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class AccountExecutor {
     @Resource
-    private RegisterGateway registerGateway;
+    private AccountGateway accountGateway;
     @Resource
     private SmsGateway smsGateway;
     @Resource
@@ -51,7 +53,7 @@ public class AccountExecutor {
         ResultBean resultBean = ResultBeanUtil.fail();
         try {
             lock.tryLock(5, 10, TimeUnit.SECONDS);
-            SmsContext smsContext = new SmsContext(context.getUser(), context.getRequestIp(), context.getVerifyCode());
+            SmsContext smsContext = new SmsContext(context.getUser(), context.getRequestIp(), context.getVerifyCode(),1);
             SmsService smsService = SmsService.builder().smsGateway(smsGateway).build();
             resultBean = smsService.verifyCodeCheck(smsContext.getUser(),smsContext.getVerifyCode(),1);
             if (!resultBean.isSucc()){
@@ -64,15 +66,22 @@ public class AccountExecutor {
              */
             String salt = RandomStringUtils.randomAlphabetic(6);
             String md5Pwd = null;
+            Integer loginType = 0;
             if (context.getRegisterType()==1){
+                loginType = 1;
                 //加密的密码
                 md5Pwd = MD5Utils.getSaltMD5(context.getPwd(), salt);
             }
             //生成用户的唯一标识，后续用户的关联用uuid，不能用id，脑裂后无法对上数据
             long uuid = idWorker.nextId();
-            RegisterContext registerContext = RegisterConvert.convert(context, md5Pwd, salt, uuid);
-            AccountService accountService = AccountService.builder().registerGateway(registerGateway).build();
+            RegisterContext registerContext = RegisterLoginConvert.convert(context, md5Pwd, salt, uuid);
+            AccountService accountService = AccountService.builder().accountGateway(accountGateway).build();
             resultBean = accountService.register(registerContext);
+            if (resultBean.isSucc()){
+                AccountEntity entity = (AccountEntity)resultBean.getData();
+                LoginToken token = accountGateway.generatorToken(entity,loginType,context.getProId());
+                return ResultBeanUtil.success("注册成功！",token.getToken());
+            }
         } catch (DomainException e) {
             log.error("用户{}注册领域层失败，异常信息：",context.getUser().getMobile(),e);
             return ResultBeanUtil.result(e);
@@ -81,8 +90,65 @@ public class AccountExecutor {
             resultBean = ResultBeanUtil.fail("系统异常，请稍后再试！",null);
         }finally {
             smsGateway.useStatus(context.getUser(),context.getVerifyCode(),1);
+            lock.unlock();
         }
         return resultBean;
     }
 
+    public ResultBean loginByPwd(RegisterAppContext context) {
+        RLock lock = CommonUtil.REDISSON_CLIENT.getLock("login:"+ context.getUser().getTenantEnum() +":"+ context.getUser().getMobile());
+        if (lock.isLocked()) {
+            log.warn("用户:{}登录中，请不要重复调用,", context.getUser().getMobile());
+            return ResultBeanUtil.result(ResultStatusEnum.REPEAT);
+        }
+        ResultBean resultBean = ResultBeanUtil.fail();
+        try {
+            lock.tryLock(5, 10, TimeUnit.SECONDS);
+            AccountService accountService = AccountService.builder().accountGateway(accountGateway).build();
+            //查
+            LoginContext loginContext = RegisterLoginConvert.convert(context);
+            resultBean = accountService.login(loginContext);
+        }catch (DomainException e) {
+            log.error("用户{}登录领域层失败，异常信息：",context.getUser().getMobile(),e);
+            return ResultBeanUtil.result(e);
+        } catch (Exception e){
+            log.error("用户{}登录应用层失败，异常信息：",context.getUser().getMobile(),e);
+            resultBean = ResultBeanUtil.fail("系统异常，请稍后再试！",null);
+        }finally {
+            lock.unlock();
+        }
+        return resultBean;
+    }
+
+    public ResultBean loginWithoutPwd(RegisterAppContext context) {
+        int smsType = 2;
+        RLock lock = CommonUtil.REDISSON_CLIENT.getLock("login:"+ context.getUser().getTenantEnum() +":"+ context.getUser().getMobile());
+        if (lock.isLocked()) {
+            log.warn("用户:{}注册中，请不要重复调用,", context.getUser().getMobile());
+            return ResultBeanUtil.result(ResultStatusEnum.REPEAT);
+        }
+        ResultBean resultBean = ResultBeanUtil.fail();
+        try {
+            lock.tryLock(5, 10, TimeUnit.SECONDS);
+            SmsContext smsContext = new SmsContext(context.getUser(), context.getRequestIp(), context.getVerifyCode(),2);
+            SmsService smsService = SmsService.builder().smsGateway(smsGateway).build();
+            resultBean = smsService.verifyCodeCheck(smsContext.getUser(),smsContext.getVerifyCode(),smsType);
+            if (!resultBean.isSucc()){
+                return resultBean;
+            }
+            AccountService accountService = AccountService.builder().accountGateway(accountGateway).build();
+            LoginContext loginContext = RegisterLoginConvert.convert(context);
+            resultBean = accountService.login(loginContext);
+        } catch (DomainException e) {
+            log.error("用户{}无密码登录领域层失败，异常信息：",context.getUser().getMobile(),e);
+            return ResultBeanUtil.result(e);
+        } catch (Exception e){
+            log.error("用户{}无密码登录应用层失败，异常信息：",context.getUser().getMobile(),e);
+            resultBean = ResultBeanUtil.fail("系统异常，请稍后再试！",null);
+        }finally {
+            smsGateway.useStatus(context.getUser(),context.getVerifyCode(),smsType);
+            lock.unlock();
+        }
+        return resultBean;
+    }
 }

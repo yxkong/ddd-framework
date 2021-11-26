@@ -51,4 +51,24 @@ public class AccountController {
         RegisterAppContext context = RegisterFactory.create(register, request);
         return executor.register(context);
     }
+
+    @ApiOperation(value = "无密码登录接口")
+    @ApiResponses({@ApiResponse(code = 1, message = "")})
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", name = "token", value = "用户登录信息（token信息 json格式）", required = true, dataType = "string")})
+    @PostMapping(value = "/loginWithoutPwd")
+    public ResultBean loginWithoutPwd(@RequestBody @Validated RegisterWithoutPwdCmd register, HttpServletRequest request) {
+        LoginTokenUtil.reloadTenantId(register.getTenantId());
+        RegisterAppContext context = RegisterFactory.create(register, request);
+        return executor.loginByPwd(context);
+    }
+
+    @ApiOperation(value = "有密码登录接口")
+    @ApiResponses({@ApiResponse(code = 1, message = "")})
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", name = "token", value = "用户登录信息（token信息 json格式）", required = true, dataType = "string")})
+    @PostMapping(value = "/loginWithPwd")
+    public ResultBean loginWithPwd(@RequestBody @Validated RegisterWithPwdCmd register, HttpServletRequest request) {
+        LoginTokenUtil.reloadTenantId(register.getTenantId());
+        RegisterAppContext context = RegisterFactory.create(register, request);
+        return executor.loginWithoutPwd(context);
+    }
 }

@@ -15,10 +15,7 @@ import java.util.Objects;
 public class LoginToken implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    public static final String LOGIN_TYPE_H5 = "h5";
-    public static final String LOGIN_TYPE_WEIXIN = "weixin";
-    public static final String LOGIN_TYPE_APP = "app";
-    public static final String LOGIN_TYPE_UNION = "union";
+
 
     private String token;
     /**
@@ -37,7 +34,7 @@ public class LoginToken implements Serializable {
     /**
      * 用户的uuid
      */
-    private String uuid;
+    private Long uuid;
     /**
      * 姓名
      */
@@ -55,16 +52,16 @@ public class LoginToken implements Serializable {
      */
     private String birthday;
     /**
-     * 登录方式
+     * 登录方式 1,密码； 0，sms；2，联合登录；
      */
-    private String loginType;
+    private Integer loginType;
 
     /**
      * 登录时间
      */
     private String loginTime;
     /**
-     * 用户来源
+     * 用户来源，app、h5、weixin等
      */
     private String source;
 
@@ -88,6 +85,14 @@ public class LoginToken implements Serializable {
      * 租户
      */
     private TenantEnum tenant;
+
+    public LoginToken(String token, String mobile, Long accountId, Long uuid, TenantEnum tenant) {
+        this.token = token;
+        this.mobile = mobile;
+        this.accountId = accountId;
+        this.uuid = uuid;
+        this.tenant = tenant;
+    }
 
     /**
      * 是否实名
@@ -177,19 +182,19 @@ public class LoginToken implements Serializable {
         this.birthday = birthday;
     }
 
-    public String getLoginType() {
+    public Integer getLoginType() {
         return loginType;
     }
 
-    public void setLoginType(String loginType) {
+    public void setLoginType(Integer loginType) {
         this.loginType = loginType;
     }
 
-    public String getUuid() {
+    public Long getUuid() {
         return uuid;
     }
 
-    public void setUuid(String uuid) {
+    public void setUuid(Long uuid) {
         this.uuid = uuid;
     }
 

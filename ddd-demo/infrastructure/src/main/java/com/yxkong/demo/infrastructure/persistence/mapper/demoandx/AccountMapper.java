@@ -62,4 +62,10 @@ public interface AccountMapper  {
 	 */
 	int getListCount(Map<String,Object> params);
 
+	/**
+	 * 根据uuid查询用户
+	 * @param uuid
+	 * @return
+	 */
+    AccountDO findByUuid(Long uuid);
 }
