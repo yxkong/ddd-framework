@@ -1,28 +1,29 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.adapter.constant;
+package ${package}.application.exception;
 
 import com.yxkong.common.exception.BaseResult;
 
 /**
- * <TODO>
+ * 应用层异常枚举，应用层异常以3开头
  *
  * @Author: ${author}
- * @Date: 2021/11/17 3:28 PM
+ * @Date: 2021/11/15 3:05 PM
  * @version: ${version}
  */
-public enum AdapterResultEnum implements BaseResult {
-    ;
+public enum ApplicationExceptionEnum implements BaseResult {
 
-    AdapterResultEnum(String status, String message) {
+    NOT_FOUD_SLIDINGBLOCK_SUPPLIER("3001", "未实现该供应商的滑块功能");
+
+    ApplicationExceptionEnum(String status, String message) {
         this.status = status;
         this.message = message;
     }
 
     private String status;
-    private String message;
 
+    private String message;
     @Override
     public String getStatus() {
         return status;

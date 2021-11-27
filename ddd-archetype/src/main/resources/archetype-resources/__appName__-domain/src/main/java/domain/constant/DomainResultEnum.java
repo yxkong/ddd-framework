@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.adapter.constant;
+package ${package}.domain.constant;
 
 import com.yxkong.common.exception.BaseResult;
 
@@ -9,13 +9,17 @@ import com.yxkong.common.exception.BaseResult;
  * <TODO>
  *
  * @Author: ${author}
- * @Date: 2021/11/17 3:28 PM
+ * @Date: 2021/11/17 3:15 PM
  * @version: ${version}
  */
-public enum AdapterResultEnum implements BaseResult {
+public enum DomainResultEnum implements BaseResult {
+    //这个比较特殊，主要是为了屏蔽后端信息
+    REGISTERED("1","您已注册，请登录！"),
+    LONGINFAIL("2003","您的账户或密码错误，请重新登录！"),
+    REGISTERFAIL("2002","注册异常，请稍后再试！")
     ;
 
-    AdapterResultEnum(String status, String message) {
+    DomainResultEnum(String status, String message) {
         this.status = status;
         this.message = message;
     }

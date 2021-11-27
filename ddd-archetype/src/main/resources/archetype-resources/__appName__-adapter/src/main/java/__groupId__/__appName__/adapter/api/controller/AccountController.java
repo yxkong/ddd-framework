@@ -3,7 +3,7 @@
 #set( $symbol_escape = '\' )
 package ${package}.adapter.api.controller;
 
-import ${groupId}.common.entity.dto.ResultBean;
+import com.yxkong.common.entity.dto.ResultBean;
 import ${package}.adapter.api.command.account.LonginWithPwdCmd;
 import ${package}.adapter.api.command.account.RegisterWithPwdCmd;
 import ${package}.adapter.api.command.account.RegisterWithoutPwdCmd;

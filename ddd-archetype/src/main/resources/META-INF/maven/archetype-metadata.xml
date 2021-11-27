@@ -73,17 +73,16 @@
     </fileSet>
   </fileSets>
   <modules>
+    <!--
+     dir 是真实的目录，是什么就是什么，不会解析，在生成的时候从这个目录里获取模板
+    -->
     <module id="${appName}-adapter" dir="__appName__-adapter" name="${appName}-adapter">
       <fileSets>
-        <fileSet filtered="true" packaged="true" encoding="UTF-8">
+        <!-- 不要加packaged="true" ，加了会在对应的directory中添加package包-->
+        <fileSet filtered="true" encoding="UTF-8">
           <directory>src/main/java</directory>
           <includes>
             <include>**/*.java</include>
-          </includes>
-        </fileSet>
-        <fileSet packaged="true" encoding="UTF-8">
-          <directory>src/main/java</directory>
-          <includes>
             <include>**/*.gitkeep</include>
           </includes>
         </fileSet>
@@ -107,11 +106,6 @@
           <directory>src/main/java</directory>
           <includes>
             <include>**/*.java</include>
-          </includes>
-        </fileSet>
-        <fileSet packaged="true" encoding="UTF-8">
-          <directory>src/main/java</directory>
-          <includes>
             <include>**/*.gitkeep</include>
           </includes>
         </fileSet>
@@ -129,19 +123,14 @@
           <directory>src/main/java</directory>
           <includes>
             <include>**/*.java</include>
-          </includes>
-        </fileSet>
-        <fileSet packaged="true" encoding="UTF-8">
-          <directory>src/main/java</directory>
-          <includes>
             <include>**/*.gitkeep</include>
           </includes>
         </fileSet>
         <fileSet filtered="true" encoding="UTF-8">
           <directory>src/main/resources</directory>
           <includes>
-            <include>**/*.xml</include>
             <include>**/*.yml</include>
+            <include>**/*.xml</include>
           </includes>
         </fileSet>
         <fileSet filtered="true" packaged="true" encoding="UTF-8">
@@ -164,11 +153,6 @@
           <directory>src/main/java</directory>
           <includes>
             <include>**/*.java</include>
-          </includes>
-        </fileSet>
-        <fileSet packaged="true" encoding="UTF-8">
-          <directory>src/main/java</directory>
-          <includes>
             <include>**/*.gitkeep</include>
           </includes>
         </fileSet>

@@ -6,13 +6,13 @@
         <version>${version}</version>
     </parent>
 
-    <artifactId>${artifactId}</artifactId>
+    <artifactId>${appName}-infrastructure</artifactId>
     <modelVersion>4.0.0</modelVersion>
 
     <dependencies>
         <dependency>
-            <groupId>com.yxkong</groupId>
-            <artifactId>domain</artifactId>
+            <groupId>${groupId}</groupId>
+            <artifactId>${appName}-domain</artifactId>
         </dependency>
         <dependency>
             <groupId>com.yxkong</groupId>

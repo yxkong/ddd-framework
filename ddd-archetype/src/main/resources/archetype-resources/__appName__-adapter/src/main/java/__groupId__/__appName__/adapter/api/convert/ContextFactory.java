@@ -3,7 +3,7 @@
 #set( $symbol_escape = '\' )
 package ${package}.adapter.api.convert;
 
-import ${groupId}.common.entity.common.LoginToken;
+import com.yxkong.common.entity.common.LoginToken;
 import ${package}.domain.dto.context.DistributeContext;
 import lombok.extern.slf4j.Slf4j;
 

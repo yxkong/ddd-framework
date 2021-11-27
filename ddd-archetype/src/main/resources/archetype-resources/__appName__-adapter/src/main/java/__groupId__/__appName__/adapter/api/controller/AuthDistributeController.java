@@ -4,8 +4,8 @@
 package ${package}.adapter.api.controller;
 
 import ${package}.adapter.api.convert.ContextFactory;
-import ${groupId}.common.entity.common.LoginToken;
-import ${groupId}.common.entity.dto.ResultBean;
+import com.yxkong.common.entity.common.LoginToken;
+import com.yxkong.common.entity.dto.ResultBean;
 import ${package}.application.executor.AuthDistributeExecutor;
 import ${package}.domain.dto.context.DistributeContext;
 import ${package}.domain.dto.resp.DistributeDTO;

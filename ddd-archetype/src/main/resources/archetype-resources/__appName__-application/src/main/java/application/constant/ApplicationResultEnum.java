@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.adapter.constant;
+package ${package}.application.constant;
 
 import com.yxkong.common.exception.BaseResult;
 
@@ -9,13 +9,13 @@ import com.yxkong.common.exception.BaseResult;
  * <TODO>
  *
  * @Author: ${author}
- * @Date: 2021/11/17 3:28 PM
+ * @Date: 2021/11/17 3:27 PM
  * @version: ${version}
  */
-public enum AdapterResultEnum implements BaseResult {
+public enum ApplicationResultEnum implements BaseResult {
     ;
 
-    AdapterResultEnum(String status, String message) {
+    ApplicationResultEnum(String status, String message) {
         this.status = status;
         this.message = message;
     }

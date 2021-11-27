@@ -3,7 +3,7 @@
 #set( $symbol_escape = '\' )
 package ${package}.adapter.api.controller;
 
-import ${groupId}.common.entity.dto.ResultBean;
+import com.yxkong.common.entity.dto.ResultBean;
 import ${package}.adapter.api.command.account.SmsBySlidingBlockCmd;
 import ${package}.application.executor.SmsExecutor;
 import ${package}.domain.dto.context.SlidingBlockContext;
