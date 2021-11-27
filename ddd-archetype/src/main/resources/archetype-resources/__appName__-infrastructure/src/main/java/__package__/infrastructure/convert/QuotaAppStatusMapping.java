@@ -3,11 +3,11 @@
 #set( $symbol_escape = '\' )
 package ${package}.infrastructure.convert;
 
-import ${package}.domain.model.quota.QuotaAppStatus;
+import com.${author}.${appName}.domain.model.quota.QuotaAppStatus;
 import lombok.Getter;
 
 /**
- * @Author: ${author}
+ * @author ${author}
  * @date 2021-06-07 18:38
  */
 @Getter

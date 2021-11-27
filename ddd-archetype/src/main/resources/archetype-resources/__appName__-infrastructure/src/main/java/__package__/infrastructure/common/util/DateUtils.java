@@ -14,7 +14,7 @@ import java.util.*;
  * @author jiang.li
  * @date 2013-12-18 11:22
  */
-public class DateUtils {
+public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 
     /**
      * 定义常量
@@ -83,7 +83,7 @@ public class DateUtils {
      * @param pattern
      * @param num
      * @return
-     * @Author: ${author}
+     * @author ducongcong
      * @createDate 2016年7月21日
      * @updateDate
      */
@@ -99,10 +99,9 @@ public class DateUtils {
      * 给指定的时间加上(减去)分钟
      *
      * @param date
-     * @param pattern
      * @param num
      * @return
-     * @Author: ${author}
+     * @author ducongcong
      * @createDate 2016年7月21日
      * @updateDate
      */
@@ -128,7 +127,7 @@ public class DateUtils {
      *
      * @param pattern
      * @return
-     * @Author: ${author}
+     * @author ducongcong
      * @createDate 2016年7月21日
      * @updateDate
      */
@@ -149,7 +148,7 @@ public class DateUtils {
      * @param pattern
      * @param num
      * @return
-     * @Author: ${author}
+     * @author ducongcong
      * @createDate 2016年7月14日
      * @updateDate
      */
@@ -420,7 +419,6 @@ public class DateUtils {
     /**
      * 获取当前时间的Timestamp
      *
-     * @param date Date类型对象
      * @return Timestamp类型对象
      */
     public static Timestamp getCurTimestamp() {
@@ -444,8 +442,8 @@ public class DateUtils {
     /**
      * 两日期的间隔天数
      *
-     * @param strDate1 需要进行计较的日期1(yyyy-MM-dd)
-     * @param strDate2 需要进行计较的日期2(yyyy-MM-dd)
+     * @param strDateBegin 需要进行计较的日期1(yyyy-MM-dd)
+     * @param strDateEnd 需要进行计较的日期2(yyyy-MM-dd)
      * @return 间隔天数（int）
      * @throws ParseException
      */
@@ -474,8 +472,8 @@ public class DateUtils {
     /**
      * 两日期的间隔天数
      *
-     * @param strDate1 需要进行计较的日期1(yyyy-MM-dd HH:mm:ss)
-     * @param strDate2 需要进行计较的日期2(yyyy-MM-dd HH:mm:ss)
+     * @param strDateBegin 需要进行计较的日期1(yyyy-MM-dd HH:mm:ss)
+     * @param strDateEnd 需要进行计较的日期2(yyyy-MM-dd HH:mm:ss)
      * @return 间隔秒数（int）
      * @throws ParseException
      */
@@ -486,8 +484,8 @@ public class DateUtils {
     /**
      * 两日期的间隔天数
      *
-     * @param strDate1 需要进行计较的日期1
-     * @param strDate2 需要进行计较的日期2
+     * @param strDateBegin 需要进行计较的日期1
+     * @param strDateEnd 需要进行计较的日期2
      * @param formart  指定日期格式
      * @return 间隔秒数（int）
      * @throws ParseException

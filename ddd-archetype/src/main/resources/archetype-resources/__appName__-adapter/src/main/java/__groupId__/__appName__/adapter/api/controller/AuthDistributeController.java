@@ -12,6 +12,7 @@ import ${package}.domain.dto.resp.DistributeDTO;
 import ${package}.infrastructure.common.annotation.RequiredToken;
 import ${package}.infrastructure.common.util.LoginTokenUtil;
 import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,9 +26,9 @@ import javax.annotation.Resource;
  * @Date: 2021/6/3 10:52 上午
  * @version: ${version}
  */
-@Api(tags = "授信分发")
+@Api(tags = "授信路由")
 @RestController
-@RequestMapping("/test/distribute")
+@RequestMapping("/${appName}/distribute")
 public class AuthDistributeController {
 
     @Resource

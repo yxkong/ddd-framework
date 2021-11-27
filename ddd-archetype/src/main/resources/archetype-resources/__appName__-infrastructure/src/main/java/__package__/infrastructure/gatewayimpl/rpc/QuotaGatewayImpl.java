@@ -3,10 +3,10 @@
 #set( $symbol_escape = '\' )
 package ${package}.infrastructure.gatewayimpl.rpc;
 
+import com.${author}.${appName}.domain.model.user.CustomerId;
 import ${package}.infrastructure.rpc.internal.vo.*;
-import ${package}.domain.gateway.QuotaGateway;
-import ${package}.domain.model.quota.QuotaEntity;
-import ${package}.domain.model.user.CustomerId;
+import com.${author}.${appName}.domain.gateway.QuotaGateway;
+import com.${author}.${appName}.domain.model.quota.QuotaEntity;
 import ${package}.infrastructure.convert.QuotaAppStatusMapping;
 import ${package}.infrastructure.convert.QuotaFreezeMapping;
 import ${package}.infrastructure.rpc.internal.QuotaCheckFeignService;

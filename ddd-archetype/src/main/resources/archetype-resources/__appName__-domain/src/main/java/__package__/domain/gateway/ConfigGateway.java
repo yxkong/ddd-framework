@@ -13,7 +13,7 @@ package ${package}.domain.gateway;
 /**
  * 〈配置网关〉
  *
- * @Author: ${author}
+ * @author ducongcong
  * @create 2021/6/3
  * @since ${version}.0
  */

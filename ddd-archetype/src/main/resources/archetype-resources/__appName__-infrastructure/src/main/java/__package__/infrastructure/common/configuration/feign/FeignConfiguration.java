@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @Author: ${author}
+ * @author ${author}
  * @date 2021/6/30-14:47
  */
 @Configuration

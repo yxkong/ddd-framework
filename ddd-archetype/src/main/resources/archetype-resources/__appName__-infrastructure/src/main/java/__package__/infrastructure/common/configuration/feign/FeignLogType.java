@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @Author: ${author}
+ * @author ${author}
  * @date 2019-07-22 13:57
  */
 @Data

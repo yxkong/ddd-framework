@@ -6,7 +6,7 @@ package ${package}.infrastructure.common.util;
 import ${package}.infrastructure.common.plugin.token.SecurityContext;
 import ${package}.infrastructure.common.plugin.token.SecurityContextHolder;
 import ${package}.infrastructure.common.plugin.token.SecurityContextImpl;
-import ${package}.domain.constant.TenantEnum;
+import ${groupId}.common.constant.TenantEnum;
 import ${groupId}.common.entity.common.LoginToken;
 
 import java.util.Objects;
@@ -24,7 +24,7 @@ public class LoginTokenUtil {
     }
     public static Integer getTenantId() {
         LoginToken loginToken= getLoginToken();
-        if (Objects.nonNull(loginToken) && loginToken.getTenantId() != null) {
+        if (Objects.nonNull(loginToken) && loginToken.getTenantId()!= null) {
             return loginToken.getTenantId();
         }
         // 返回一个默认的
@@ -75,5 +75,14 @@ public class LoginTokenUtil {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 获取redis的key
+     * @param token
+     * @return
+     */
+    public static String getKey(String token){
+        return "userApi:token:"+token;
     }
 }

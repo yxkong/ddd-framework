@@ -3,8 +3,7 @@
 #set( $symbol_escape = '\' )
 package ${package}.infrastructure.gatewayimpl.database;
 
-import ${package}.domain.constant.SysConfigConstant;
-import ${package}.domain.gateway.ConfigGateway;
+import com.${author}.${appName}.domain.gateway.ConfigGateway;
 import ${package}.infrastructure.service.SysConfigService;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +25,7 @@ public class ConfigGatewayImpl implements ConfigGateway {
 
     @Override
     public String query(String key, String defaultValue) {
-        String val = sysConfigService.findValue(key, SysConfigConstant.WK_SYSTEM);
+        String val = sysConfigService.findValue(key, "module");
         if (Objects.nonNull(val)){
             return val;
         }

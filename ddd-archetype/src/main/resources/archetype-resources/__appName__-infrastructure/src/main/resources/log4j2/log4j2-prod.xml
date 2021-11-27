@@ -60,7 +60,7 @@
                 <SizeBasedTriggeringPolicy size="800 MB"/>
             </Policies>
         </RollingFile>
-        <Kafka name="kafka_Log_info_Appender" topic="${symbol_dollar}{zipkin.log.info}"
+        <Kafka name="kafka_Log_info_Appender" topic="${symbol_dollar}{zipkin.log.info.topic}"
                syncSend="true">
             <Property name="bootstrap.servers">${symbol_dollar}{kafka.bootstrap.servers}</Property>
             <Property name="compression.type">gzip</Property>
@@ -82,7 +82,7 @@
                                  onMismatch="DENY"/>
             </filters>
         </Kafka>
-        <Kafka name="kafka_Log_warn_Appender" topic="${symbol_dollar}{zipkin.log.warn}"
+        <Kafka name="kafka_Log_warn_Appender" topic="${symbol_dollar}{zipkin.log.warn.topic}"
                syncSend="true">
             <Property name="bootstrap.servers">${symbol_dollar}{kafka.bootstrap.servers}</Property>
             <Property name="compression.type">gzip</Property>
@@ -102,7 +102,7 @@
                                  onMismatch="DENY"/>
             </filters>
         </Kafka>
-        <Kafka name="kafka_Log_error_Appender" topic="${symbol_dollar}{zipkin.log.error}"
+        <Kafka name="kafka_Log_error_Appender" topic="${symbol_dollar}{zipkin.log.error.topic}"
                syncSend="true">
             <Property name="bootstrap.servers">${symbol_dollar}{kafka.bootstrap.servers}</Property>
             <Property name="compression.type">gzip</Property>

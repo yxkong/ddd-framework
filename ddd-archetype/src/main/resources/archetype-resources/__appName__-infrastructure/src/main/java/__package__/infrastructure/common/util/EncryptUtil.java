@@ -16,7 +16,7 @@ import java.security.SecureRandom;
 
 
 /**
- * @Author: ${author}
+ * @author ${author}
  * @Description: MD5${symbol_escape}SHA哈希，AES、DES对称加密解密
  */
 public class EncryptUtil {

@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 /**
  * 〈额度网关〉
  *
- * @Author: ${author}
+ * @author ${author}
  * @create 2021/6/3
  * @since ${version}.0
  */

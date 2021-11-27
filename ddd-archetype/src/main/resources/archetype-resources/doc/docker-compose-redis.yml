@@ -1,0 +1,52 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+version: "3"
+services:
+  redis:
+    container_name: redis_${appName}
+    image: redis
+    command: redis-server /etc/redis/redis.conf --requirepass 123456 --appendonly yes
+    environment:
+      TZ: Asia/Shanghai
+      LANG: en_US.UTF-8
+    volumes:
+      - "/Users/yxk/docker/redis/data:/data"
+      - "/Users/yxk/docker/redis/redis.conf:/etc/redis/redis.conf"
+    ports:
+      - 6380:6379
+    deploy:
+      mode：replicated ${symbol_pound} replicated：复制服务，复制指定服务到集群的机器上；global：全局服务，服务将部署至集群的每个节点。
+      replicas: 2 ${symbol_pound} replicated模式下的节点数量
+      labels:
+        description: "This redis service label"
+      resources: ${symbol_pound}配置服务可使用的资源限制
+        limits:
+          cpus: '0.50'
+          memory: 200M
+        reservations:
+          cpus: '0.25'
+          memory: 200M
+      restart_policy: ${symbol_pound} 重启策略
+        condition: on-failure ${symbol_pound} 可选 none、on-failure、any（默认：any）
+        delay: 2s ${symbol_pound} 延迟5秒重启，默认0
+        max_attempts: 2  ${symbol_pound} 最大重试测试，默认一直重试
+        window: 60s  ${symbol_pound} 重启超时时间
+      rollback_config: ${symbol_pound} 回滚策略
+        parallelism: 1 ${symbol_pound} 一次回滚的容器，0，一下子全回滚
+        delay: 5s ${symbol_pound} 每个容器回滚的等待时间
+        failure_action: pause ${symbol_pound} 回滚失败pause，还有一个是continue
+        monitor: 10s ${symbol_pound} 更新后观察10s是否有异常
+        max_failure_ratio: 0 ${symbol_pound} 容忍的故障率
+        order: stop-first ${symbol_pound} 操作顺序 stop-first 串行回滚，start-first 并行回滚，默认stop-first
+    logging:
+      driver: json-file ${symbol_pound}json-file、syslog、none
+      options:
+        ${symbol_pound}syslog-address: "tcp://127.0.0.1:22" 使用syslog时，可以指定
+        max-size: "200k" ${symbol_pound} 单个文件大小为200k
+        max-file: "10" ${symbol_pound} 最多10个文件
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 10240
+        hard: 10240

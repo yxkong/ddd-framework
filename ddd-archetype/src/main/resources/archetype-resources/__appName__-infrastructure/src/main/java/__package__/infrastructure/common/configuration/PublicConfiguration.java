@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Author: ${author}
+ * @author ${author}
  * @date 2021-06-07 16:19
  */
 @Configuration

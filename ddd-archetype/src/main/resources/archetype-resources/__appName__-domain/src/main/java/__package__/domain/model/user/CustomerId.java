@@ -4,6 +4,8 @@
 package ${package}.domain.model.user;
 
 import ${groupId}.common.annotation.DomainEntity;
+import ${groupId}.common.constant.TenantEnum;
+import ${package}.domain.model.BaseModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,14 +22,12 @@ import java.util.Objects;
 @Data
 @DomainEntity
 @NoArgsConstructor
-public class CustomerId {
-
+public class CustomerId extends BaseModel {
     private Long id;
-    private Integer tenantId;
-
-    public CustomerId(Long id, Integer tenantId) {
+    private TenantEnum tenant;
+    public CustomerId(Long id,  TenantEnum tenant) {
         this.id = id;
-        this.tenantId = tenantId;
+        this.tenant = tenant;
     }
 
     public boolean isRealName(){

@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * @Author: ${author}
+ * @author ${author}
  * @Description: Base64编码解码
  */
 public class Base64 {

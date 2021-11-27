@@ -25,7 +25,7 @@ public class SysConfigServiceImpl implements SysConfigService {
     private SysConfigMapper sysConfigMapper;
 
     /**
-     * auth:sysConfig:wk:key:string
+     * auth:sysConfig:auth:key:string
      * @param key
      * @param system
      * @return

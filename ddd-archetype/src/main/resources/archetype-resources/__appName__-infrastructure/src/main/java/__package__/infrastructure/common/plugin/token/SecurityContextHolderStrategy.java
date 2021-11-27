@@ -1,17 +1,12 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-/**
- * @Author: ${author}
- * @Date: 2021/6/3 11:09 上午
- * @version: ${version}
- */
 package ${package}.infrastructure.common.plugin.token;
 
 /**
  * 〈〉
  *
- * @Author: ${author}
+ * @author ${author}
  * @create 2021/6/3
  * @since ${version}.0
  */

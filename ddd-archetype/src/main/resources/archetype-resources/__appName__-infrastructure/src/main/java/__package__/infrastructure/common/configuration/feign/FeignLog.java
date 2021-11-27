@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 /**
  * feign日志是否需要记录的注解，如果不加，代表需要记录，如果加了，根据属性进行判断
  *
- * @Author: ${author}
+ * @author ${author}
  * @date 2019/7/16-18:27
  */
 @Target({ElementType.TYPE, ElementType.METHOD})

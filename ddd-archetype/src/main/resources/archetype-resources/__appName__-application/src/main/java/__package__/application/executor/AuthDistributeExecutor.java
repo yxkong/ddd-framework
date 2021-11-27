@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 /**
  * 授信分发应用
  *
- * @Author: ${author}
+ * @Author: ${symbol_dollar}{author}
  * @Date: 2021/6/3 5:49 下午
  * @version: ${version}
  */
@@ -53,7 +53,7 @@ public class AuthDistributeExecutor {
          * 领域执行
          */
         ResultBean<DistributeDTO> resultBean = service.distribute(context);
-        resultBean.getData().setAuthUuid(StringUtils.randomUUIDSplit());
+        resultBean.getData().setAuthUuid(StringUtils.randomUUIDRmLine());
 
         /** 这下面的代码是非业务性功能，需要异步执行**/
         distributeGateway.doResult(resultBean.getData(), context.getCustomerId());

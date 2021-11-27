@@ -8,7 +8,7 @@
  */
 package ${package}.domain.service;
 
-import ${package}.domain.constant.SysConfigConstant;
+import ${groupId}.common.util.ResultBeanUtil;
 import ${package}.domain.dto.context.DistributeContext;
 import ${package}.domain.dto.resp.DistributeDTO;
 import ${package}.domain.dto.resp.DistributePath;
@@ -25,7 +25,7 @@ import java.util.Objects;
 
 /**
  * 授信分发服务
- * @Author: ${author}
+ * @author ducongcong
  * @create 2021/6/3
  * @since ${version}.0
  */
@@ -46,24 +46,19 @@ public class AuthDistributeService {
       * @return
       */
      public ResultBean<DistributeDTO> distribute(DistributeContext context){
-          //获取开关
-          /*String  flowTurn = configGateway.query(SysConfigConstant.AUTH_DISTRIBUTE_SWITCH_KEY, SysConfigConstant.DEFAULT_CLOSE);
-          if(SysConfigConstant.DEFAULT_OPEN.equals(flowTurn)){
-               return resultBean(DistributePath.source);
-          }*/
           String mobile = context.getMobile();
           //获取走新流程的手机尾号或者手机号，满足其一就能走新流程
-          String  mobileOld = configGateway.query(SysConfigConstant.AUTH_DISTRIBUTE_MOBILE, SysConfigConstant.DEFAULT_CLOSE);
-          String  mobileNumOld = configGateway.query(SysConfigConstant.AUTH_DISTRIBUTE_MOBILE_NUM, SysConfigConstant.DEFAULT_CLOSE);
-          boolean isXinFlow = false;
+          String  mobileOld = configGateway.query("xx", "close");
+          String  mobileNumOld = configGateway.query("xx", "close");
+          boolean isNewFlow = false;
           if(StringUtils.isNotBlank(mobileOld) && StringUtils.contains(mobileOld, context.getMobile())){
-        	  isXinFlow = true;
+               isNewFlow = true;
           }
           if(StringUtils.isNotBlank(mobileNumOld) && StringUtils.contains(mobileNumOld, mobile.substring(mobile.length()-1))){
-        	  isXinFlow = true;
+               isNewFlow = true;
           }
-          if(!isXinFlow){
-        	  return resultBean(DistributePath.source);
+          if(!isNewFlow){
+               return resultBean(DistributePath.source);
           }
           if (!context.getCustomerId().isRealName()){
                return resultBean(DistributePath.flow);
@@ -73,15 +68,9 @@ public class AuthDistributeService {
                return resultBean(DistributePath.list);
           }
 
-          return new ResultBean.Builder<DistributeDTO>()
-                  .success(DistributeDTO.builder()
-                          .distributePath(DistributePath.waiting).taskId(1L).build()
-             ).build();
+          return resultBean(DistributePath.waiting);
      }
      private ResultBean<DistributeDTO> resultBean(DistributePath distributePath){
-          return new ResultBean.Builder<DistributeDTO>()
-                  .success(DistributeDTO.builder()
-                               .distributePath(distributePath).build()
-                  ).build();
+          return ResultBeanUtil.success(DistributeDTO.builder().distributePath(distributePath).build()) ;
      }
 }

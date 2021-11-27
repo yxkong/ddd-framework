@@ -127,7 +127,7 @@
 				</Delete>
 			</DefaultRolloverStrategy>
 		</RollingFile>
-		<Kafka name="kafka_Log_info_Appender" topic="${symbol_dollar}{zipkin.log.info}"
+		<Kafka name="kafka_Log_info_Appender" topic="${symbol_dollar}{zipkin.log.info.topic}"
 			syncSend="true">
 			<Property name="compression.type">gzip</Property>
 			<Property name="timeout.ms">5000</Property>
@@ -146,7 +146,7 @@
 					onMismatch="DENY" />
 			</filters>
 		</Kafka>
-		<Kafka name="kafka_Log_warn_Appender" topic="${symbol_dollar}{zipkin.log.warn}"
+		<Kafka name="kafka_Log_warn_Appender" topic="${symbol_dollar}{zipkin.log.warn.topic}"
 			syncSend="true">
 			<Property name="compression.type">gzip</Property>
 			<Property name="timeout.ms">5000</Property>
@@ -163,7 +163,7 @@
 					onMismatch="DENY" />
 			</filters>
 		</Kafka>
-		<Kafka name="kafka_Log_error_Appender" topic="${symbol_dollar}{zipkin.log.error}"
+		<Kafka name="kafka_Log_error_Appender" topic="${symbol_dollar}{zipkin.log.error.topic}"
 			syncSend="true">
 			<Property name="compression.type">gzip</Property>
 			<Property name="timeout.ms">5000</Property>
@@ -194,11 +194,10 @@
 			<appender-ref ref="KafkaAsyncAppender" />
 		</AsyncRoot>
 		<!--myibatis log configure -->
-		<logger name="java.sql.Connection" level="DEBUG" />
-		<logger name="java.sql.Statement" level="DEBUG" />
-		<logger name="java.sql.PreparedStatement" level="DEBUG" />
-		<logger name="${package}.infrastructure.persistence.mapper" level="DEBUG" />
-		<logger name="${groupId}" level="DEBUG" />
-		<logger name="org.springframework.jdbc" level="DEBUG" />
+<!--		<logger name="java.sql.Connection" level="DEBUG" />-->
+<!--		<logger name="java.sql.Statement" level="DEBUG" />-->
+<!--		<logger name="java.sql.PreparedStatement" level="DEBUG" />-->
+<!--		<logger name="com.${author}" level="DEBUG" />-->
+<!--		<logger name="org.springframework.jdbc" level="DEBUG" />-->
 	</Loggers>
 </Configuration>

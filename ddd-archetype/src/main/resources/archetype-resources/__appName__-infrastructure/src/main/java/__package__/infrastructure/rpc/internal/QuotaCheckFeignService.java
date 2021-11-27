@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * @Author: ${author}
+ * @author ${author}
  * @date 2021/6/16-17:31
  */
-@FeignClient(value = "${symbol_dollar}{eureka.instance.service.quotaCheckService}")
+//@FeignClient(value = "${symbol_dollar}{eureka.instance.service.quotaCheckService}")
+@FeignClient(value = "quotaCheckService")
 public interface QuotaCheckFeignService {
 
     @RequestMapping(value = "api/wkcheck/quota/findStatusByCustomerId", method = {RequestMethod.POST})

@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 /**
  * 解析sql
  *
- * @author yzhi
+ * @author ${author}
  */
 public class SplitSql {
     private Logger logger = LoggerFactory.getLogger(getClass());

@@ -20,10 +20,48 @@
     </requiredProperty>
   </requiredProperties>
   <fileSets>
+    <fileSet filtered="true" encoding="UTF-8">
+      <directory>doc/init</directory>
+      <includes>
+        <include>**/*.sql</include>
+      </includes>
+    </fileSet>
+    <fileSet filtered="true" encoding="UTF-8">
+      <directory>doc</directory>
+      <includes>
+        <include>**/*.yml</include>
+      </includes>
+    </fileSet>
+    <fileSet filtered="true" encoding="UTF-8">
+      <directory>doc/nacos</directory>
+      <includes>
+        <include>**/*.properties</include>
+      </includes>
+    </fileSet>
+    <fileSet encoding="UTF-8">
+      <directory>doc/conf</directory>
+      <includes>
+        <include>**/*.log</include>
+        <include>**/*.cnf</include>
+        <include>**/*.conf</include>
+      </includes>
+    </fileSet>
+    <fileSet encoding="UTF-8">
+      <directory>ssh</directory>
+      <includes>
+        <include>**/*.sh</include>
+      </includes>
+    </fileSet>
     <fileSet encoding="UTF-8">
       <directory>doc</directory>
       <includes>
         <include>**/*.png</include>
+      </includes>
+    </fileSet>
+    <fileSet encoding="UTF-8">
+      <directory>doc/nacos</directory>
+      <includes>
+        <include>**/*.env</include>
       </includes>
     </fileSet>
     <fileSet encoding="UTF-8">
@@ -37,10 +75,15 @@
   <modules>
     <module id="${appName}-adapter" dir="__appName__-adapter" name="${appName}-adapter">
       <fileSets>
-        <fileSet filtered="true" encoding="UTF-8">
+        <fileSet filtered="true" packaged="true" encoding="UTF-8">
           <directory>src/main/java</directory>
           <includes>
             <include>**/*.java</include>
+          </includes>
+        </fileSet>
+        <fileSet packaged="true" encoding="UTF-8">
+          <directory>src/main/java</directory>
+          <includes>
             <include>**/*.gitkeep</include>
           </includes>
         </fileSet>
@@ -60,10 +103,15 @@
     </module>
     <module id="${appName}-application" dir="__appName__-application" name="${appName}-application">
       <fileSets>
-        <fileSet filtered="true" encoding="UTF-8">
+        <fileSet filtered="true" packaged="true" encoding="UTF-8">
           <directory>src/main/java</directory>
           <includes>
             <include>**/*.java</include>
+          </includes>
+        </fileSet>
+        <fileSet packaged="true" encoding="UTF-8">
+          <directory>src/main/java</directory>
+          <includes>
             <include>**/*.gitkeep</include>
           </includes>
         </fileSet>
@@ -77,21 +125,26 @@
     </module>
     <module id="${appName}-infrastructure" dir="__appName__-infrastructure" name="${appName}-infrastructure">
       <fileSets>
-        <fileSet filtered="true" encoding="UTF-8">
+        <fileSet filtered="true" packaged="true" encoding="UTF-8">
           <directory>src/main/java</directory>
           <includes>
             <include>**/*.java</include>
+          </includes>
+        </fileSet>
+        <fileSet packaged="true" encoding="UTF-8">
+          <directory>src/main/java</directory>
+          <includes>
             <include>**/*.gitkeep</include>
           </includes>
         </fileSet>
         <fileSet filtered="true" encoding="UTF-8">
           <directory>src/main/resources</directory>
           <includes>
-            <include>**/*.yml</include>
             <include>**/*.xml</include>
+            <include>**/*.yml</include>
           </includes>
         </fileSet>
-        <fileSet filtered="true" encoding="UTF-8">
+        <fileSet filtered="true" packaged="true" encoding="UTF-8">
           <directory>src/test/java</directory>
           <includes>
             <include>**/*.java</include>
@@ -107,10 +160,15 @@
     </module>
     <module id="${appName}-domain" dir="__appName__-domain" name="${appName}-domain">
       <fileSets>
-        <fileSet filtered="true" encoding="UTF-8">
+        <fileSet filtered="true" packaged="true" encoding="UTF-8">
           <directory>src/main/java</directory>
           <includes>
             <include>**/*.java</include>
+          </includes>
+        </fileSet>
+        <fileSet packaged="true" encoding="UTF-8">
+          <directory>src/main/java</directory>
+          <includes>
             <include>**/*.gitkeep</include>
           </includes>
         </fileSet>

@@ -3,8 +3,8 @@
 #set( $symbol_escape = '\' )
 package ${package}.domain.model.quota;
 
-import ${package}.domain.model.user.CustomerId;
 import ${groupId}.common.annotation.AggregateRoot;
+import ${package}.domain.model.user.CustomerId;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

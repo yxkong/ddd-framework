@@ -11,7 +11,7 @@ import ${groupId}.common.entity.common.LoginToken;
  * @version: ${version}
  */
 public class SecurityContextImpl implements SecurityContext{
-    private  LoginToken loginToken;
+    private LoginToken loginToken;
 
     public SecurityContextImpl(LoginToken loginToken) {
         this.loginToken = loginToken;

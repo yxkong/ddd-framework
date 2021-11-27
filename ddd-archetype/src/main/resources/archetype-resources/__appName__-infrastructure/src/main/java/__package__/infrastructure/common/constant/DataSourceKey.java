@@ -10,8 +10,8 @@ package ${package}.infrastructure.common.constant;
  * @version: ${version}
  */
 public enum DataSourceKey {
-    /**万卡*/
-    wk,
-    /**小x卡*/
-    x;
+    /**主数据源*/
+    main,
+    /**其他数据源*/
+    other;
 }

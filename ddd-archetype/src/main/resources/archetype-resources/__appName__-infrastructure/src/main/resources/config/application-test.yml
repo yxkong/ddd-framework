@@ -1,41 +1,39 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-#set( $symbol_left = '{' )
-#set( $symbol_right = '}' )
 server:
   port: 8080 
 logging:
   config: classpath:log4j2/log4j2-test.xml
   level:
     root: info
-    ${package}.infrastructure.persistence.mapper.*: debug
+    com.${author}.archetype.${artifactId}.persistence.mapper.*: debug
 
 spring:
   redis:
-    host: r-9rpf65de0d029d84.redis.rds.ops.9fcloud.com
-    password: auPBPiZanBK2GRr7
+    host: xxx
+    password: xxx
     port: 6379
     timeout: 3000
     lettuce:
       pool:
-        max-active: 10 # 连接池最大连接数（使用负值表示没有限制）
-        max-idle: 5 # 连接池中的最大空闲连接
-        min-idle: 0 # 连接池中的最小空闲连接
-        max-wait: 5000 # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-active: 10 ${symbol_pound} 连接池最大连接数（使用负值表示没有限制）
+        max-idle: 5 ${symbol_pound} 连接池中的最大空闲连接
+        min-idle: 2 ${symbol_pound} 连接池中的最小空闲连接
+        max-wait: 5000 ${symbol_pound} 连接池最大阻塞等待时间（使用负值表示没有限制）
   kafka:
     biz:
       enabled: true
     bootstrap-servers: 192.168.161.216:9092
     biz-bootstrap-servers: 192.168.161.216:9092
     consumer:
-      group-id: ${symbol_dollar}${symbol_left}spring.application.name${symbol_right}
+      group-id: ${symbol_dollar}{spring.application.name}
       enable-auto-commit: true
       auto-commit-interval: 100
-      auto-offset-reset: earliest  #latest
+      auto-offset-reset: earliest  ${symbol_pound}latest
       max-poll-records: 100
     producer:
-      client-id: ${symbol_dollar}${symbol_left}spring.application.name${symbol_right}
+      client-id: ${symbol_dollar}{spring.application.name}
       retries: 3
       batch-size: 1048576
       buffer-memory: 6291456
@@ -45,7 +43,7 @@ spring:
       concurrency: 1
   sleuth:
     sampler:
-      probability: 1.0
+      probability: ${version}
   zipkin:
     compression:
       enabled: true
@@ -53,17 +51,17 @@ spring:
       type: kafka
     message-timeout: 60
     service:
-      name: ${symbol_dollar}${symbol_left}spring.application.name${symbol_right}
+      name: ${symbol_dollar}{spring.application.name}
 
-#数据库配置
+${symbol_pound}数据库配置
 datasource:
   ${appName}:
-    # 使用druid数据源
+    ${symbol_pound} 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://rm-9rpc2m3m24dqxk8es.mysql.rds.ops.9fcloud.com:3306/wk_db_loan?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
-    username: wk_db_rw
-    password: H057tcBQGjAB
+    url: jdbc:mysql://127.0.0.1:3306/db_ddd?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
     filters: stat
     maxActive: 10
     initialSize: 1
@@ -80,9 +78,9 @@ datasource:
   x${appName}:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://rm-9rpc2m3m24dqxk8es.mysql.rds.ops.9fcloud.com:3306/wk_x_loan?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
-    username: wk_db_rw
-    password: H057tcBQGjAB
+    url: jdbc:mysql://127.0.0.1:3306/xdb_ddd?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
     filters: stat
     maxActive: 20
     initialSize: 1
@@ -98,53 +96,53 @@ datasource:
     maxOpenPreparedStatements: 20
 eureka:
   server:
-    #当Eureka Server节点在短时间内丢失过多的客户端时（可能发送了网络故障），那么这个节点将进入自我保护模式，不再注销任何微服务，当网络故障回复后，该节点会自动退出自我保护模式
+    ${symbol_pound}当Eureka Server节点在短时间内丢失过多的客户端时（可能发送了网络故障），那么这个节点将进入自我保护模式，不再注销任何微服务，当网络故障回复后，该节点会自动退出自我保护模式
     enable-self-preservation: false
-    #清理间隔,没有及时下线，利用这个比较好（单位毫秒，默认是60*1000）
+    ${symbol_pound}清理间隔,没有及时下线，利用这个比较好（单位毫秒，默认是60*1000）
     evictionIntervalTimerInMs: 2000
   client:
-    #    register-with-eureka: true
-    #    fetch-registry: false
+    ${symbol_pound}    register-with-eureka: true
+    ${symbol_pound}    fetch-registry: false
     healthcheck:
-      #开启健康检查
+      ${symbol_pound}开启健康检查
       enabled: true
     service-url:
-      defaultZone: http://eureka.5ycode.com
+      defaultZone: http://5yocdo.com/eureka/
   instance:
-#    hostname:${symbol_dollar}\{spring.application.name\}
-    #指定本节点的IP
-    #ip-address: 127.0.0.1
-    #表示使用IP进行配置
+${symbol_pound}    hostname: ${symbol_dollar}{spring.application.name}
+    ${symbol_pound}指定本节点的IP
+    ${symbol_pound}ip-address: 127.0.0.1
+    ${symbol_pound}表示使用IP进行配置
     prefer-ip-address: true
-    instance-id: ${symbol_dollar}${symbol_left}spring.cloud.client.ip-address${symbol_right}:${symbol_dollar}${symbol_right}server.port${symbol_right}
-    #租期更新时间间隔（默认30秒）
+    instance-id: ${symbol_dollar}{spring.cloud.client.ip-address}:${symbol_dollar}{server.port}
+    ${symbol_pound}租期更新时间间隔（默认30秒）
     lease-renewal-interval-in-seconds: 10
-    #租期到期时间（默认90秒）
+    ${symbol_pound}租期到期时间（默认90秒）
     lease-expiration-duration-in-seconds: 10
     metadata-map:
       user:
         name: admin
-        password: 9fbank
+        password: 5ycode
 
 feign:
   client:
     config:
       default:
-        # 考虑有外网的原因，允许建立连接的时间略长
+        ${symbol_pound} 考虑有外网的原因，允许建立连接的时间略长
         connectTimeout: 2000
         readTimeout: 30000
         loggerLevel: basic
 
-yxkong:
+ddd:
   id-worker:
     cluster: 127.0.0.1
 apollo:
-  cacheDir: /opt/data/                       #配置本地配置缓存目录
-  cluster: default                           #指定使用哪个集群的配置
-  meta: http://192.168.192.3:8082    #DEV环境配置中心地址
-  autoUpdateInjectedSpringProperties: true   #是否开启 Spring 参数自动更新
+  cacheDir: /opt/data/                       ${symbol_pound}配置本地配置缓存目录
+  cluster: default                           ${symbol_pound}指定使用哪个集群的配置
+  meta: http://192.168.192.3:8082    ${symbol_pound}DEV环境配置中心地址
+  autoUpdateInjectedSpringProperties: true   ${symbol_pound}是否开启 Spring 参数自动更新
   bootstrap:
-    enabled: false                            #是否开启 Apollo
-    namespaces: ${appName}Application                  #设置 Namespace
+    enabled: false                            ${symbol_pound}是否开启 Apollo
+    namespaces: application                  ${symbol_pound}设置 Namespace
     eagerLoad:
-      enabled: false                         #将 Apollo 加载提到初始化日志系统之前s
+      enabled: false                         ${symbol_pound}将 Apollo 加载提到初始化日志系统之前s

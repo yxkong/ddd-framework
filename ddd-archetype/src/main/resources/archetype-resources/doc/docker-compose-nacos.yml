@@ -1,0 +1,41 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+version: '3' ${symbol_pound}
+services:
+  nacos:
+    container_name: nacos_dev
+    image: "nacos/nacos-server:v2.0.3"
+    ${symbol_pound}    env_file:
+    ${symbol_pound}      - ../nacos/nacos-standlone-mysql.env
+    environment:
+      - "/etc/localtime:/etc/localtime"
+      - PREFER_HOST_MODE=hostname                 ${symbol_pound} 如果支持主机名可以使用hostname,否则使用ip，默认也是ip
+      - MODE=standalone                           ${symbol_pound} 单机模式启动
+      ${symbol_pound}      - SPRING_DATASOURCE_PLATFORM=mysql          ${symbol_pound} 数据源平台 仅支持mysql或不保存empty
+      ${symbol_pound} TODO 修改mysql连接信息
+      - MYSQL_SERVICE_HOST=127.0.0.1    ${symbol_pound} 注：这里不能为`127.0.0.1`或`localhost`方式！！！
+      - MYSQL_SERVICE_DB_NAME=nacos
+      - MYSQL_SERVICE_PORT=3306
+      - MYSQL_SERVICE_USER=root
+      - MYSQL_SERVICE_PASSWORD=123456
+      - MYSQL_SERVICE_DB_PARAM=characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false
+      ${symbol_pound} TODO 修改JVM调优参数
+      - JVM_XMS=128m   ${symbol_pound}-Xms default :2g
+      - JVM_XMX=128m   ${symbol_pound}-Xmx default :2g
+      - JVM_XMN=64m    ${symbol_pound}-Xmn default :1g
+      - JVM_MS=32m     ${symbol_pound}-XX:MetaspaceSize default :128m
+      - JVM_MMS=32m    ${symbol_pound}-XX:MaxMetaspaceSize default :320m
+      - NACOS_DEBUG=n  ${symbol_pound}是否开启远程debug，y/n，默认n
+      - TOMCAT_ACCESSLOG_ENABLED=false ${symbol_pound}是否开始tomcat访问日志的记录，默认false
+    restart: always
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+      - "9555:9555"
+    volumes:
+      - "./logs:/home/nacos/logs/"
+      - "./custom.properties:/home/nacos/init.d/custom.properties"
+      - "./nacos/application.properties:/home/nacos/conf/application.properties"
+${symbol_pound}    depends_on:
+${symbol_pound}      - mysql

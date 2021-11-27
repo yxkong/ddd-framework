@@ -16,7 +16,7 @@ import ${package}.domain.model.user.CustomerId;
 /**
  * 〈分发网关〉
  *
- * @Author: ${author}
+ * @author ${author}
  * @create 2021/6/3
  * @since ${version}.0
  */

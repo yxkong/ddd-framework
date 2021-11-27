@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 /**
  * 结果集处理
  * 
- * @author yzhi
+ * @author ${author}
  *
  */
 public class MergeResultHandler {

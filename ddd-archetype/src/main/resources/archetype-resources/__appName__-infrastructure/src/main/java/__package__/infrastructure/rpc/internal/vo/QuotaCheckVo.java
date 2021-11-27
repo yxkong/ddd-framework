@@ -8,7 +8,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 /**
- * @Author: ${author}
+ * @author navyzhung
  * @date 2021/6/16-18:28
  */
 @Data

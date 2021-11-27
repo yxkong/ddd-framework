@@ -4,6 +4,7 @@
 package ${package}.domain.model.user;
 
 import ${groupId}.common.annotation.DomainEntity;
+import ${groupId}.common.constant.TenantEnum;
 import lombok.Getter;
 
 /**
@@ -17,9 +18,11 @@ import lombok.Getter;
 @Getter
 public class AccountId {
     private Long id;
-    private Integer tenantId;
-    public AccountId(Long accountId,Integer tenantId) {
+    private Long uuid;
+    private TenantEnum tenant;
+    public AccountId(Long id, Long uuid, TenantEnum tenant) {
         this.id = id;
-        this.tenantId = tenantId;
+        this.uuid = uuid;
+        this.tenant = tenant;
     }
 }

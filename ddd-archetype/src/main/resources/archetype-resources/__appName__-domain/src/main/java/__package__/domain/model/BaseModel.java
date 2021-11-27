@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Author: ${author}
+ * @author ${author}
  * @date 2021-06-10 16:44
  */
 public class BaseModel {

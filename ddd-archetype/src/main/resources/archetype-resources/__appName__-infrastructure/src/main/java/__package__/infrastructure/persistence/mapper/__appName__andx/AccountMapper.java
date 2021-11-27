@@ -3,15 +3,13 @@
 #set( $symbol_escape = '\' )
 package ${package}.infrastructure.persistence.mapper.${appName}andx;
 
+import ${package}.infrastructure.persistence.entity.${appName}.AccountDO;
 import java.util.Map;
 import java.util.List;
-
-import ${package}.infrastructure.persistence.entity.${appName}.AccountDO;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 /**
  *
- * @time 2021年10月26日 16:37:30
+ * @time 2021年11月11日 17:25:38
  * @version ${version}
  *
  **/
@@ -37,11 +35,11 @@ public interface AccountMapper  {
 	AccountDO findById(Long id);
 
 	/**
-	 * 根据手机号查询用户信息
+	 * 通过手机号查询手机号
 	 * @param mobile
 	 * @return
 	 */
-	AccountDO findByMobile(@Param("mobile") String  mobile);
+	AccountDO findByMobile(String mobile);
 	/**
 	 * 通过主键id 更新实体
 	 * @param record
@@ -67,4 +65,10 @@ public interface AccountMapper  {
 	 */
 	int getListCount(Map<String,Object> params);
 
+	/**
+	 * 根据uuid查询用户
+	 * @param uuid
+	 * @return
+	 */
+    AccountDO findByUuid(Long uuid);
 }

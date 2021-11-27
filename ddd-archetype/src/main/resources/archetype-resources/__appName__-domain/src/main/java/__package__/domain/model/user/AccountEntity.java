@@ -4,8 +4,12 @@
 package ${package}.domain.model.user;
 
 import ${groupId}.common.annotation.AggregateRoot;
+import ${groupId}.common.annotation.DomainValueObject;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 /**
  * 账户领域对象
@@ -14,25 +18,45 @@ import lombok.Getter;
  * @Date: 2021/5/31 6:13 下午
  * @version: ${version}
  */
-@Getter
-@Builder
 @AggregateRoot
+@Getter
 public class AccountEntity {
+    public AccountEntity(AccountId accountId, UserObject user, AccountStatusEnum accountStatus, String proId) {
+        this.accountId = accountId;
+        this.user = user;
+        this.accountStatus = accountStatus;
+        this.proId = proId;
+    }
+
     private AccountId accountId;
+
     /**
-     * 用户手机号码
+     * 用户对象
      */
-    private String mobile;
+    private UserObject user;
     /**
-     * 用户中心的uuid
+     * 用户状态
      */
-    private String uuid;
-    /**
-     * 用户中心的客户id
-     */
-    private String custNo;
+    private AccountStatusEnum accountStatus;
     /**
      * 用户注册渠道
      */
     private String proId;
+    /**
+     * 注册时间
+     */
+    private Date registerTime;
+
+    public void setRegisterTime(Date registerTime) {
+        this.registerTime = registerTime;
+    }
+
+    /**
+     * 密码对象
+     */
+    private PwdObject pwdObject;
+
+    public void setPwdObject(String salt,String md5pwd) {
+        this.pwdObject = new PwdObject(salt,md5pwd);
+    }
 }

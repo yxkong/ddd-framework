@@ -1,1 +1,3 @@
-# 不要删除，否则hawk平台无法构建出有效的可执行jar包
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )

@@ -53,7 +53,7 @@ public class DruidConfiguration {
     }
 
     /**
-     * 小x卡库（只有一个）
+     * 其他租户库
      *
      * @return
      */
@@ -75,8 +75,8 @@ public class DruidConfiguration {
         log.info("-------------------- ${appName}DynamicDataSource init ---------------------");
         DynamicRoutingDataSource dynamicRoutingDataSource = new DynamicRoutingDataSource();
         Map<Object, Object> dataSourceMap = new HashMap<>();
-        dataSourceMap.put(DataSourceKey.wk.name(), ${appName}DataSource());
-        dataSourceMap.put(DataSourceKey.x.name(), x${upperAppName}DataSource());
+        dataSourceMap.put(DataSourceKey.main.name(), ${appName}DataSource());
+        dataSourceMap.put(DataSourceKey.other.name(), x${upperAppName}DataSource());
         // 将 wk数据源作为默认指定的数据源
         dynamicRoutingDataSource.setDefaultTargetDataSource(${appName}DataSource());
         //设置所有的数据源

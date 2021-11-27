@@ -3,9 +3,9 @@
 #set( $symbol_escape = '\' )
 package ${package}.infrastructure.gatewayimpl;
 
-import ${package}.domain.dto.resp.DistributeDTO;
-import ${package}.domain.gateway.DistributeGateway;
-import ${package}.domain.model.user.CustomerId;
+import com.${author}.${appName}.domain.dto.resp.DistributeDTO;
+import com.${author}.${appName}.domain.gateway.DistributeGateway;
+import com.${author}.${appName}.domain.model.user.CustomerId;
 import org.springframework.stereotype.Service;
 
 /**

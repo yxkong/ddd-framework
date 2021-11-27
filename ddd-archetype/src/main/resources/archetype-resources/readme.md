@@ -5,8 +5,18 @@
 数据模型：DO 结尾
 领域实体：Entity
 数据传输对象：DTO结尾（返回数据）
+### 规定
+#### 返回码
+- 0 表示处理异常
+- 1 表示业务处理成功
+- 1000~1999 属于公共返回
+  - 1008 token无效
+- 2000~2999 属于领域返回
+- 3000~3999 属于应用层返回
+- 4000~4999 属于适配层返回
+- 5000~5999 属于基础设施层返回
 
-#### onecard-ddd-common 是ddd模式下的公共包
+#### ddd-common 是ddd模式下的公共包
 包含：
 - annotation 公共注解
 - constant  公共常量
@@ -16,7 +26,7 @@
   - dto 页面交互统一返回对象（数据data都是DTO）
 - exception 通用异常封装
 
-#### onecard-ddd 
+#### ddd-demo 
 ![架构分层](doc/架构分层说明.png)
 #####  adapter 适配器层
 负责将外部请求，适配到应用层；
@@ -131,7 +141,7 @@ token校验和鉴权也在这一层统一通过切面处理
 - IdWorker 分布式id生成器（单机内存有序）
 - CacheUtils 尽量用注解，注解处理不了，使用这个
 - JsonUtils  json工具类，使用jackson
-- SignUtil
+- SignUtil  加签工具类
 
 ### 新项目修改地
 - 删除根目录中隐藏文件.git目录
@@ -142,5 +152,4 @@ token校验和鉴权也在这一层统一通过切面处理
 
 ### 待实现功能
 - 不经过网关时无loginInfo,需要根据token获取LoginInfo信息
-- 
 

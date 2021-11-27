@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ${groupId}.common.entity.dto.ResultBean;
 
 /**
- * @author 
+ * @author ${author}
  * @date 2021/6/15 19:36
  */
-@FeignClient(value = "${symbol_dollar}{eureka.instance.service.faceService}")
+//@FeignClient(value = "${symbol_dollar}{eureka.instance.service.faceService}")
+@FeignClient(value = "faceService")
 public interface FaceFeignService {
 
     @PostMapping(value = "/faceApi/faceQuery/hasFaceForServe")

@@ -3,7 +3,9 @@
 #set( $symbol_escape = '\' )
 package ${package}.domain.dto.context;
 
+import ${groupId}.common.constant.TenantEnum;
 import ${groupId}.common.entity.common.LoginToken;
+import ${package}.domain.model.user.CustomerId;
 import lombok.Getter;
 
 /**
@@ -16,8 +18,10 @@ import lombok.Getter;
 @Getter
 public class DistributeContext extends UserContext {
 	private String mobile;
-    public DistributeContext(LoginToken loginToken) {
-        super(loginToken.getAccountId(), loginToken.getCustomerId(), loginToken.getTenantId());
-        this.mobile = loginToken.getMobile();
+    private CustomerId customerId;
+    public DistributeContext(LoginToken token) {
+        super(token.getAccountId(), token.getCustomerId(),TenantEnum.get(token.getTenantId()));
+        this.mobile = token.getMobile();
+        this.customerId = new CustomerId(token.getCustomerId(),  TenantEnum.get(token.getTenantId()));
     }
 }

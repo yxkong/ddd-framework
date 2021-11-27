@@ -10,28 +10,25 @@ import java.util.Map.Entry;
 
 /**
  * 签名工具类
- * @Author: ${author}
+ * @author ${author}
  */
 public class SignUtil {
 
-    /**
-     * 叮当验签秘钥
-     */
-    public static final String WALLET = "4qjtgM8Eo3Zd89Vn7z9X6A==";
+
     /**
      * 通用api验签密钥
      */
-    public static final String OPEN_SALT = "M3A2OrXBF3ZcOFx0oCnZQ";
+    public static final String OPEN_SALT = "xxxx";
 
     /**
      * 加密解密用户id的秘钥
      */
-    private static final String USER_SALT = "pVrG+nGlxU4amKi39E6bTA==";
+    private static final String USER_SALT = "xxxx";
     
     /**
      * MD5加密用户手机号用的盐值
      */
-    public static final String MD5_SALT = "NsArzbOcYie4XMW5iGrkA";
+    public static final String MD5_SALT = "xxxx";
 
     /**
      * 根据id 获取加密后的字符串
@@ -49,7 +46,7 @@ public class SignUtil {
      * @param id
      * @param secretKey
      * @return
-     * @Author: ${author}
+     * @author ${author}
      * @createDate 2017年7月18日
      * @updateDate
      */
@@ -81,7 +78,7 @@ public class SignUtil {
      * @param str       要加密的字符串
      * @param secretKey 盐值
      * @return 返回加密值
-     * @Author: ${author}
+     * @author ${author}
      * @createDate 2017年7月18日
      * @updateDate
      */
@@ -97,7 +94,7 @@ public class SignUtil {
      *
      * @param str
      * @return
-     * @Author: ${author}
+     * @author ${author}
      * @createDate 2016年1月8日
      * @updateDate
      */
@@ -110,7 +107,7 @@ public class SignUtil {
      *
      * @param userId
      * @return
-     * @Author: ${author}
+     * @author ${author}
      * @createDate 2016年1月8日
      * @updateDate
      */
@@ -123,7 +120,7 @@ public class SignUtil {
      *
      * @param userId
      * @return
-     * @Author: ${author}
+     * @author ${author}
      * @createDate 2016年1月8日
      * @updateDate
      */
@@ -313,7 +310,7 @@ public class SignUtil {
      *
      * @param pwd
      * @return
-     * @Author: ${author}
+     * @author ducongcong
      * @createDate 2016年5月27日
      * @updateDate
      */

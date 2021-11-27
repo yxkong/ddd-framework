@@ -248,7 +248,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      *
      * @return
      */
-    public static final String randomUUIDSplit() {
+    public static final String randomUUIDRmLine() {
         return randomUUID().replaceAll("-", "");
     }
 
@@ -272,7 +272,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      *
      * @param str
      * @return
-     * @Author: ${author}
+     * @author ducongcong
      * @createDate 2015年12月29日
      * @updateDate
      */
@@ -296,7 +296,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      * @param len        模糊长度
      * @param vague      替换字符
      * @return 返回对应位置替换为对应字符的字符串
-     * @Author: ${author}
+     * @author ducongcong
      * @createDate 2016年2月23日
      * @updateDate
      */
@@ -318,7 +318,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      *
      * @param mobile
      * @return
-     * @Author: ${author}
+     * @author ducongcong
      * @createDate 2016年5月17日
      * @updateDate
      */
@@ -331,7 +331,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      *
      * @param certId
      * @return
-     * @Author: ${author}
+     * @author ducongcong
      * @createDate 2016年5月17日
      * @updateDate
      */
@@ -343,7 +343,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      * 银行卡脱敏
      *
      * @return
-     * @Author: ${author}
+     * @author ducongcong
      * @createDate 2016年5月17日
      * @updateDate
      */
@@ -384,7 +384,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      *
      * @param str
      * @return
-     * @Author: ${author}
+     * @author ducongcong
      * @createDate 2018年1月26日
      * @updateDate
      */
@@ -400,7 +400,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      *
      * @param str
      * @return
-     * @Author: ${author}
+     * @author ducongcong
      * @createDate 2016年5月27日
      * @updateDate
      */

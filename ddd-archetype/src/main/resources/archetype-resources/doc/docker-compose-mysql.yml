@@ -1,0 +1,25 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+version: '3' ${symbol_pound}
+services:
+  mysql:
+    container_name: mysql_test
+    image: "mysql:5.7"
+    ${symbol_pound} https://hub.docker.com/_/mysql?tab=description
+    environment:
+      TZ: Asia/Shanghai
+      LANG: en_US.UTF-8
+      MYSQL_ROOT_PASSWORD: "123456" ${symbol_pound} root密码
+      ${symbol_pound}      MYSQL_USER: '${author}'  ${symbol_pound} 新增超级用户（直接访问MYSQL_DATABASE）
+      ${symbol_pound}      MYSQL_PASS: '123456'  ${symbol_pound} 新增超级用户的密码
+      MYSQL_DATABASE: ${appName}  ${symbol_pound} 初始化的数据库名称
+    restart: always
+    ports:
+      - 3307:3306
+    volumes:
+      - "/etc/localtime:/etc/localtime"
+      - "./conf/my.cnf:/etc/mysql/my.cnf"
+      - "./data:/var/lib/mysql"
+      - "./conf/error.log:/var/log/mysql/error.log"
+      - "./init/:/docker-entrypoint-initdb.d/"

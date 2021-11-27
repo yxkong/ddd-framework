@@ -23,7 +23,7 @@ import java.util.*;
 /**
  * insert or update 前给入参中的tenantId、createTime、updateTime赋值
  *
- * @Author: ${author}
+ * @author ${author}
  * @date 2021/7/2-11:03
  */
 @SuppressWarnings({"rawtypes", "unchecked"})

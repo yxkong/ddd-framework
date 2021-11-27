@@ -1,0 +1,156 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="${package}.infrastructure.persistence.mapper.${appName}andx.TokenIdxMapper">
+
+	 <resultMap type="${package}.infrastructure.persistence.entity.${appName}.TokenIdxDO" id="BaseResultMap">
+    	 <id column="id" property="id" /> 
+		  <id column="uuid" property="uuid" /> 
+		  <id column="token" property="token" /> 
+		  <id column="mobile" property="mobile" /> 
+		  <id column="createTime" property="createTime" /> 
+		  <id column="updatedTime" property="updatedTime" /> 
+  
+    </resultMap>
+    <sql id="Base_Column_List">
+    	 t.id as id ,
+ 		 t.uuid as uuid ,
+ 		 t.token as token ,
+ 		 t.mobile as mobile ,
+ 		 t.create_time as createTime ,
+ 		 t.updated_time as updatedTime
+    </sql>
+    
+    <select id="findById" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from t_token_idx t
+ 		  where t.id = ${symbol_pound}{ id }
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		 delete 
+ 		  from t_token_idx
+ 		  where id = ${symbol_pound}{ id }
+	</delete>
+	
+	<insert id="insertSelective" useGeneratedKeys="true"  keyProperty="id" parameterType="${package}.infrastructure.persistence.entity.${appName}.TokenIdxDO">
+		 insert into  t_token_idx
+ 		  <trim prefix="(" suffix=")" suffixOverrides=","> 
+ 			 <if test="id != null">
+ 				 id,
+ 			  </if>
+ 			 <if test="uuid != null">
+ 				 uuid,
+ 			  </if>
+ 			 <if test="token != null">
+ 				 token,
+ 			  </if>
+ 			 <if test="mobile != null">
+ 				 mobile,
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 create_time,
+ 			  </if>
+ 			 <if test="updatedTime != null">
+ 				 updated_time,
+ 			  </if>
+ 		  </trim>
+ 		  <trim prefix="values (" suffix=")" suffixOverrides="," >
+ 			 <if test="id != null">
+ 				 ${symbol_pound}{id},
+ 			  </if>
+ 			 <if test="uuid != null">
+ 				 ${symbol_pound}{uuid},
+ 			  </if>
+ 			 <if test="token != null">
+ 				 ${symbol_pound}{token},
+ 			  </if>
+ 			 <if test="mobile != null">
+ 				 ${symbol_pound}{mobile},
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 ${symbol_pound}{createTime},
+ 			  </if>
+ 			 <if test="updatedTime != null">
+ 				 ${symbol_pound}{updatedTime},
+ 			  </if>
+ 		  </trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="${package}.infrastructure.persistence.entity.${appName}.TokenIdxDO">
+		 update   t_token_idx
+ 		 <set>
+ 			 <if test="uuid != null">
+ 				 uuid = ${symbol_pound}{uuid},
+ 			  </if>
+ 			 <if test="token != null">
+ 				 token = ${symbol_pound}{token},
+ 			  </if>
+ 			 <if test="mobile != null">
+ 				 mobile = ${symbol_pound}{mobile},
+ 			  </if>
+ 			 <if test="createTime != null">
+ 				 create_time = ${symbol_pound}{createTime},
+ 			  </if>
+ 			 <if test="updatedTime != null">
+ 				 updated_time = ${symbol_pound}{updatedTime},
+ 			  </if>
+ 		 </set>
+     where id = ${symbol_pound}{id}
+	</update>
+	
+	 <select id="getList" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		 select 
+ 		  <include refid="Base_Column_List" />
+ 		  from t_token_idx t
+ 		  where 1=1 
+ 		 <if test="id != null">
+ 			 and t.id = ${symbol_pound}{id}
+ 		  </if>
+ 		 <if test="uuid != null">
+ 			 and t.uuid = ${symbol_pound}{uuid}
+ 		  </if>
+ 		 <if test="token != null">
+ 			 and t.token = ${symbol_pound}{token}
+ 		  </if>
+ 		 <if test="mobile != null">
+ 			 and t.mobile = ${symbol_pound}{mobile}
+ 		  </if>
+ 		 <if test="createTime != null">
+ 			 and t.create_time = ${symbol_pound}{createTime}
+ 		  </if>
+ 		 <if test="updatedTime != null">
+ 			 and t.updated_time = ${symbol_pound}{updatedTime}
+ 		  </if>
+	</select>
+	 <select id="getListCount" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		 select 
+ 		  count(t.id)
+ 		  from t_token_idx t
+ 		  where 1=1 
+ 		 <if test="id != null">
+ 			 and t.id = ${symbol_pound}{id}
+ 		  </if>
+ 		 <if test="uuid != null">
+ 			 and t.uuid = ${symbol_pound}{uuid}
+ 		  </if>
+ 		 <if test="token != null">
+ 			 and t.token = ${symbol_pound}{token}
+ 		  </if>
+ 		 <if test="mobile != null">
+ 			 and t.mobile = ${symbol_pound}{mobile}
+ 		  </if>
+ 		 <if test="createTime != null">
+ 			 and t.create_time = ${symbol_pound}{createTime}
+ 		  </if>
+ 		 <if test="updatedTime != null">
+ 			 and t.updated_time = ${symbol_pound}{updatedTime}
+ 		  </if>
+	</select>
+</mapper>

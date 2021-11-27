@@ -6,8 +6,8 @@
         <artifactId>ddd-parent</artifactId>
         <version>0.1</version>
     </parent>
-    <groupId>${groupId}</groupId>
     <artifactId>${artifactId}</artifactId>
+    <groupId>${groupId}</groupId>
     <packaging>pom</packaging>
     <version>${version}</version>
     <modules>
@@ -43,14 +43,8 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.onecard</groupId>
-                <artifactId>onecard-ddd-common</artifactId>
-                <version>${project.parent.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.onecard</groupId>
-                <artifactId>onecard-ddd-code-generator</artifactId>
-                <version>${project.parent.version}</version>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -58,19 +52,15 @@
     <!-- 配置远程仓库 -->
     <distributionManagement>
         <repository>
-            <id>thirdparty</id>
-            <url>http://maven.9f.cn/nexus/content/repositories/thirdparty/</url>
+            <id>aliyun</id>
+            <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
         </repository>
     </distributionManagement>
     <repositories>
         <repository>
-            <id>maven-public</id>
-            <name>maven-public</name>
-            <url>http://maven.9f.cn/nexus/content/groups/public</url>
-        </repository>
-        <repository>
-            <id>jfbank-xiaojin</id>
-            <url>http://maven.9f.cn/nexus/content/repositories/jfbank-xiaojin/</url>
+            <id>aliyun-public</id>
+            <name>aliyun-public</name>
+            <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
         </repository>
     </repositories>
 

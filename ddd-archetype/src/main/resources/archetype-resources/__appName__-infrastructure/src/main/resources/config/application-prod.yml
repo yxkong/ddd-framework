@@ -1,8 +1,6 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-#set( $symbol_left = '{' )
-#set( $symbol_right = '}' )
 server:
   port: 8080
 logging:
@@ -10,34 +8,34 @@ logging:
   level:
     root: info
     ${package}.infrastructure.persistence.mapper.*: info
-# 生产关闭
+${symbol_pound} 生产关闭
 swagger:
   show: false
 spring:
   redis:
-    host: r-9rp10eda8737d844.redis.rds.ops.9fcloud.com
-    password: xxx
+    host: xxxx
+    password: xx
     port: 6379
     timeout: 3000
     lettuce:
       pool:
-        max-active: 200 # 连接池最大连接数（使用负值表示没有限制）
-        max-idle: 50 # 连接池中的最大空闲连接
-        min-idle: 50 # 连接池中的最小空闲连接
-        max-wait: 500 # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-active: 200 ${symbol_pound} 连接池最大连接数（使用负值表示没有限制）
+        max-idle: 50 ${symbol_pound} 连接池中的最大空闲连接
+        min-idle: 50 ${symbol_pound} 连接池中的最小空闲连接
+        max-wait: 500 ${symbol_pound} 连接池最大阻塞等待时间（使用负值表示没有限制）
   kafka:
     biz:
       enabled: true
     bootstrap-servers: 172.20.134.6:9092,172.20.134.7:9092,172.19.134.6:9092
     biz-bootstrap-servers: 172.20.134.8:9092,172.20.134.9:9092,172.19.134.8:9092
     consumer:
-      group-id: ${symbol_dollar}${symbol_left}spring.application.name${symbol_right}
+      group-id: ${symbol_dollar}{spring.application.name}
       enable-auto-commit: true
       auto-commit-interval: 10000
-      auto-offset-reset: latest  #latest
+      auto-offset-reset: latest  ${symbol_pound}latest
       max-poll-records: 100
     producer:
-      client-id: ${symbol_dollar}${symbol_left}spring.application.name${symbol_right}
+      client-id: ${symbol_dollar}{spring.application.name}
       retries: 3
       batch-size: 1048576
       buffer-memory: 6291456
@@ -47,7 +45,7 @@ spring:
       concurrency: 1
   sleuth:
     sampler:
-      probability: 1.0
+      probability: ${version}
   zipkin:
     compression:
       enabled: true
@@ -55,17 +53,17 @@ spring:
       type: kafka
     message-timeout: 60
     service:
-      name: ${symbol_dollar}${symbol_left}spring.application.name${symbol_right}
+      name: ${symbol_dollar}{spring.application.name}
 
-#数据库配置
+${symbol_pound}数据库配置
 datasource:
-  ${appName}:
-    # 使用druid数据源
+  member:
+    ${symbol_pound} 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://rm-9rp192l8r80n14xlm.mysql.rds.ops.9fcloud.com:3306/wk_db_member?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
-    username: wk_member_rw
-    password: xxx
+    url: jdbc:mysql://127.0.0.1:3306/db_ddd?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
     initialSize: 50
     minIdle: 50
     maxActive: 200
@@ -81,12 +79,12 @@ datasource:
     filters: stat
     connectionProperties: druid.stat.mergeSql:true;druid.stat.slowSqlMillis:5000
     useGlobalDataSourceStat: true
-  x${appName}:
+  x:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://rm-9rpyzsid7we6323lf.mysql.rds.ops.9fcloud.com:3306/wk_x_member?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
-    username: xxk_member_rw
-    password: xxx
+    url: jdbc:mysql://127.0.0.1:3306/xdb_ddd?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
     initialSize: 50
     minIdle: 50
     maxActive: 200
@@ -104,28 +102,28 @@ datasource:
     useGlobalDataSourceStat: true
 eureka:
   server:
-    #当Eureka Server节点在短时间内丢失过多的客户端时（可能发送了网络故障），那么这个节点将进入自我保护模式，不再注销任何微服务，当网络故障回复后，该节点会自动退出自我保护模式
+    ${symbol_pound}当Eureka Server节点在短时间内丢失过多的客户端时（可能发送了网络故障），那么这个节点将进入自我保护模式，不再注销任何微服务，当网络故障回复后，该节点会自动退出自我保护模式
     enable-self-preservation: false
-    #清理间隔,没有及时下线，利用这个比较好（单位毫秒，默认是60*1000）
+    ${symbol_pound}清理间隔,没有及时下线，利用这个比较好（单位毫秒，默认是60*1000）
     evictionIntervalTimerInMs: 2000
   client:
-    #    register-with-eureka: true
-    #    fetch-registry: false
+    ${symbol_pound}    register-with-eureka: true
+    ${symbol_pound}    fetch-registry: false
     healthcheck:
-      #开启健康检查
+      ${symbol_pound}开启健康检查
       enabled: true
     service-url:
-      defaultZone: http://eureka-prod-one.sk.9f.cn:80/eureka/,http://eureka-prod-two.sk.9f.cn:80/eureka/
+      defaultZone: http://eureka-prod-one.5ycode.com/eureka/,http://eureka-prod-two.5ycode.com/eureka/
   instance:
-    #    hostname: ${symbol_dollar}\{spring.application.name\}
-    #指定本节点的IP
-    #ip-address: 127.0.0.1
-    #表示使用IP进行配置
+    ${symbol_pound}    hostname: ${symbol_dollar}{spring.application.name}
+    ${symbol_pound}指定本节点的IP
+    ${symbol_pound}ip-address: 127.0.0.1
+    ${symbol_pound}表示使用IP进行配置
     prefer-ip-address: true
-    instance-id: ${symbol_dollar}${symbol_left}spring.cloud.client.ip-address${symbol_right}:${symbol_dollar}${symbol_left}server.port${symbol_right}
-    #租期更新时间间隔（默认30秒）
+    instance-id: ${symbol_dollar}{spring.cloud.client.ip-address}:${symbol_dollar}{server.port}
+    ${symbol_pound}租期更新时间间隔（默认30秒）
     lease-renewal-interval-in-seconds: 10
-    #租期到期时间（默认90秒）
+    ${symbol_pound}租期到期时间（默认90秒）
     lease-expiration-duration-in-seconds: 10
     metadata-map:
       user:
@@ -136,25 +134,25 @@ feign:
   client:
     config:
       default:
-        # 考虑有外网的原因，允许建立连接的时间略长
+        ${symbol_pound} 考虑有外网的原因，允许建立连接的时间略长
         connectTimeout: 1000
         readTimeout: 3000
         loggerLevel: basic
-      # 设置欧飞的超时时间
+      ${symbol_pound} 设置欧飞的超时时间
       OFPAY-SERVEICE:
-        connectTimeout: 2000
+        connectTimeout: 1000
         readTimeout: 10000
         loggerLevel: basic
-yxkong:
+ddd:
   id-worker:
     cluster: 172.28.24.54,172.29.24.31
-#apollo:
-#  cacheDir: /opt/data/                       #配置本地配置缓存目录
-#  cluster: default                           #指定使用哪个集群的配置
-#  meta: http://inner-apollo-jtgg.5yocde.com    #生产环境配置中心地址
-#  autoUpdateInjectedSpringProperties: true   #是否开启 Spring 参数自动更新
-#  bootstrap:
-#    enabled: false                            #是否开启 Apollo
-#    namespaces: ${appName}Application                  #设置 Namespace
-#    eagerLoad:
-#      enabled: false                         #将 Apollo 加载提到初始化日志系统之前s
+${symbol_pound}apollo:
+${symbol_pound}  cacheDir: /opt/data/                       ${symbol_pound}配置本地配置缓存目录
+${symbol_pound}  cluster: default                           ${symbol_pound}指定使用哪个集群的配置
+${symbol_pound}  meta: http://inner-apollo.5ycode.com    ${symbol_pound}生产环境配置中心地址
+${symbol_pound}  autoUpdateInjectedSpringProperties: true   ${symbol_pound}是否开启 Spring 参数自动更新
+${symbol_pound}  bootstrap:
+${symbol_pound}    enabled: false                            ${symbol_pound}是否开启 Apollo
+${symbol_pound}    namespaces: application                  ${symbol_pound}设置 Namespace
+${symbol_pound}    eagerLoad:
+${symbol_pound}      enabled: false                         ${symbol_pound}将 Apollo 加载提到初始化日志系统之前s

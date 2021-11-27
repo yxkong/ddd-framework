@@ -4,7 +4,7 @@
 package ${package}.infrastructure.common.plugin.datasource;
 
 import ${package}.infrastructure.common.constant.DataSourceKey;
-import ${package}.domain.constant.TenantEnum;
+import ${groupId}.common.constant.TenantEnum;
 import ${package}.infrastructure.common.util.LoginTokenUtil;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.util.StringUtils;
@@ -21,10 +21,10 @@ public class DynamicRoutingDataSource extends AbstractRoutingDataSource {
     protected Object determineCurrentLookupKey() {
         //获取租户号。得到KEY。
         String tenantId = String.valueOf(LoginTokenUtil.getTenantId());
-        if (StringUtils.isEmpty(tenantId) || tenantId.equalsIgnoreCase(TenantEnum.ONE_CARD.getTenantId()+"")) {
-            return DataSourceKey.wk.name();
+        if (StringUtils.isEmpty(tenantId) || tenantId.equalsIgnoreCase(TenantEnum.main.getTenantId()+"")) {
+            return DataSourceKey.main.name();
         } else {
-            return DataSourceKey.x.name();
+            return DataSourceKey.other.name();
         }
     }
 }

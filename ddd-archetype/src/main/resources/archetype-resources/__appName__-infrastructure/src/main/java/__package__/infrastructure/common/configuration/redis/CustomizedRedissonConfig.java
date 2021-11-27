@@ -11,7 +11,7 @@ import org.redisson.spring.starter.RedissonAutoConfigurationCustomizer;
  * 回调方法，定义Config，声明成bean后会注入自定义配置
  * {@link RedissonAutoConfiguration}
  *
- * @Author: ${author}
+ * @author ${author}
  * @date 2020-08-11 20:52
  */
 // @Component

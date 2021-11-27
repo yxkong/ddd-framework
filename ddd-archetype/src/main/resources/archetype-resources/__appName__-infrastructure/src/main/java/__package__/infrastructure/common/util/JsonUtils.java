@@ -26,7 +26,7 @@ public class JsonUtils {
      *
      * @param object
      * @return
-     * @Author: ${author}
+     * @author ${author}
      * @createDate 2016年7月6日
      * @updateDate
      */
@@ -48,7 +48,7 @@ public class JsonUtils {
      * @param json
      * @param clazz
      * @return
-     * @Author: ${author}
+     * @author ${author}
      * @createDate 2016年7月6日
      * @updateDate
      */
@@ -67,7 +67,7 @@ public class JsonUtils {
      * @param json
      * @param type 例：  new TypeReference<Map<String, Object>>() {}
      * @return
-     * @Author: ${author}
+     * @author ${author}
      * @createDate 2016年8月9日
      * @updateDate
      */

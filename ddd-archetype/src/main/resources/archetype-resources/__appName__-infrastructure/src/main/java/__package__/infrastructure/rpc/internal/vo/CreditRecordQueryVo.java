@@ -15,7 +15,6 @@ public class CreditRecordQueryVo {
     // 模式
     private String model = "fr";
     private String orderNo;
-    // 发起节点,auth:授信;金融云:finance;金融云发起转授信:financeToAuth
     private String node = "auth";
     private String proId;
 }

@@ -6,7 +6,7 @@
         <version>${version}</version>
     </parent>
 
-    <artifactId>${appName}-domain</artifactId>
+    <artifactId>${artifactId}</artifactId>
     <modelVersion>4.0.0</modelVersion>
 
     <dependencies>
