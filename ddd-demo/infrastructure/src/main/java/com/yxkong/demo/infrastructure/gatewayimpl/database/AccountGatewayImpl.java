@@ -13,13 +13,17 @@ import com.yxkong.demo.infrastructure.common.util.*;
 import com.yxkong.demo.infrastructure.convert.AccountConvert;
 import com.yxkong.demo.infrastructure.persistence.entity.demo.AccountDO;
 import com.yxkong.demo.infrastructure.persistence.entity.demo.AccountLogDO;
+import com.yxkong.demo.infrastructure.persistence.entity.demo.TokenIdxDO;
 import com.yxkong.demo.infrastructure.persistence.mapper.demoandx.AccountLogMapper;
 import com.yxkong.demo.infrastructure.persistence.mapper.demoandx.AccountMapper;
+import com.yxkong.demo.infrastructure.persistence.mapper.demoandx.TokenIdxMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -31,11 +35,15 @@ import java.util.concurrent.TimeUnit;
  * @version: 1.0
  */
 @Service
+@Slf4j
 public class AccountGatewayImpl implements AccountGateway {
     @Resource
     private AccountMapper accountMapper;
     @Resource
     private AccountLogMapper accountLogMapper;
+
+    @Resource
+    private TokenIdxMapper tokenIdxMapper;
 
     @Resource(name = "stringRedisTemplate")
     private StringRedisTemplate redisTemplate;
@@ -48,6 +56,12 @@ public class AccountGatewayImpl implements AccountGateway {
         AccountLogDO logDO = AccountConvert.accountLog(registerContext);
         accountLogMapper.insertSelective(logDO);
         return AccountConvert.entity(accountDO);
+    }
+
+    @Override
+    public int accountLog(AccountEntity entity,String requestIp,String env) {
+        AccountLogDO logDO = AccountConvert.accountLog(entity,requestIp,env);
+        return accountLogMapper.insertSelective(logDO);
     }
 
     @Override
@@ -81,6 +95,17 @@ public class AccountGatewayImpl implements AccountGateway {
         redisTemplate.opsForValue().set(LoginTokenUtil.getKey(token), JsonUtils.toJson(loginToken));
         redisTemplate.expire(token,7, TimeUnit.DAYS);
         LoginTokenUtil.reloadLoginToken(loginToken);
+        try {
+            //偷懒
+            TokenIdxDO tokenIdxDO = new TokenIdxDO();
+            tokenIdxDO.setToken(token);
+            tokenIdxDO.setMobile(entity.getUser().getMobile());
+            tokenIdxDO.setUuid(entity.getAccountId().getUuid());
+            tokenIdxDO.setCreateTime(new Date());
+            tokenIdxMapper.insertSelective(tokenIdxDO);
+        } catch (Exception e) {
+            log.error("记录用户{}的token：{}异常！",entity.getAccountId().getUuid(),token);
+        }
         return loginToken;
     }
 

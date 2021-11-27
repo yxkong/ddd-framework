@@ -28,6 +28,7 @@ import org.redisson.api.RLock;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -57,7 +58,6 @@ public class AccountExecutor {
             return ResultBeanUtil.result(ResultStatusEnum.REPEAT);
         }
         ResultBean resultBean = ResultBeanUtil.fail();
-        int status = 0;
         try {
             lock.tryLock(5, 10, TimeUnit.SECONDS);
             SmsContext smsContext = new SmsContext(context.getUser(), context.getRequestIp(), context.getVerifyCode(),1);
@@ -87,27 +87,24 @@ public class AccountExecutor {
             if (resultBean.isSucc()){
                 AccountEntity entity = (AccountEntity)resultBean.getData();
                 LoginToken token = accountGateway.generatorToken(entity,loginType,context.getProId());
-                status = 1;
-                return ResultBeanUtil.success("注册成功！",token.getToken());
+                resultBean  = ResultBeanUtil.success("注册成功！",token.getToken());
             }
         } catch (DomainException e) {
-            status = -1;
             log.error("用户{}注册领域层失败，异常信息：",context.getUser().getMobile(),e);
-            return ResultBeanUtil.result(e);
+            resultBean =  ResultBeanUtil.result(e);
         } catch (Exception e){
             log.error("用户{}注册应用层失败，异常信息：",context.getUser().getMobile(),e);
             resultBean = ResultBeanUtil.fail("系统异常，请稍后再试！",null);
         }finally {
             smsGateway.useStatus(context.getUser(),context.getVerifyCode(),1);
-            lock.unlock();
-            sendEvent(context.getUser().getMobile(), context.getProId(), context.getUser().getTenantEnum().getTenantId(),  "register", status);
+            unlock(lock);
+            sendEvent(context.getUser().getMobile(), context.getProId(), context.getUser().getTenantEnum().getTenantId(),  "register", resultBean);
         }
         return resultBean;
     }
 
     public ResultBean loginByPwd(RegisterAppContext context) {
         RLock lock = CommonUtil.REDISSON_CLIENT.getLock("login:"+ context.getUser().getTenantEnum() +":"+ context.getUser().getMobile());
-        int status = 0;
         if (lock.isLocked()) {
             log.warn("用户:{}登录中，请不要重复调用,", context.getUser().getMobile());
             return ResultBeanUtil.result(ResultStatusEnum.REPEAT);
@@ -119,28 +116,41 @@ public class AccountExecutor {
             //查
             LoginContext loginContext = RegisterLoginConvert.convert(context);
             resultBean = accountService.login(loginContext);
-            if (resultBean.isSucc()){
-                status = 1;
-            }
         }catch (DomainException e) {
             log.error("用户{}登录领域层失败，异常信息：",context.getUser().getMobile(),e);
-            return ResultBeanUtil.result(e);
+            resultBean =  ResultBeanUtil.result(e);
         } catch (Exception e){
             log.error("用户{}登录应用层失败，异常信息：",context.getUser().getMobile(),e);
             resultBean = ResultBeanUtil.fail("系统异常，请稍后再试！",null);
         }finally {
-            lock.unlock();
-            sendEvent(context.getUser().getMobile(), context.getProId(), context.getUser().getTenantEnum().getTenantId(),  "loginByPwd", status);
+            unlock(lock);
+            sendEvent(context.getUser().getMobile(), context.getProId(), context.getUser().getTenantEnum().getTenantId(),  "loginByPwd", resultBean);
         }
         return resultBean;
     }
-    private void sendEvent(String mobile,String proId,Integer tenantId,String msgNode,Integer status){
+    private void sendEvent(String mobile,String proId,Integer tenantId,String msgNode,ResultBean resultBean){
         try {
             LoginToken token = LoginTokenUtil.getLoginToken();
-            MsgContent msgContent = EventConvert.convert(mobile, proId, tenantId, "account", msgNode, status, token);
+            int status = 0;
+            String errorMessage = null;
+            if (Objects.isNull(resultBean)){
+                if (resultBean.isSucc()){
+                    status = 1;
+                }else {
+                    errorMessage = resultBean.getMessage();
+                }
+            }
+            MsgContent msgContent = EventConvert.convert(mobile, proId, tenantId, "account", msgNode, status, token,errorMessage);
             publisher.publishUseKafka(msgContent,"ddd-demo");
         } catch (Exception e) {
            log.error("发送account广播异常",e);
+        }
+    }
+    private void unlock(RLock lock ){
+        //防止找不到锁报异常
+        try {
+            lock.unlock();
+        } catch (Exception e) {
         }
     }
 
@@ -152,7 +162,6 @@ public class AccountExecutor {
             return ResultBeanUtil.result(ResultStatusEnum.REPEAT);
         }
         ResultBean resultBean = ResultBeanUtil.fail();
-        int status = 0;
         try {
             lock.tryLock(5, 10, TimeUnit.SECONDS);
             SmsContext smsContext = new SmsContext(context.getUser(), context.getRequestIp(), context.getVerifyCode(),2);
@@ -164,19 +173,16 @@ public class AccountExecutor {
             AccountService accountService = AccountService.builder().accountGateway(accountGateway).build();
             LoginContext loginContext = RegisterLoginConvert.convert(context);
             resultBean = accountService.login(loginContext);
-            if (resultBean.isSucc()){
-                status = 1;
-            }
         } catch (DomainException e) {
             log.error("用户{}无密码登录领域层失败，异常信息：",context.getUser().getMobile(),e);
-            return ResultBeanUtil.result(e);
+            resultBean =  ResultBeanUtil.result(e);
         } catch (Exception e){
             log.error("用户{}无密码登录应用层失败，异常信息：",context.getUser().getMobile(),e);
             resultBean = ResultBeanUtil.fail("系统异常，请稍后再试！",null);
         }finally {
             smsGateway.useStatus(context.getUser(),context.getVerifyCode(),smsType);
-            lock.unlock();
-            sendEvent(context.getUser().getMobile(), context.getProId(), context.getUser().getTenantEnum().getTenantId(),  "loginWithoutPwd", status);
+            unlock(lock);
+            sendEvent(context.getUser().getMobile(), context.getProId(), context.getUser().getTenantEnum().getTenantId(),  "loginWithoutPwd", resultBean);
         }
         return resultBean;
     }

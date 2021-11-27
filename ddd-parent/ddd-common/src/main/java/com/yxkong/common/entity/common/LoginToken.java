@@ -16,7 +16,7 @@ public class LoginToken implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
+    public final static String DEFULT_TOKEN = "token";
     private String token;
     /**
      * 当前登陆手机号
@@ -84,14 +84,17 @@ public class LoginToken implements Serializable {
     /**
      * 租户
      */
-    private TenantEnum tenant;
+    private Integer tenantId;
 
-    public LoginToken(String token, String mobile, Long accountId, Long uuid, TenantEnum tenant) {
+    public LoginToken() {
+    }
+
+    public LoginToken(String token, String mobile, Long accountId, Long uuid, Integer tenant) {
         this.token = token;
         this.mobile = mobile;
         this.accountId = accountId;
         this.uuid = uuid;
-        this.tenant = tenant;
+        this.tenantId = tenantId;
     }
 
     /**
@@ -249,11 +252,11 @@ public class LoginToken implements Serializable {
         this.registerTime = registerTime;
     }
 
-    public TenantEnum getTenant() {
-        return tenant;
+    public Integer getTenantId() {
+        return tenantId;
     }
 
-    public void setTenant(TenantEnum tenant) {
-        this.tenant = tenant;
+    public void setTenantId(Integer tenantId) {
+        this.tenantId = tenantId;
     }
 }

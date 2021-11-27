@@ -9,8 +9,8 @@ services:
       - 2181:2181
     volumes:
       - "/etc/localtime:/etc/localtime"
-      - "/Users/yxk/docker/zookeeper/data:/data"
-      - "/Users/yxk/docker/zookeeper/log:/var/log/zookeeper"
+      - "/Users/yxk/docker/zookeeper/data:/data"  # TODO :前面的地址改成自己的
+      - "/Users/yxk/docker/zookeeper/log:/var/log/zookeeper"  # TODO :前面的地址改成自己的
   kafka:
     container_name: kafka_dev
     image: wurstmeister/kafka:2.12-2.2.1
@@ -23,7 +23,7 @@ services:
       KAFKA_BROKER_ID: 1
 #      KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ADVERTISED_PORT: 9092                                      # 端口
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://10.203.8.28:9092  #配置宿主机ip或容器和宿主机都能识别的ip ，这个配置是kafka发布到zk上的，供外部使用，默认使用容器的id，容器id和容器的ip会在hosts里做映射
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://10.203.8.28:9092  #( TODO 修改成自己的宿主机ip)配置宿主机ip或容器和宿主机都能识别的ip ，这个配置是kafka发布到zk上的，供外部使用，默认使用容器的id，容器id和容器的ip会在hosts里做映射
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092            # 全网监听，定义kafka的服务监听
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CREATE_TOPICS: "zipkin:1:1,zipkin.log.info:1:1,zipkin.log.warn:1:1,zipkin.log.error:1:1"
@@ -33,9 +33,9 @@ services:
       KAFKA_NUM_PARTITIONS: 2
     volumes:
       - "/etc/localtime:/etc/localtime"
-#      - "/Users/yxk/docker/kafka/docker.sock:/var/run/docker.sock"
-#      - "/Users/yxk/docker/kafka/data:/kafka"   # kafka数据
-#      - "/Users/yxk/docker/kafka/logs:/tmp/kafka-logs"
+#      - "/Users/yxk/docker/kafka/docker.sock:/var/run/docker.sock"  # TODO :前面的地址改成自己的
+#      - "/Users/yxk/docker/kafka/data:/kafka"   # kafka数据  # TODO :前面的地址改成自己的
+#      - "/Users/yxk/docker/kafka/logs:/tmp/kafka-logs"  # TODO :前面的地址改成自己的
     depends_on:
       - zookeeper
   kafka-manager:
@@ -68,8 +68,8 @@ services:
       LANG: en_US.UTF-8
     volumes:
       - "/etc/localtime:/etc/localtime"
-      - "/Users/yxk/docker/redis/data:/data"
-      - "/Users/yxk/docker/redis/redis.conf:/etc/redis/redis.conf"
+      - "/Users/yxk/docker/redis/data:/data"  # TODO :前面的地址改成自己的
+      - "/Users/yxk/docker/redis/redis.conf:/etc/redis/redis.conf"  # TODO :前面的地址改成自己的，并把conf目录里的redis.conf拷贝进去
     ports:
       - 6379:6379
   mysql:
@@ -89,10 +89,10 @@ services:
       - 3306:3306
     volumes:
       - "/etc/localtime:/etc/localtime"
-      - "/Users/yxk/docker/mysql/my.cnf:/etc/mysql/my.cnf"
-      - "/Users/yxk/docker/mysql/data:/var/lib/mysql"
-      - "/Users/yxk/docker/mysql/log/error.log:/var/log/mysql/error.log"
-      - "/Users/yxk/docker/mysql/init:/docker-entrypoint-initdb.d/"
+      - "/Users/yxk/docker/mysql/my.cnf:/etc/mysql/my.cnf"  # TODO :前面的地址改成自己的，并把conf目录中的my.cnf拷贝进去
+      - "/Users/yxk/docker/mysql/data:/var/lib/mysql"  # TODO :前面的地址改成自己的
+      - "/Users/yxk/docker/mysql/log/error.log:/var/log/mysql/error.log"  # TODO :前面的地址改成自己的
+      - "/Users/yxk/docker/mysql/init:/docker-entrypoint-initdb.d/"  # TODO :前面的地址改成自己的 ，并把init目录里的脚本拷贝进去
 #  nacos:
 #    container_name: nacos_dev
 #    image: "nacos/nacos-server:v2.0.3"

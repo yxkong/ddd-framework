@@ -27,6 +27,13 @@ public interface AccountGateway {
     AccountEntity register(RegisterContext registerContext);
 
     /**
+     * 记录account log
+     * @param entity
+     * @return
+     */
+    int accountLog(AccountEntity entity,String requestIp,String env);
+
+    /**
      * 查询用户实体
      * @param userObject
      * @return

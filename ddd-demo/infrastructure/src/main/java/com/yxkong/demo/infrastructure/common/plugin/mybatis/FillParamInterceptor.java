@@ -74,9 +74,9 @@ public class FillParamInterceptor implements Interceptor {
                 ParameterMapping parameterMapping = parameterMappings.get(0);
                 if (!StringUtils.equals(parameterMapping.getProperty(), TENANT_ID)) {
                     paramMap.put(parameterMapping.getProperty(), paramObj);
-                    paramMap.put("param1", paramObj);
+//                    paramMap.put("param1", paramObj);
                     paramMap.put(TENANT_ID, LoginTokenUtil.getTenantId());
-                    paramMap.put("param2", LoginTokenUtil.getTenantId());
+//                    paramMap.put("param2", LoginTokenUtil.getTenantId());
                     paramObj = paramMap;
                 }
             }
@@ -91,7 +91,7 @@ public class FillParamInterceptor implements Interceptor {
         Map<String, Object> paramMap = new MapperMethod.ParamMap<>();
         if (paramObj == null) {
             paramMap.put(TENANT_ID, LoginTokenUtil.getTenantId());
-            paramMap.put("param1", LoginTokenUtil.getTenantId());
+//            paramMap.put("param1", LoginTokenUtil.getTenantId());
             paramObj = paramMap;
             // 单参数 将 参数转为 map
         } else if (paramObj instanceof Map) {

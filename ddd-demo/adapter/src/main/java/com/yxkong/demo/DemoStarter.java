@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 /**
- * 后续根据实际需要，将用户适配层和应用层拆分
+ * 后续根据实际需要，将用户适配层的api和consumer，job拆分部署
  * @Author: yxkong
  * @Date: 2021/6/1 12:52 下午
  * @version: 1.0

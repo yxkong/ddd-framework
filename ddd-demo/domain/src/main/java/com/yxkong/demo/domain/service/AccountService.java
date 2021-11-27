@@ -10,6 +10,7 @@ import com.yxkong.demo.domain.dto.context.RegisterContext;
 import com.yxkong.demo.domain.gateway.AccountGateway;
 import com.yxkong.demo.domain.model.user.AccountEntity;
 import lombok.Builder;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;
 
@@ -22,6 +23,7 @@ import java.util.Objects;
  */
 @DomainService
 @Builder
+@Slf4j
 public class AccountService {
 
 
@@ -55,6 +57,11 @@ public class AccountService {
         }
         if (!isTrue){
             return ResultBeanUtil.result(DomainResultEnum.LONGINFAIL);
+        }
+        try {
+            accountGateway.accountLog(accountEntity, context.getRequestIp(), context.getEnv());
+        } catch (Exception e) {
+            log.info("记录{}登录日志异常！",accountEntity.getAccountId().getUuid());
         }
         LoginToken token = accountGateway.generatorToken(accountEntity, context.getLoginType(), context.getProId());
         return ResultBeanUtil.success("登录成功！",token.getToken());

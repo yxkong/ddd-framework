@@ -49,7 +49,7 @@ public class RequestTokenConvertAspect {
             SecurityContextHolder.clearContext();
             if (StringUtils.isNotBlank(loginStr)) {
                 loginToken = JsonUtils.fromJson(loginStr, LoginToken.class);
-            } else if(Objects.nonNull(token) && "".equals(token)) {
+            } else if(Objects.nonNull(token) && !LoginToken.DEFULT_TOKEN.equals(token)) {
                 loginStr = redisTemplate.opsForValue().get(LoginTokenUtil.getKey(token));
                 loginToken =  JsonUtils.fromJson(loginStr, LoginToken.class);
             }else {

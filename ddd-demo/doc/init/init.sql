@@ -103,6 +103,24 @@ CREATE TABLE `t_union_account` (
 BEGIN;
 COMMIT;
 
+-- ----------------------------
+-- Table structure for t_token_idx
+-- ----------------------------
+DROP TABLE IF EXISTS `t_token_idx`;
+CREATE TABLE `t_token_idx` (
+   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+   `uuid` bigint(25) NOT NULL COMMENT '用户唯一标识,使用分布式id，相对有序',
+   `token` varchar (32) NOT NULL COMMENT '用户token key',
+   `mobile` varchar(11) NOT NULL DEFAULT '0' COMMENT '用户手机号',
+   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `updated_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+   PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='token索引表';
+
+-- ----------------------------
+-- Records of t_token_idx
+-- ----------------------------
+
 SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE DATABASE IF NOT EXISTS xdemo;
@@ -208,5 +226,23 @@ CREATE TABLE `t_union_account` (
 -- ----------------------------
 BEGIN;
 COMMIT;
+
+-- ----------------------------
+-- Table structure for t_token_idx
+-- ----------------------------
+DROP TABLE IF EXISTS `t_token_idx`;
+CREATE TABLE `t_token_idx` (
+   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+   `uuid` bigint(25) NOT NULL COMMENT '用户唯一标识,使用分布式id，相对有序',
+   `token` varchar (32) NOT NULL COMMENT '用户token key',
+   `mobile` varchar(11) NOT NULL DEFAULT '0' COMMENT '用户手机号',
+   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `updated_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+   PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='token索引表';
+
+-- ----------------------------
+-- Records of t_token_idx
+-- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;

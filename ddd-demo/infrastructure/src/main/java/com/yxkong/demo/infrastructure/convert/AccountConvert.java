@@ -51,13 +51,18 @@ public class AccountConvert {
         return entity;
     }
     public static AccountLogDO accountLog(RegisterContext context){
+        return  AccountConvert.accountLog(context.getUuid(),context.getProId(),1,context.getRequestIp(),context.getEnv());
+    }
+    public static AccountLogDO accountLog(AccountEntity entity,String requestIp,String env){
+        return AccountConvert.accountLog(entity.getAccountId().getUuid(),entity.getProId(),2,requestIp,env);
+    }
+    public static AccountLogDO accountLog(Long uuid,String proId,Integer bizType,String requestIp,String env){
         AccountLogDO log = new AccountLogDO();
-        log.setUuid(context.getUuid());
-        log.setProId(context.getProId());
-        log.setEnv(context.getEnv());
-        log.setBizType(1);
-        log.setRequestIp(context.getRequestIp());
-        log.setTenantId(context.getUserObject().getTenantEnum().getTenantId());
+        log.setUuid(uuid);
+        log.setProId(proId);
+        log.setEnv(env);
+        log.setBizType(bizType);
+        log.setRequestIp(requestIp);
         return log;
     }
 
@@ -69,6 +74,7 @@ public class AccountConvert {
         loginToken.setLoginProId(proId);
         loginToken.setToken(token);
         loginToken.setProId(entity.getProId());
+        loginToken.setTenantId(entity.getAccountId().getTenant().getTenantId());
         loginToken.setRegisterTime(DateUtils.formateDateStr(entity.getRegisterTime()));
         return loginToken;
     }

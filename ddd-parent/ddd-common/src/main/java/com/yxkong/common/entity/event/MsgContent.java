@@ -68,28 +68,16 @@ public class MsgContent<T> implements Serializable {
      */
     private String proId;
     private String source;
+    private Long uuid;
 
     /**
      * 手机号
      */
     private String mobile;
 
-    /**
-     * 万卡用户唯一标识
-     */
-    private Long customerId;
     private Integer tenantId;
 
-    /**
-     * 身份证号（不建议使用,尽量别传）
-     */
-    private String certId;
 
-    /**
-     * 身份类型 1 mobile 手机号, 2 customerId 用户唯一标识, 4 certId 身份证号, 3 mobile+customerId 6 customerId+certId 7
-     * mobile+customerId+certId
-     */
-    private Integer userType;
 
     /**
      * 失败信息
@@ -107,11 +95,9 @@ public class MsgContent<T> implements Serializable {
         this.proId = builder.proId;
         this.source = builder.source;
         this.mobile = builder.mobile;
-        this.customerId = builder.customerId;
         this.tenantId = builder.tenantId;
-        this.certId = builder.certId;
-        this.userType = builder.userType;
         this.errorMsg = builder.errorMsg;
+        this.uuid = builder.uuid;
     }
 
     public String getServiceName() {
@@ -154,16 +140,12 @@ public class MsgContent<T> implements Serializable {
         return mobile;
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public Long getUuid() {
+        return uuid;
     }
 
-    public String getCertId() {
-        return certId;
-    }
-
-    public Integer getUserType() {
-        return userType;
+    public Integer getTenantId() {
+        return tenantId;
     }
 
     public String getErrorMsg() {
@@ -185,11 +167,10 @@ public class MsgContent<T> implements Serializable {
         private String proId;
         private String source;
         private String mobile;
-        private Long customerId;
-        private String certId;
-        private Integer userType = 0;
+        private Long uuid;
         private String errorMsg;
         private Integer tenantId;
+
 
         public Builder() {
         }
@@ -203,15 +184,6 @@ public class MsgContent<T> implements Serializable {
             }
             if (Objects.isNull(sendTime)) {
                 this.sendTime = System.currentTimeMillis();
-            }
-            if (Objects.nonNull(this.mobile)) {
-                this.userType = this.userType + 1;
-            }
-            if (Objects.nonNull(this.customerId) && this.customerId > 0L) {
-                this.userType = this.userType + 2;
-            }
-            if (Objects.nonNull(this.certId)) {
-                this.userType = this.userType + 4;
             }
             return new MsgContent<T>(this);
         }
@@ -251,16 +223,12 @@ public class MsgContent<T> implements Serializable {
             return this;
         }
 
-        public Builder<T> customerId(Long customerId) {
-            this.customerId = customerId;
-            return this;
-        }
         public Builder<T> tenantId(Integer tenantId) {
             this.tenantId = tenantId;
             return this;
         }
-        public Builder<T> certId(String certId) {
-            this.certId = certId;
+        public Builder<T> uuid(Long uuid) {
+            this.uuid = uuid;
             return this;
         }
 

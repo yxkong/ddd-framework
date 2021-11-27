@@ -141,6 +141,7 @@ token校验和鉴权也在这一层统一通过切面处理
 - IdWorker 分布式id生成器（单机内存有序）
 - CacheUtils 尽量用注解，注解处理不了，使用这个
 - JsonUtils  json工具类，使用jackson
-- SignUtil
+- SignUtil  加签工具类
+
 
 

@@ -3,7 +3,6 @@ package com.yxkong.demo.application.convert;
 import com.yxkong.common.entity.common.LoginToken;
 import com.yxkong.common.entity.event.MsgContent;
 
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -24,9 +23,10 @@ public class EventConvert {
      * @param msgNode 消息节点：register，login
      * @param status 1 成功，0失败
      * @param data
+     * @param msg
      * @return
      */
-    public static MsgContent convert(Long uuid,String mobile,String proId,Integer tenantId,String msgType,String msgNode,Integer status,Object data ){
+    public static MsgContent convert(Long uuid,String mobile,String proId,Integer tenantId,String msgType,String msgNode,Integer status,Object data,String msg  ){
         return  new MsgContent.Builder().uuid(uuid)
                 .mobile(mobile)
                 .msgType(msgType)
@@ -37,25 +37,16 @@ public class EventConvert {
                 .tenantId(tenantId)
                 .data(data)
                 .status(status)
+                .errorMsg(msg)
                 .build();
 
     }
-    public static MsgContent convert(String mobile,String proId,Integer tenantId,String msgType,String msgNode,Integer status,LoginToken token ){
+    public static MsgContent convert(String mobile,String proId,Integer tenantId,String msgType,String msgNode,Integer status,LoginToken token,String msg ){
         Long uuid = null;
         if (Objects.nonNull(token)){
             uuid = token.getUuid();
         }
-        return  new MsgContent.Builder().uuid(uuid)
-                .mobile(mobile)
-                .msgType(msgType)
-                .msgNode(msgNode)
-                .proId(proId)
-                .serviceName("ddd-demo")
-                .sendTime(System.currentTimeMillis())
-                .tenantId(tenantId)
-                .data(token)
-                .status(status)
-                .build();
+        return  EventConvert.convert(uuid,mobile,proId,tenantId,msgType,msgNode,status,token,msg);
 
     }
 }
