@@ -23,7 +23,7 @@ services:
       KAFKA_BROKER_ID: 1
 #      KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ADVERTISED_PORT: 9092                                      # 端口
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://10.203.8.28:9092  #( TODO 修改成自己的宿主机ip)配置宿主机ip或容器和宿主机都能识别的ip ，这个配置是kafka发布到zk上的，供外部使用，默认使用容器的id，容器id和容器的ip会在hosts里做映射
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.1.103:9092  #( TODO 修改成自己的宿主机ip)配置宿主机ip或容器和宿主机都能识别的ip ，这个配置是kafka发布到zk上的，供外部使用，默认使用容器的id，容器id和容器的ip会在hosts里做映射
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092            # 全网监听，定义kafka的服务监听
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CREATE_TOPICS: "zipkin:1:1,zipkin.log.info:1:1,zipkin.log.warn:1:1,zipkin.log.error:1:1"

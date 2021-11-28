@@ -75,6 +75,7 @@
   <modules>
     <!--
      dir 是真实的目录，是什么就是什么，不会解析，在生成的时候从这个目录里获取模板
+     id 和name 都是要生成的模块名称
     -->
     <module id="${appName}-adapter" dir="__appName__-adapter" name="${appName}-adapter">
       <fileSets>
