@@ -6,7 +6,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
-  
+
 
 /** 
  * 需要注意,想要有表字段描述信息，获取连接时需要指定某些特殊属性<br/>  
@@ -14,46 +14,33 @@ import java.util.*;
  */  
 public class DBMSMetaUtil implements Closeable {
 
-    private DatabaseType dbType ;
-    private String host;
-    private int port;
-    private String dbName;
-    private String userName;
-    private String password;
+    private GeneratorInfo info;
     private Connection conn;
 
-
-    public DBMSMetaUtil(GeneratorInfo info){
-        this.dbType = info.getDatabaseType();
-        this.host = info.getHost();
-        this.port = info.getPort();
-        this.dbName = info.getDbName();
-        this.userName = info.getUserName();
-        this.password = info.getPassword();
+    /**
+     * 建立链接
+     * @param info
+     */
+    public DBMSMetaUtil(GeneratorInfo info) throws SQLException{
+        this.info = info;
         init();
     }
-    private void init()  {
+    private void init() throws SQLException  {
         String url = this.concatDbUrl();
-        Connection conn = null;
-        try {
-            // 不需要加载Driver. Servlet 2.4规范开始容器会自动载入
-            // conn = DriverManager.getConnection(url, username, password);
-            //
-            Properties info =new Properties();
-            //
-            info.put("user", this.userName);
-            info.put("password", this.password);
-            // !!! Oracle 如果想要获取元数据 REMARKS 信息,需要加此参数
-            info.put("remarksReporting","true");
-            // !!! MySQL 标志位, 获取TABLE元数据 REMARKS 信息
-            info.put("useInformationSchema","true");
-            // 不知道SQLServer需不需要设置...
-            //
-            conn = DriverManager.getConnection(url, info);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        this.conn = conn;
+        // 不需要加载Driver. Servlet 2.4规范开始容器会自动载入
+        // conn = DriverManager.getConnection(url, username, password);
+        //
+        Properties properties =new Properties();
+        //
+        properties.put("user", this.info.getUserName());
+        properties.put("password", this.info.getPassword());
+        // !!! Oracle 如果想要获取元数据 REMARKS 信息,需要加此参数
+        properties.put("remarksReporting","true");
+        // !!! MySQL 标志位, 获取TABLE元数据 REMARKS 信息
+        properties.put("useInformationSchema","true");
+        // 不知道SQLServer需不需要设置...
+        //
+        this.conn = DriverManager.getConnection(url, properties);
     }
 
     @Override
@@ -95,7 +82,7 @@ public class DBMSMetaUtil implements Closeable {
         }  
         // 截断首尾空格,转换为大写  
         databaseType = databaseType.trim().toUpperCase();
-        for (DatabaseType type:DatabaseType.values()){
+        for (DatabaseType type: DatabaseType.values()){
             if (type.name().equals(databaseType)){
                 return type;
             }
@@ -123,223 +110,116 @@ public class DBMSMetaUtil implements Closeable {
      * 列出数据库的所有表 
      */  
     public List<Map<String, Object>> listTables() {
+        return findTable(null);
+    }
+    private List<Map<String, Object>> findTable(String tableNamePattern ){
         List<Map<String, Object>> result = null;
         ResultSet rs = null;
-        //  
+        String catalog = null;
+        String schemaPattern = null;
+        String[] types = { "TABLE" };
         try {
             this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-            // 获取Meta信息对象  
-            DatabaseMetaData meta = conn.getMetaData();  
-            // 数据库  
-            String catalog = null;  
-            // 数据库的用户  
-            String schemaPattern = null;
-            // 表名  
-            String tableNamePattern = null;
-            // types指的是table、view  
-            String[] types = { "TABLE" };  
-            // Oracle  
-            if (DatabaseType.ORACLE.equals(dbType)) {
-                schemaPattern = this.userName;
-                if (null != schemaPattern) {  
-                    schemaPattern = schemaPattern.toUpperCase();  
-                }  
-                // 查询  
-                rs = meta.getTables(catalog, schemaPattern, tableNamePattern, types);  
-            } else if (DatabaseType.MYSQL.equals(this.dbType)) {
-                // Mysql查询  
-                // MySQL 的 table 这一级别查询不到备注信息  
-                schemaPattern = this.dbName;
-                rs = meta.getTables(catalog, schemaPattern, tableNamePattern, types);  
-            }  else if (DatabaseType.SQLSERVER.equals(dbType) || DatabaseType.SQLSERVER2005.equals(dbType)) {
-                // SqlServer  
-                tableNamePattern = "%";  
-                rs = meta.getTables(catalog, schemaPattern, tableNamePattern, types);  
-            }  else if (DatabaseType.DB2.equals(dbType)) {
-                // DB2查询  
-                schemaPattern = "jence_user";  
-                tableNamePattern = "%";  
-                rs = meta.getTables(catalog, schemaPattern, tableNamePattern, types);  
-            } else if (DatabaseType.INFORMIX.equals(dbType)) {
-                // SqlServer  
-                tableNamePattern = "%";  
-                rs = meta.getTables(catalog, schemaPattern, tableNamePattern, types);  
-            } else if (DatabaseType.SYBASE.equals(dbType)) {
-                // SqlServer  
-                tableNamePattern = "%";  
-                rs = meta.getTables(catalog, schemaPattern, tableNamePattern, types);  
-            }  else {  
-                throw new RuntimeException("不认识的数据库类型!");  
-            }  
-            //  
-            result = parseResultSetToMapList(rs);  
-  
-        } catch (Exception e) {  
-            e.printStackTrace();  
-        }
-        finally {
+            // 获取Meta信息对象
+            DatabaseMetaData meta = conn.getMetaData();
+            DatabaseType dbType = this.info.getDatabaseType();
+            if (DatabaseType.MYSQL.equals(dbType)){
+                catalog = this.info.getDbName();
+                schemaPattern = this.info.getDbName();
+            } else if ((DatabaseType.ORACLE.equals(dbType))){
+                schemaPattern = this.info.getUserName();
+                if (null != schemaPattern) {
+                    schemaPattern = schemaPattern.toUpperCase();
+                }
+            } else if (DatabaseType.DB2.equals(dbType)) {
+                schemaPattern = "jence_user";
+            }else {
+                tableNamePattern = "%";
+            }
+            rs = meta.getTables(catalog, schemaPattern, tableNamePattern, types);
+            result = parseResultSetToMapList(rs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
             close(rs);
         }
-        //  
-        return result;  
-    }  
+        return convertKeyList2LowerCase(result);
+    }
+    /**
+     * 获取表的元信息
+     * @param tableNamePattern
+     * @return
+     */
     public Map<String, Object> selectTable(String tableNamePattern) {
-
-    	List<Map<String, Object>> result = null;
-    	ResultSet rs = null;
-    	//  
-    	try {
-    		this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-    		// 获取Meta信息对象  
-    		DatabaseMetaData meta = conn.getMetaData();  
-    		// 数据库  
-    		String catalog = null;
-    		// 数据库的用户  
-    		String schemaPattern = null;// meta.getUserName();  
-    		// 表名  
-//    		String tableNamePattern = null;//  
-    		// types指的是table、view  
-    		String[] types = { "TABLE" };  
-    		// Oracle  
-    		if (DatabaseType.ORACLE.equals(dbType)) {
-    			schemaPattern = this.userName;
-    			if (null != schemaPattern) {  
-    				schemaPattern = schemaPattern.toUpperCase();  
-    			}  
-    			// 查询  
-    			rs = meta.getTables(catalog, schemaPattern, tableNamePattern, types);  
-    		} else if (DatabaseType.MYSQL.equals(dbType)) {
-    			// Mysql查询  
-    			// MySQL 的 table 这一级别查询不到备注信息
-                catalog = dbName;
-    			schemaPattern = dbName;
-    			rs = meta.getTables(catalog, schemaPattern, tableNamePattern, types);  
-    		}  else if (DatabaseType.SQLSERVER.equals(dbType) || DatabaseType.SQLSERVER2005.equals(dbType)) {
-    			// SqlServer  
-    			tableNamePattern = "%";  
-    			rs = meta.getTables(catalog, schemaPattern, tableNamePattern, types);  
-    		}  else if (DatabaseType.DB2.equals(dbType)) {
-    			// DB2查询  
-    			schemaPattern = "jence_user";  
-    			tableNamePattern = "%";  
-    			rs = meta.getTables(catalog, schemaPattern, tableNamePattern, types);  
-    		} else if (DatabaseType.INFORMIX.equals(dbType)) {
-    			// SqlServer  
-    			tableNamePattern = "%";  
-    			rs = meta.getTables(catalog, schemaPattern, tableNamePattern, types);  
-    		} else if (DatabaseType.SYBASE.equals(dbType)) {
-    			// SqlServer  
-    			tableNamePattern = "%";  
-    			rs = meta.getTables(catalog, schemaPattern, tableNamePattern, types);  
-    		}  else {  
-    			throw new RuntimeException("不认识的数据库类型!");  
-    		}  
-    		//  
-    		result = parseResultSetToMapList(rs);  
-    		
-    	} catch (Exception e) {  
-    		e.printStackTrace();  
-    	} finally {  
-    		close(rs);  
-    	}
-    	//  
-    	return result.get(0);
+         return findTable(tableNamePattern).get(0);
     }  
   
     /** 
      * 列出表的所有字段 
      */  
     public List<Map<String, Object>> listColumns( String tableName) {
+        return findColumns(tableName,1);
+    }
 
-        List<Map<String, Object>> result = null;  
-        // Statement stmt = null;
-        ResultSet rs = null;  
-        //  
-        try {  
-            // 获取Meta信息对象  
-            DatabaseMetaData meta = conn.getMetaData();  
-            // 数据库  
-            String catalog = this.dbName;
-            // 数据库的用户  
-            String schemaPattern = null;// meta.getUserName();  
-            // 表名  
-            String tableNamePattern = tableName;//  
-            // 转换为大写  
-            if (null != tableNamePattern) {  
-                tableNamePattern = tableNamePattern.toUpperCase();  
-            }  
-            //   
-            String columnNamePattern = null;  
-            // Oracle  
-            if (DatabaseType.ORACLE.equals(dbType)) {
-                // 查询  
-                schemaPattern = userName;
-                if (null != schemaPattern) {  
-                    schemaPattern = schemaPattern.toUpperCase();  
-                }  
-            } else {  
-                //  
-            }  
-  
-            rs = meta.getColumns(catalog, schemaPattern, tableNamePattern, columnNamePattern);  
-            // 获取主键列,但还没使用
-            meta.getPrimaryKeys(catalog, schemaPattern, tableNamePattern);
-            //  
-            result = parseResultSetToMapList(rs);  
-        } catch (Exception e) {  
-            e.printStackTrace();  
-        } finally {  
-            // 关闭资源  
-            close(rs);  
+    /**
+     *
+     * @param tableName
+     * @param type 1 列出所有字段，0 列出主键
+     * @return
+     */
+    private List<Map<String, Object>> findColumns(String tableName,Integer type){
+        List<Map<String, Object>> result = null;
+        ResultSet rs = null;
+        //
+        try {
+            // 获取Meta信息对象
+            DatabaseMetaData meta = conn.getMetaData();
+            // 数据库
+            String catalog = this.info.getDbName();
+            // 数据库的用户
+            String schemaPattern = null;// meta.getUserName();
+            // 表名
+            String tableNamePattern = tableName;//
+            // 转换为大写
+            if (null != tableNamePattern) {
+                tableNamePattern = tableNamePattern.toUpperCase();
+            }
+            //
+            String columnNamePattern = null;
+            // Oracle
+            if (DatabaseType.ORACLE.equals(this.info.getDatabaseType())) {
+                // 查询
+                schemaPattern = this.info.getUserName();
+                if (null != schemaPattern) {
+                    schemaPattern = schemaPattern.toUpperCase();
+                }
+            } else {
+                //
+            }
+
+            if (null == type || type == 1){
+                rs = meta.getColumns(catalog, schemaPattern, tableNamePattern, columnNamePattern);
+            }else {
+                rs=	meta.getPrimaryKeys(catalog, schemaPattern, tableNamePattern);
+            }
+            result = parseResultSetToMapList(rs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 关闭资源
+            close(rs);
         }
-        //  
-        return result;  
-    }  
-    public List<Map<String, Object>> listPkColumn(String tableName) {
+        //
+        return convertKeyList2LowerCase(result);
+    }
 
-    	List<Map<String, Object>> result = null;
-    	// Statement stmt = null;  
-    	ResultSet rs = null;  
-    	//  
-    	try {  
-    		// 获取Meta信息对象  
-    		DatabaseMetaData meta = conn.getMetaData();  
-    		// 数据库  
-    		String catalog = null;  
-    		// 数据库的用户  
-    		String schemaPattern = null;// meta.getUserName();  
-    		// 表名  
-    		String tableNamePattern = tableName;//  
-    		// 转换为大写  
-    		if (null != tableNamePattern) {  
-    			tableNamePattern = tableNamePattern.toUpperCase();  
-    		}  
-    		//   
-//    		String columnNamePattern = null;  
-    		// Oracle  
-    		if (DatabaseType.ORACLE.equals(dbType)) {
-    			// 查询  
-    			schemaPattern = userName;
-    			if (null != schemaPattern) {  
-    				schemaPattern = schemaPattern.toUpperCase();  
-    			}  
-    		} else {  
-    			//  
-    		}  
-    		
-//    		rs = meta.getColumns(catalog, schemaPattern, tableNamePattern, columnNamePattern);  
-    		// 获取主键列,但还没使用
-    	rs=	meta.getPrimaryKeys(catalog, schemaPattern, tableNamePattern);  
-    		//  
-    		result = parseResultSetToMapList(rs);  
-    	} catch (Exception e) {  
-    		e.printStackTrace();  
-    	} finally {  
-    		// 关闭资源  
-    		close(rs);  
-    	}
-    	//  
-    	return result;  
+    /**
+     * 获取主键信息
+     * @param tableName
+     * @return
+     */
+    public List<Map<String, Object>> listPkColumn(String tableName) {
+    	return findColumns(tableName,0);
     }  
   
     /** 
@@ -352,15 +232,12 @@ public class DBMSMetaUtil implements Closeable {
         String lash = "/";
         StringBuffer sb = new StringBuffer();
         // Oracle数据库  
+        DatabaseType dbType = this.info.getDatabaseType();
+        String host = this.info.getHost();
+        Integer port = this.info.getPort();
+        String dbName = this.info.getDbName();
         if (DatabaseType.ORACLE.equals(dbType)) {
-            //  
-            sb.append("jdbc:oracle:thin:@").append(this.host).append(colon).append(port).append(colon).append(dbName);
-
-            String  url2 ="jdbc:oracle:thin:@(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = "
-                    + this.host +")(PORT ="+ port +")))(CONNECT_DATA = (SERVICE_NAME ="+this.dbName+
-                    ")(FAILOVER_MODE = (TYPE = SELECT)(METHOD = BASIC)(RETRIES = 180)(DELAY = 5))))";  
-            //  
-            // url = url2;  
+            sb.append("jdbc:oracle:thin:@").append(host).append(colon).append(port).append(colon).append(dbName);
         } else if (DatabaseType.MYSQL.equals(dbType)) {
             sb.append("jdbc:mysql://").append(host).append(colon).append(port).append(lash).append(dbName).append("?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8");
 
@@ -398,13 +275,8 @@ public class DBMSMetaUtil implements Closeable {
         }  
         //  
         try {  
-            while (rs.next()) {  
-                //   
-                Map<String, Object> map = parseResultSetToMap(rs);  
-                //  
-                if (null != map) {  
-                    result.add(map);  
-                }  
+            while (rs.next()) {
+                result.add(parseResultSetToMap(rs));
             }  
         } catch (SQLException e) {  
             e.printStackTrace();  
@@ -424,26 +296,17 @@ public class DBMSMetaUtil implements Closeable {
         if (null == rs) {  
             return null;  
         }  
-        //  
-        Map<String, Object> map = new HashMap<String, Object>();  
-        //  
-        try {  
-            ResultSetMetaData meta = rs.getMetaData();  
-            //  
-            int colNum = meta.getColumnCount();  
-            //  
-            for (int i = 1; i <= colNum; i++) {  
-                // 列名  
-                String name = meta.getColumnLabel(i); // i+1  
-                Object value = rs.getObject(i);  
-                // 加入属性  
-                map.put(name, value);  
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            ResultSetMetaData meta = rs.getMetaData();
+            for (int i = 1; i <=  meta.getColumnCount(); i++) {
+                // 列名
+                map.put( meta.getColumnLabel(i), rs.getObject(i));
             }  
         } catch (SQLException e) {  
             e.printStackTrace();  
         }  
-        //  
-        return map;  
+        return map;
     }  
 
     //  
@@ -451,8 +314,8 @@ public class DBMSMetaUtil implements Closeable {
         if(conn!=null) {  
             try {  
                 conn.close();  
-                conn = null;  
-            } catch (SQLException e) {  
+                conn = null;
+            } catch (SQLException e) {
                 e.printStackTrace();  
             }  
         }  
@@ -462,8 +325,8 @@ public class DBMSMetaUtil implements Closeable {
         if(stmt!=null) {  
             try {  
                 stmt.close();  
-                stmt = null;  
-            } catch (SQLException e) {  
+                stmt = null;
+            } catch (SQLException e) {
                 e.printStackTrace();  
             }  
         }  
@@ -478,6 +341,38 @@ public class DBMSMetaUtil implements Closeable {
                 e.printStackTrace();  
             }  
         }  
+    }
+
+
+    /**
+     * 将List中的Key转换为小写
+     * @param list 返回新对象
+     * @return
+     */
+    private static  List<Map<String, Object>> convertKeyList2LowerCase(List<Map<String, Object>> list){
+        if(null==list) {
+            return null;
+        }
+        List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
+        list.forEach(item ->{
+            resultList.add(convertKey2LowerCase(item));
+        });
+        return resultList;
+    }
+    /**
+     * 转换单个map,将key转换为小写.
+     * @param map 返回新对象
+     * @return
+     */
+    private static Map<String, Object> convertKey2LowerCase(Map<String, Object> map){
+        if(null==map) {
+            return null;
+        }
+        Map<String, Object> result = new HashMap<String, Object>();
+        map.forEach((k,v)->{
+            result.put(k.toLowerCase(),v);
+        });
+        return result;
     }
 
 }

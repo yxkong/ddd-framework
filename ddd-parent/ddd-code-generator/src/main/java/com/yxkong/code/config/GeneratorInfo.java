@@ -1,5 +1,6 @@
 package com.yxkong.code.config;
 
+
 import com.yxkong.code.tools.DBMSMetaUtil;
 
 import java.util.Objects;
@@ -11,6 +12,7 @@ import java.util.Objects;
  * @version: 1.0
  */
 public class GeneratorInfo {
+    private String rootPath;
     /**
      * 数据库的host地址
      */
@@ -51,8 +53,13 @@ public class GeneratorInfo {
     /**
      * 数据库类型
      */
-    private DBMSMetaUtil.DatabaseType  databaseType ;
+    private DBMSMetaUtil.DatabaseType databaseType ;
+    /**
+     * 代码生成类型，0，api，1 后台管理项目
+     */
+    private Integer type;
     public GeneratorInfo(Builder builder) {
+        this.rootPath = builder.rootPath;
         this.host = builder.host;
         this.port = builder.port;
         this.userName = builder.userName;
@@ -65,10 +72,12 @@ public class GeneratorInfo {
         this.rmPrefix = builder.rmPrefix;
         this.xmlDir = builder.xmlDir;
         this.databaseType = builder.databaseType;
+        this.type = builder.type;
     }
 
     public static class  Builder{
 
+        private String rootPath = System.getProperty("user.dir");
         private String host = "localhost";
         private Integer port = 3306;
         private String userName;
@@ -81,7 +90,11 @@ public class GeneratorInfo {
         private String bizModule = "code";
         private String rmPrefix;
         /**
-         * 数据库类型
+         * 代码生成类型，0，api，1 后台管理项目
+         */
+        private Integer type = 0;
+        /**
+         * 默认数据库类型
          */
         private DBMSMetaUtil.DatabaseType databaseType = DBMSMetaUtil.DatabaseType.MYSQL;
         public GeneratorInfo build(){
@@ -99,7 +112,7 @@ public class GeneratorInfo {
                 this.xmlDir = this.dbName;
             }
             if (isEmpty(persistencePackage)){
-                this.persistencePackage  = groupId+"."+bizModule+".infrastructure.persistence";
+                this.persistencePackage  = groupId+".infrastructure.persistence";
             }
 
             return new GeneratorInfo(this);
@@ -122,6 +135,10 @@ public class GeneratorInfo {
          */
         public Builder port(Integer port){
             this.port = port;
+            return this;
+        }
+        public Builder type(Integer type){
+            this.type = type;
             return this;
         }
 
@@ -215,6 +232,10 @@ public class GeneratorInfo {
             this.rmPrefix = trim(prefix);
             return this;
         }
+        public Builder rootPath(String rootPath){
+            this.rootPath = trim(rootPath);
+            return this;
+        }
         private boolean isEmpty(String str){
             if(Objects.isNull(str)||"".equals(str)||"null".equals(str)){
                 return Boolean.TRUE;
@@ -227,6 +248,10 @@ public class GeneratorInfo {
             }
             return str;
         }
+    }
+
+    public String getRootPath() {
+        return rootPath;
     }
 
     public String getHost() {

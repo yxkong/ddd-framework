@@ -1,7 +1,5 @@
 package com.yxkong.common.entity.common;
 
-import com.yxkong.common.constant.TenantEnum;
-
 import java.io.Serializable;
 import java.util.Objects;
 

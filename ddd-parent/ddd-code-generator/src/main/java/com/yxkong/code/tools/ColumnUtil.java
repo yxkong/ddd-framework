@@ -5,35 +5,38 @@
 
 package com.yxkong.code.tools;
 
-import com.yxkong.code.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ColumnUtil {
     public ColumnUtil() {
     }
 
-    public static Map<String, Object> columnToMap(List<Map<String, Object>> columns, String tableName, String entityRemark) {
+    private static String getCurrentTime(){
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+    public static Map<String, Object> columnToMap(List<Map<String, Object>> columns, String entityName, String entityRemark) {
         boolean hasDateType = false;
         boolean hasBigDecimal = false;
-        TableInfo tableInfo = new TableInfo();
-        tableInfo.setClassName(tableName);
-        tableInfo.setClassNameFirstLower(tableName);
+        com.arbitration.code.tools.TableInfo tableInfo = new com.arbitration.code.tools.TableInfo();
+        tableInfo.setClassName(entityName);
+        tableInfo.setClassNameFirstLower(entityName);
         tableInfo.setEntityRemark(entityRemark);
-        tableInfo.setCreateTime(DateUtil.dateToString(new Date(), DateUtil.DateStyle.YYYY_MM_DD_HH_MM_SS_CN));
+        tableInfo.setCreateTime(getCurrentTime());
         tableInfo.setColumns(columns);
         if (!hasDateType) {
             hasDateType = hasDateType(columns);
         }
-
         if (!hasBigDecimal) {
             hasBigDecimal = hasBigDecimal(columns);
         }
 
         Map<String, Object> map = new HashMap();
         map.put("table", tableInfo);
-        map.put("import", hasDateType);
+        map.put("hasDateType", hasDateType);
         map.put("hasBigDecimal", hasBigDecimal);
         return map;
     }
@@ -48,7 +51,7 @@ public class ColumnUtil {
             column.put("simpleJavaType", mysqlTypeToJavaType(temp.get("type_name")));
             column.put("mysqlType", temp.get("type_name"));
             column.put("columnNameLower", mysqlColumnToJavaColumn(temp.get("column_name")));
-            column.put("columnName", captureName(mysqlColumnToJavaColumn(temp.get("column_name"))));
+            column.put("columnName", upperFirstChar(mysqlColumnToJavaColumn(temp.get("column_name"))));
             column.put("column", String.valueOf(temp.get("column_name")));
             column.put("remarks", temp.get("remarks"));
             column.put("isDateTimeColumn", false);
@@ -66,7 +69,7 @@ public class ColumnUtil {
                 if (i == 0) {
                     sbBuffer.append(arr[i].toLowerCase());
                 } else {
-                    sbBuffer.append(captureName(arr[i].toLowerCase()));
+                    sbBuffer.append(upperFirstChar(arr[i].toLowerCase()));
                 }
             }
         } else {
@@ -81,7 +84,7 @@ public class ColumnUtil {
         while (iterator.hasNext()) {
             Map<String, Object> map = iterator.next();
             Object mysqlType = map.get("simpleJavaType");
-            if (type.equals(String.valueOf(mysqlType).toLowerCase().trim())) {
+            if (type.equalsIgnoreCase(String.valueOf(mysqlType).trim())) {
                 return true;
             }
         }
@@ -89,7 +92,7 @@ public class ColumnUtil {
         return false;
     }
     public static boolean hasDateType(List<Map<String, Object>> columns) {
-        return hasAssignType(columns,"date");
+        return hasAssignType(columns,"LocalDateTime");
     }
 
     public static boolean hasBigDecimal(List<Map<String, Object>> columns) {
@@ -109,7 +112,7 @@ public class ColumnUtil {
             case "date":
             case "datetime":
             case "timestamp":
-                return "Date";
+                return "LocalDateTime";
             case "smallint":
             case "smallint unsigned":
             case "tinyint":
@@ -134,27 +137,35 @@ public class ColumnUtil {
         }
     }
 
-    public static String captureName(String str) {
+    public static String upperFirstChar(String str) {
         char[] cs = str.toCharArray();
         cs[0] = (char) (cs[0] - 32);
         return String.valueOf(cs);
     }
 
     public static String lowerFirstChar(String str) {
-        char[] chars = new char[]{str.charAt(0)};
-        String temp = new String(chars);
-        return chars[0] >= 'A' && chars[0] <= 'Z' ? str.replaceFirst(temp, temp.toLowerCase()) : str;
+        char[] cs = str.toCharArray();
+        cs[0] = (char) (cs[0] + 32);
+        return String.valueOf(cs);
     }
 
-    private static String[] arr = {"t_", "t_wk_", "_tb", "wk_", "c_"};
-
-    public static String getEntityName(String tableName) {
+    /**
+     * 去除表前缀，获取实体名称
+     * @param tableName
+     * @param prefixStr
+     * @return
+     */
+    public static String getEntityName(String tableName,String prefixStr) {
+        String[] arr = {"t_", "t_wk_", "_tb", "wk_", "c_"};
+        if (Objects.nonNull(prefixStr)){
+            arr = prefixStr.split(",");
+        }
         for (String prefix : arr) {
             if (StringUtils.startsWith(tableName, prefix)) {
                 tableName = tableName.replaceFirst(prefix, "");
                 break;
             }
         }
-        return captureName(mysqlColumnToJavaColumn(tableName));
+        return upperFirstChar(mysqlColumnToJavaColumn(tableName));
     }
 }

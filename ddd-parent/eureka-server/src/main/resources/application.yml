@@ -6,7 +6,7 @@ eureka:
   #此处设置会改变eureka控制台System Status的显示
   datacenter: cloud
   #此处设置会改变eureka控制台System Status的显示
-  environment: dev
+  environment: prod
   instance:
     appname: eureka-server
     lease-renewal-interval-in-seconds: 5 # 设置心跳的时间间隔（默认是30秒）
@@ -15,11 +15,11 @@ eureka:
     prefer-ip-address: true # 访问的路径变为 IP 地址
     hostname: 127.0.0.1
   client:
-    fetch-registry: true # 不通过eureka获取注册信息
-    register-with-eureka: true # 不注册该服务到eureka上
+    fetch-registry: false # 不通过eureka获取注册信息
+    register-with-eureka: false # 不注册该服务到eureka上
     service-url:
       # 默认向 http://localhost:8761/eureka 发发请求 EurekaClientConfigBean中
-#      defaultZone: http://${spring.cloud.client.ip-address}:${server.port}/eureka/
+      #defaultZone: http://${spring.cloud.client.ip-address}:${server.port}/eureka/
       defaultZone: http://127.0.0.1:${server.port}/eureka/
   server:
     eviction-interval-timer-in-ms: 10000  #及时踢出已关停的节点,间隔时间

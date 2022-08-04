@@ -1,6 +1,6 @@
 package com.yxkong.common.exception;
 
-import com.yxkong.common.constant.ResultStatusEnum;
+import com.arbitration.common.constant.ResultStatusEnum;
 
 /**
  * 领域层异常

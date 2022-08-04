@@ -1,93 +1,84 @@
 <#--<#include "/java_copyright.include"> -->
-package ${servicePackage}.${mpackage}.service.impl;
+package ${serviceImplPackage};
 
 <#--<#include "/java_imports.include">  -->
-import ${mapperPackage}.${mpackage}.entity.${className}DO;
-import ${servicePackage}.${mpackage}.service.${className}Service;
-import ${mapperPackage}.${mpackage}.mapper.${className}Mapper;
+import ${entityFile};
+import ${mapperFile};
+import ${serviceFile};
 import java.util.Map;
 import java.util.List;
-import com.onecard.core.model.PageInfo;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.PageHelper;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
-//import org.springframework.transaction.annotation.Propagation;
-//import org.springframework.transaction.annotation.Transactional;
-import org.apache.ibatis.session.RowBounds;
 /**
- *
- * @time ${createTime}
+ * @author 自定义代码生成器
+ * @time ${table.createTime}
  * @version 1.0
  *
  **/
-@Service("${firsetLowerClassName}Service")
-public class ${className}ServiceImpl  implements ${className}Service{
+@Service("${firstLowerEntityName}Service")
+public class ${entityName}ServiceImpl  implements I${entityName}Service{
 
-	@Autowired
-	private ${className}Mapper ${firsetLowerClassName}Mapper;
-  	/**
-	 * 通过主键id 删除
-	 * @param id
-	 * @return
-	 */
-	//@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = RuntimeException.class)
-	public int deleteByPrimaryKey(Long id){
-		return	${firsetLowerClassName}Mapper.deleteByPrimaryKey(id);
-	}
-	/**
-	 * 插入实体
-	 * @param record
-	 * @return
-	 */
-	//@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = RuntimeException.class)
-	public int insertSelective(${className}DO record){
-		return ${firsetLowerClassName}Mapper.insertSelective(record);
-	}
-	/**
-	 * 通过主键id 获取实体对象
-	 * @param id
-	 * @return
-	 */
-	public ${className}DO selectByPrimaryKey(Long id){
-		return ${firsetLowerClassName}Mapper.selectByPrimaryKey(id);
-	}
-	/**
-	 * 通过主键id 更新实体
-	 * @param record
-	 * @return 1成功  其它失败
-	 */
-	//@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = RuntimeException.class)
-	public int updateByPrimaryKeySelective(${className}DO record){
-		return ${firsetLowerClassName}Mapper.updateByPrimaryKeySelective(record);
-	}
-	/**
-	 * 通过map参数获取列表
-	 * @param params
-	 * @return List<${className}DO>
-	 */
-	public List<${className}DO> getList(Map<String,Object> params){
-		return  ${firsetLowerClassName}Mapper.getList(params);
-	}
-	/**
-	 * 通过map参数获取列表 分页
-	 * @param params
-	 * @return PageInfo<${className}DO>
-	 */
-	public PageInfo<${className}DO> getList(PageInfo<${className}Entity> pageInfo,Map<String,Object> params){
-		List<${className}Entity> list = ${firsetLowerClassName}Mapper.getList(params,
-				new RowBounds(pageInfo.getStart(), pageInfo.getPageSize()));
-		Integer total = ${firsetLowerClassName}Mapper.getListCount(params);
-		pageInfo.setRows(list);
-		pageInfo.setTotal(total);
-		return pageInfo;
-	}
-	/**
-	 * 通过map参数获取 总数
-	 * @param params
-	 * @return int
-	 */
-	public int getListCount(Map<String,Object> params){
-		return  ${firsetLowerClassName}Mapper.getListCount(params);
+	@Resource
+	private ${entityName}Mapper ${mapper};
+
+	@Override
+	public int insert(${entityName}DO record){
+		return ${mapper}.insert${entityName}(record);
 	}
 
+	@Override
+	public int updateById(${entityName}DO record){
+		return ${mapper}.update${entityName}ById(record);
+	}
+
+	@Override
+	public ${entityName}DO findById(${pkType} id){
+		return ${mapper}.findById(id);
+	}
+
+	@Override
+	List<${entityName}DO> findByIds(${pkType}[] ids){
+		return ${mapper}.findByIds(ids);
+	}
+
+	@Override
+	public List<${entityName}DO> findList(Map<String,Object> params){
+		return  ${mapper}.findList(params);
+	}
+
+	@Override
+	public List<${entityName}DO> findListBy(${entityName}DO record){
+		return  ${mapper}.findListBy(record);
+	}
+
+	@Override
+	public PageInfo<${entityName}DO> findPageInfo(Map<String,Object> params,int pageNum,int pageSize){
+		PageHelper.startPage(pageNum,pageSize);
+		List<${entityName}DO> list = ${mapper}.findList(params);
+		return new PageInfo<>(list);
+	}
+
+	@Override
+	public PageInfo<${entityName}DO> findPageInfo(${entityName}DO record,int pageNum,int pageSize){
+		PageHelper.startPage(pageNum,pageSize);
+		List<${entityName}DO> list = ${mapper}.findListBy(record);
+		return new PageInfo<>(list);
+	}
+
+	@Override
+	public int findListCount(Map<String,Object> params){
+		return  ${mapper}.findListCount(params);
+	}
+
+	@Override
+	public int deleteById(${pkType} id){
+		return	${mapper}.deleteById(id);
+	}
+
+	@Override
+	public int deleteByIds(${pkType}[] ids){
+		return	${mapper}.deleteByIds(ids);
+	}
 }

@@ -10,7 +10,6 @@
     </parent>
     <groupId>com.yxkong</groupId>
     <artifactId>ddd-code-generator</artifactId>
-    <version>0.1</version>
     <packaging>jar</packaging>
     <properties>
         <argLine>-Dfile.encoding=UTF-8</argLine>

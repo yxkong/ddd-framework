@@ -1,95 +1,63 @@
 package com.yxkong.code.config;
 
-import com.yxkong.code.tools.*;
+import com.yxkong.code.tools.ColumnUtil;
+import com.yxkong.code.tools.DBMSMetaUtil;
+import com.yxkong.code.tools.FreemarkerUtils;
+import com.yxkong.code.tools.PathAndPackageInfo;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
 import java.util.*;
 
 public class CodeGenerator {
 
-	private static Map<String, String> paramsMap = new HashMap<String, String>();
-	public static ResourceBundle bundle = null;
-
-
-	private String projectPath = System.getProperty("user.dir");
-	private String classPath = projectPath + File.separator+"src"+File.separator+"main"+File.separator+"java";
-	private String resourcesPath = projectPath +  File.separator+"src"+File.separator+"main"+File.separator+"resources"+File.separator;
-
 	private  GeneratorInfo generatorInfo;
+	private PathAndPackageInfo pathInfo;
 
     public CodeGenerator(GeneratorInfo info){
+		if (info == null){
+			throw new RuntimeException("generatorInfo 不能为空");
+		}
 		this.generatorInfo = info;
+		this.pathInfo = new PathAndPackageInfo(generatorInfo);
 	}
-	/**
-	 * 通过key 获取pwd
-	 * 
-	 * @param key
-	 * @return
-	 */
-	public static String getVal(String key) {
-		return paramsMap.get(key);
-	}
-	private String persistencePath;
-	private String xmlPath;
 	public void run() {
 		try {
-			if (generatorInfo == null){
-				throw new RuntimeException("generatorInfo 不能为空");
-			}
 			DBMSMetaUtil dbmsMetaUtil = new DBMSMetaUtil(generatorInfo);
-			String[] tableNameArray = null;
+			List<String> tablels = new ArrayList<>();
 			if (generatorInfo.getTableNames().contains("*")){
 				List<Map<String, Object>> maps = dbmsMetaUtil.listTables();
-				maps.forEach(s-> System.out.println(s.toString()));
+				maps.forEach(s-> System.out.println(s));
 			} else {
-				tableNameArray = generatorInfo.getTableNames().split(",");
+				tablels = Arrays.asList(generatorInfo.getTableNames().split(","));
 			}
 			this.mkdir();
-			for (String tableName:tableNameArray){
-				System.out.println(tableName);
+			FreemarkerUtils hf = new FreemarkerUtils();
+			hf.init();
+			for (String tableName:tablels){
+				//查询指定的表的元信息
 				Map<String, Object> tableMap = dbmsMetaUtil.selectTable(tableName);
 				List<Map<String, Object>> columns = dbmsMetaUtil.listColumns(tableName);
 				List<Map<String, Object>> pkColumns = dbmsMetaUtil.listPkColumn( tableName);
 
-				//
-				tableMap = MapUtil.convertKey2LowerCase(tableMap);
-				columns = MapUtil.convertKeyList2LowerCase(columns);
-				pkColumns = MapUtil.convertKeyList2LowerCase(pkColumns);
-
-				String entityName = ColumnUtil.getEntityName(tableName);
+				String entityName = ColumnUtil.getEntityName(tableName,generatorInfo.getRmPrefix());
 				String entityRemark = String.valueOf(tableMap.get("remarks"));
 
 				columns = ColumnUtil.mysqlColumnsToJavaColumns(columns);
-				Map<String, Object> map = ColumnUtil.columnToMap(columns, entityName, entityRemark);
-				map.put("persistencePackage",this.generatorInfo.getPersistencePackage());
-				map.put("bizModule",generatorInfo.getBizModule());
-				FreemarkerUtils hf = new FreemarkerUtils();
+				Map<String, Object> pkMap = pkColumns.get(0);
+				Optional<Map<String, Object>> pk = columns.stream().filter(s -> s.get("column").equals(pkMap.get("column_name"))).findFirst();
+				Map<String,Object> map = createMap(columns,tableName,entityName,entityRemark,pk.get());
 
 				try {
-					hf.init(resourcesPath);
 					// 生成实体DO对象和mapper
-					String doPath =  this.persistencePath + "entity"+File.separator+this.generatorInfo.getBizModule()+File.separator;
-					String doFile = entityName + "DO.java";
-					if (isExistFile(doPath+doFile)) {
-						System.out.println(doPath+doFile + "  已经存在");
-					} else {
-						hf.process(map, doPath, doFile, "do.ftl");
-					}
-					String mapperPath =  this.persistencePath + "mapper"+File.separator+this.generatorInfo.getBizModule()+File.separator;
-					String mapperFile = entityName + "Mapper.java";
-					if (isExistFile(mapperPath+mapperFile)) {
-						System.out.println(mapperPath+mapperFile + "  已经存在");
-					} else {
-						hf.process(map, mapperPath, mapperFile, "mapper.ftl");
-					}
+					Pair<String, String> pFile = pathInfo.getPersistenceAbsoluteFile(entityName);
+					process(hf,map,pFile.getKey(),"do.ftl");
+					process(hf,map,pFile.getValue(),"mapper.ftl");
 					//生成xml
-					Map<String, Object> mapperMap = MapperUtil.createMapper(this.generatorInfo.getPersistencePackage(),this.generatorInfo.getBizModule(), entityName, tableName, columns, pkColumns.get(0));
-					String xmlFile = entityName + "Mapper.xml";
-					if (isExistFile(xmlPath + xmlFile)) {
-						System.out.println(xmlPath + xmlFile + " 已经存在");
-					} else {
-						hf.process(mapperMap, xmlPath , xmlFile, "mapperXml.ftl");
-					}
+					process(hf,map,pathInfo.getXmlFile(entityName),"mapperXml.ftl");
+					Pair<String, String> sFile = pathInfo.getServiceAbsoluteFile(entityName);
+					process(hf,map,sFile.getKey(),"service.ftl");
+					process(hf,map,sFile.getValue(),"serviceImpl.ftl");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -100,23 +68,163 @@ public class CodeGenerator {
 		}
 
 	}
+	private void process(FreemarkerUtils hf,Map<String,Object> map,String file,String templateName) throws Exception {
+		if (isExistFile(file)) {
+			System.out.println(file + "  已经存在");
+		} else {
+			hf.process(map, file, templateName);
+		}
+	}
 
-    private void mkdir(){
-	    String[] baseArrs = this.generatorInfo.getPersistencePackage().split("\\.");
-		this.persistencePath = this.classPath;
-	    if (baseArrs != null) {
-		    for (String path : baseArrs) {
-				this.persistencePath = persistencePath + File.separator + path;
-		    }
-	    }
-	    //构建persistencePackage
-		this.persistencePath = persistencePath + File.separator;
-	    createDir(persistencePath + "entity" + File.separator+this.generatorInfo.getBizModule()+File.separator);
-	    createDir(persistencePath + "mapper" + File.separator+this.generatorInfo.getBizModule()+File.separator);
+	private Map<String, Object> createMap(List<Map<String, Object>> columns,String tableName, String entityName, String entityRemark, Map<String, Object> pkMap) {
+		Map<String, Object> map = ColumnUtil.columnToMap(columns, entityName, entityRemark);
+		String pkKey = String.valueOf(pkMap.get("column"));
+		String pkVal = String.valueOf(pkMap.get("columnName"));
+		String pkType = String.valueOf(pkMap.get("simpleJavaType"));
+		String firstLowerEntityName = ColumnUtil.lowerFirstChar(entityName);
+		map.put("pkKey", pkKey);
+		map.put("pkVal", pkVal);
+		map.put("pkType",pkType);
+		map.put("entityName", entityName);
+		map.put("firstLowerEntityName", firstLowerEntityName);
+		map.put("mapper",firstLowerEntityName+"Mapper");
+		map.put("tableName", tableName);
+		map.put("servicePackage",this.pathInfo.getServicePackage().getKey());
+		map.put("serviceImplPackage",this.pathInfo.getServicePackage().getValue());
+		map.put("serviceFile",this.pathInfo.getServiceFilePackage(entityName).getKey());
+		map.put("entityPackage",this.pathInfo.getPersistencePackage().getKey());
+		map.put("mapperPackage",this.pathInfo.getPersistencePackage().getValue());
 
-		//xmlPackage
-		xmlPath = resourcesPath +"mybatis" + File.separator+ "mapper" +File.separator+ this.generatorInfo.getXmlDir() + File.separator;
-		createDir(xmlPath);
+
+		Pair<String, String> pFilePackage = this.pathInfo.getPersistenceFilePackage(entityName);
+		map.put("mapperFile",pFilePackage.getValue());
+		map.put("entityFile",pFilePackage.getKey());
+		String resultMap = creatResultStr(columns);
+		String baseColumnList = creatbaseColumnListStr(columns, entityName);
+		map.put("resultMap", resultMap);
+		map.put("baseColumnList",baseColumnList);
+		map.put("insertSql", buildInsertSql(columns,tableName));
+		map.put("updateSql",buildUpdateSql(columns,tableName,pkKey,pkVal));
+		map.put("listSql",buildListSql(columns,tableName));
+		map.put("listCountSql",buildListCountSql(columns,tableName,pkKey));
+		return map;
+	}
+	private String buildInsertSql(List<Map<String, Object>> columns, String tableName) {
+
+		StringBuffer sbBuffer = new StringBuffer();
+		sbBuffer.append("insert into  " + tableName);
+		sbBuffer.append("\r\n\t\t<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\"> ");
+		for (int i = 0; i < columns.size(); i++) {
+			Map<String, Object> column = columns.get(i);
+			sbBuffer.append("\r\n \t\t\t<if test=\"" + column.get("columnNameLower") + " != null\">");
+			sbBuffer.append("\r\n \t\t\t\t" + column.get("column") + ",");
+			sbBuffer.append("\r\n \t\t\t</if>");
+		}
+		sbBuffer.append("\r\n\t\t</trim>");
+
+		sbBuffer.append("\r\n\t\t<trim prefix=\"values (\" suffix=\")\" suffixOverrides=\",\" >");
+		for (int i = 0; i < columns.size(); i++) {
+			Map<String, Object> column = columns.get(i);
+			sbBuffer.append("\r\n \t\t\t<if test=\"" + column.get("columnNameLower") + " != null\">");
+			sbBuffer.append("\r\n \t\t\t\t#{" + column.get("columnNameLower") + "},");
+			sbBuffer.append("\r\n \t\t\t</if>");
+		}
+		sbBuffer.append("\r\n\t\t</trim>");
+		return sbBuffer.toString();
+	}
+	private String buildUpdateSql(List<Map<String, Object>> columns, String tableName, String pkKey, String pkVal) {
+
+		StringBuffer sbBuffer = new StringBuffer();
+		sbBuffer.append("update   " + tableName);
+		sbBuffer.append("\r\n \t\t <set>");
+		for (int i = 0; i < columns.size(); i++) {
+			Map<String, Object> column = columns.get(i);
+			if (column.get("column").equals(pkKey) == false) {
+				sbBuffer.append("\r\n \t\t\t <if test=\"" + column.get("columnNameLower") + " != null\">");
+				sbBuffer.append("\r\n \t\t\t\t").append(column.get("column")).append(" = ").append("#{").append(column.get("columnNameLower")).append("},");
+				sbBuffer.append("\r\n \t\t\t </if>");
+			}
+		}
+		sbBuffer.append("\r\n \t\t </set>");
+		sbBuffer.append("\r\n     where " + pkKey + " = #{" + pkVal + "}");
+		return sbBuffer.toString();
+	}
+
+	private String buildListSql(List<Map<String, Object>> columns, String tableName) {
+
+		StringBuffer sb = new StringBuffer();
+		sb.append("select ");
+		sb.append("\r\n \t\t").append("<include refid=\"Base_Column_List\" />");
+		sb.append("\r\n \t\t").append("from ").append(tableName).append(" t" );
+		sb.append("\r\n \t\t").append("<where>");
+		for (int i = 0; i < columns.size(); i++) {
+			Map<String, Object> column = columns.get(i);
+			sb.append("\r\n \t\t\t").append("<if test=\"" + column.get("columnNameLower") + " != null\">");
+			sb.append("\r\n \t\t\t\t").append("and t." + column.get("column") + " = " + "#{" + column.get("columnNameLower") + "}");
+			sb.append("\r\n \t\t\t").append("</if>");
+		}
+		sb.append("\r\n\t\t").append("</where>");
+
+		return sb.toString();
+	}
+
+	private String buildListCountSql(List<Map<String, Object>> columns, String tableName, String pkKey) {
+
+		StringBuffer sb = new StringBuffer();
+		sb.append("select ").append(" count(t." + pkKey + ")").append(" from " + tableName + " t" );
+		sb.append("\r\n\t\t").append("<where> ");
+		for (int i = 0; i < columns.size(); i++) {
+			Map<String, Object> column = columns.get(i);
+			sb.append("\r\n \t\t\t").append("<if test=\"" + column.get("columnNameLower") + " != null\">");
+			sb.append("\r\n \t\t\t\t").append("and t." + column.get("column") + " = " + "#{" + column.get("columnNameLower") + "}");
+			sb.append("\r\n \t\t\t").append("</if>");
+		}
+		sb.append("\r\n\t\t").append("</where>");
+		return sb.toString();
+	}
+	private String creatResultStr(List<Map<String, Object>> columns) {
+		StringBuffer sbBuffer = new StringBuffer();
+		int len = columns.size();
+		for (int i = 0; i < len; i++) {
+			Map<String, Object> column = columns.get(i);
+			if (i == 0) {
+				sbBuffer.append("<id column=\"" + column.get("columnNameLower") + "\" property=\""
+						+ column.get("columnNameLower") + "\" /> \r\n");
+			} else {
+				sbBuffer.append("\t\t  <id column=\"" + column.get("columnNameLower") + "\" property=\""
+						+ column.get("columnNameLower") + "\" /> \r\n");
+			}
+		}
+
+		return sbBuffer.toString();
+	}
+
+	private String creatbaseColumnListStr(List<Map<String, Object>> columns, String entityName) {
+		StringBuffer sbBuffer = new StringBuffer();
+		int len = columns.size();
+		for (int i = 0; i < len; i++) {
+
+			Map<String, Object> column = columns.get(i);
+			if (i == 0) {
+				sbBuffer.append( "t." + column.get("column") + " as "
+						+ column.get("columnNameLower"));
+			} else {
+				sbBuffer.append(" ,\r\n \t\t ");
+				sbBuffer.append( "t." + column.get("column") + " as "
+						+ column.get("columnNameLower"));
+			}
+		}
+
+		return sbBuffer.toString();
+	}
+	private void mkdir(){
+		Pair<String, String> pPath = this.pathInfo.getPersistenceAbsolutePath();
+		createDir(pPath.getKey());
+		createDir(pPath.getValue());
+		Pair<String, String> sPath = this.pathInfo.getServiceAbsolutePath();
+		createDir(sPath.getValue());
+		//xmlpath
+		createDir(this.pathInfo.getXmlPath());
     }
 
 

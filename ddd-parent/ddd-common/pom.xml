@@ -10,7 +10,6 @@
 
     <artifactId>ddd-common</artifactId>
     <modelVersion>4.0.0</modelVersion>
-    <version>0.1</version>
     <packaging>jar</packaging>
 
     <dependencies>

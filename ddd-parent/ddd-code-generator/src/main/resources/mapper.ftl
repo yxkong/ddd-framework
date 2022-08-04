@@ -1,62 +1,72 @@
 <#--<#include "/java_copyright.include"> -->
-<#assign className = table.className>   
-<#assign classNameLower = className?uncap_first> 
-package ${persistencePackage}.${bizModule}.mapper;
+package ${mapperPackage};
 
 <#--<#include "/java_imports.include">  -->
-import ${persistencePackage}.entity.${bizModule}.${className}DO;
+import ${entityFile};
 import java.util.Map;
 import java.util.List;
-import org.apache.ibatis.session.RowBounds;
 /**
- *
+ * @author 自定义代码生成器
  * @time ${table.createTime}
  * @version 1.0
  *
  **/
 
-public interface ${className}Mapper  {
-  	/**
-	 * 通过主键id 删除
-	 * @param id
-	 * @return
-	 */
-	int deleteById(Long id);
+public interface ${entityName}Mapper  {
+
 	/**
 	 * 插入实体
 	 * @param record
 	 * @return
 	 */
-	int insertSelective(${className}DO record);
+	int insert(${entityName}DO record);
+	/**
+	* 通过主键id 更新实体
+	* @param record
+	* @return 1成功  其它失败
+	*/
+	int updateById(${entityName}DO record);
 	/**
 	 * 通过主键id 获取实体对象
 	 * @param id
 	 * @return
 	 */
-	${className}DO findById(Long id);
+	${entityName}DO findById(${pkType} id);
 	/**
-	 * 通过主键id 更新实体
-	 * @param record
-	 * @return 1成功  其它失败
-	 */
-	int updateByPrimaryKeySelective(${className}DO record);
+	* 通过主键ids 获取多个实体对象(最多200条)
+	* @param ids
+	* @return
+	*/
+	List<${entityName}DO> findById(${pkType}[] ids);
 	/**
 	 * 通过map参数获取列表
 	 * @param params
-	 * @return List<${className}DO>
+	 * @return List<${entityName}DO>
 	 */
-	List<${className}DO> getList(Map<String,Object> params);
+	List<${entityName}DO> findList(Map<String,Object> params);
 	/**
-	 * 通过map参数获取列表 分页
-	 * @param params
-	 * @return List<${className}DO>
-	 */
-	List<${className}DO> getList(Map<String,Object> params,RowBounds rowBounds);
+	* 通过实体查询
+	* @param record
+	* @return List<${entityName}DO>
+	*/
+	List<${entityName}DO> findListBy(${entityName}DO record);
 	/**
 	 * 通过map参数获取 总数
 	 * @param params
 	 * @return int
 	 */
-	int getListCount(Map<String,Object> params);
+	int findListCount(Map<String,Object> params);
+	/**
+	* 通过主键id 删除
+	* @param id
+	* @return
+	*/
+	int deleteById(${pkType} id);
+	/**
+	* 批量删除
+	* @param ids
+	* @return
+	*/
+	int deleteByIds(${pkType}[] ids);
 
 }

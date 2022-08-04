@@ -22,30 +22,21 @@ ARG EUREKA_VERSION=0.1
 ARG HOT_FIX_FLAG=""
 
 WORKDIR $BASE_DIR
-
-RUN set -x \
-#     && yum update -y \
-    && yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel
-#     libcurl nc iputils wget vim
 # RUN wget  https://maven.aliyun.com/nexus/content/groups/public/com/yxkong/eureka-server/${EUREKA_VERSION}/eureka-server-${EUREKA_VERSION}.jar -P /home/appuser
 # 修改远程下载为本地下载
 ADD target/eureka-server.jar /home/appuser/
-
-# RUN yum autoremove -y wget \
-RUN  ln -snf /usr/share/zoneinfo/$TIME_ZONE /etc/localtime && echo $TIME_ZONE > /etc/timezone \
-    && yum clean all
-
-
-ADD bin/docker-startup.sh bin/docker-startup.sh
-
-
-# set startup log dir
-RUN mkdir -p logs \
+RUN set -x \
+    && yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel \
+    &&  ln -snf /usr/share/zoneinfo/$TIME_ZONE /etc/localtime && echo $TIME_ZONE > /etc/timezone \
+    && yum clean all \
+    && mkdir -p logs \
 	&& cd logs \
 	&& touch start.out \
 	&& ln -sf /dev/stdout start.out \
-	&& ln -sf /dev/stderr start.out
-RUN chmod +x bin/docker-startup.sh
+	&& ln -sf /dev/stderr start.out \
+    && chmod +x bin/docker-startup.sh
+
+ADD bin/docker-startup.sh bin/docker-startup.sh
 
 EXPOSE 8848
 ENTRYPOINT ["bin/docker-startup.sh"]

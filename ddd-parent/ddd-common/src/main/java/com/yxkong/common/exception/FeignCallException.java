@@ -1,5 +1,5 @@
 package com.yxkong.common.exception;
-import com.yxkong.common.entity.dto.ResultBean;
+import com.arbitration.common.entity.dto.ResultBean;
 
 /**
  * Feign 调用异常

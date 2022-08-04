@@ -40,8 +40,10 @@
         <apollo.version>1.8.0</apollo.version>
         <alibaba.sentinel.starter.version>2.2.6.RELEASE</alibaba.sentinel.starter.version>
         <alibaba.nacos.starter.version>2.2.6.RELEASE</alibaba.nacos.starter.version>
+        <ddd.parent.version>0.1</ddd.parent.version>
         <yxkong.ddd.common.version>0.1</yxkong.ddd.common.version>
-        <yxkong.ddd.code.generator.version>0.1</yxkong.ddd.code.generator.version>
+        <yxkong.ddd.code.generator.version>0.2</yxkong.ddd.code.generator.version>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
     </properties>
 
     <dependencyManagement>
@@ -127,6 +129,11 @@
                 <groupId>com.ctrip.framework.apollo</groupId>
                 <artifactId>apollo-client</artifactId>
                 <version>${apollo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>

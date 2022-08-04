@@ -31,4 +31,9 @@ public class CommonException extends RuntimeException {
     public String getMessage() {
         return message;
     }
+
+    public CommonException format(Object... args){
+        this.message = String.format(message, args);
+        return this;
+    }
 }
