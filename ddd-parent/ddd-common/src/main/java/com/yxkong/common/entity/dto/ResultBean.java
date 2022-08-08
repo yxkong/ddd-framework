@@ -19,9 +19,9 @@ import java.io.Serializable;
  * @version: 1.0
  */
 @ApiModel("通用返回实体")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Builder
 public class ResultBean<T> implements Serializable {
 	public static ThreadLocal<String> STATUS = new ThreadLocal<>();
@@ -35,6 +35,7 @@ public class ResultBean<T> implements Serializable {
 	private T data;
 	@ApiModelProperty("请求返回时间")
 	private Long timestamp;
+
 	/**
 	 * 格式化message
 	 * @param args

@@ -5,6 +5,8 @@ import com.yxkong.common.entity.dto.ResultBean;
 import com.yxkong.common.exception.BaseResult;
 import com.yxkong.common.exception.CommonException;
 
+import java.util.Objects;
+
 /**
  * ResultBean工具类
  * @Author: yxkong
@@ -27,9 +29,18 @@ public class ResultBeanUtil {
      * @return
      */
     public static ResultBean success(Object data){
-        return new ResultBean.Builder().success(data).build();
+        return statusEnum(ResultStatusEnum.SUCCESS,data);
     }
 
+    /**
+     * 返回泛型成功
+     * @param data
+     * @param <T>
+     * @return
+     */
+    public static <T>ResultBean<T> succ(T data){
+        return statusEnum(ResultStatusEnum.SUCCESS,data);
+    }
     /**
      * 返回成功，自定义message和数据体
      * @param msg  自定义message
@@ -37,8 +48,21 @@ public class ResultBeanUtil {
      * @return
      */
     public static ResultBean success(String msg,Object data){
-        return new ResultBean.Builder().success(msg,data).build();
+        return result(ResultStatusEnum.SUCCESS.getStatus(),msg,data);
     }
+    /**
+     * 返回泛型成功,自定义message和数据体
+     * @param data
+     * @param <T>
+     * @return
+     */
+    public static <T>ResultBean<T> succ(String msg,T data){
+        return result(ResultStatusEnum.SUCCESS.getStatus(),msg,data);
+    }
+    private static ResultBean statusEnum(ResultStatusEnum statusEnum,Object data){
+        return result(statusEnum.getStatus(), statusEnum.getMessage(), data);
+    }
+
 
     /**
      * 返回失败
@@ -54,7 +78,7 @@ public class ResultBeanUtil {
      * @return
      */
     public static ResultBean fail(Object data){
-        return new ResultBean.Builder().fail(data).build();
+        return statusEnum(ResultStatusEnum.ERROR,data);
     }
 
     /**
@@ -64,7 +88,7 @@ public class ResultBeanUtil {
      * @return
      */
     public static ResultBean fail(String msg,Object data){
-        return new ResultBean.Builder().fail(msg,data).build();
+        return result(ResultStatusEnum.ERROR.getStatus(),msg,data);
     }
 
     /**
@@ -73,7 +97,7 @@ public class ResultBeanUtil {
      * @return
      */
     public static ResultBean result(ResultStatusEnum resultStatusEnum){
-        return new ResultBean.Builder().statusEnum(resultStatusEnum).build();
+        return statusEnum(resultStatusEnum,null);
     }
 
     /**
@@ -82,7 +106,7 @@ public class ResultBeanUtil {
      * @return
      */
     public static ResultBean result(BaseResult baseResult){
-        return new ResultBean.Builder().statusEnum(baseResult).build();
+        return result(baseResult.getStatus(), baseResult.getMessage(), null);
     }
 
     /**
@@ -91,7 +115,7 @@ public class ResultBeanUtil {
      * @return
      */
     public static ResultBean result(CommonException commonException){
-        return new ResultBean.Builder().status(commonException.getStatus()).message(commonException.getMessage()).build();
+        return result(commonException.getStatus(),commonException.getMessage(),commonException.getCause());
     }
 
     /**
@@ -101,7 +125,11 @@ public class ResultBeanUtil {
      * @param data  消息体
      * @return
      */
-    public static ResultBean result(String status,String msg,String data){
-        return new ResultBean.Builder().status(status).message(msg).data(data).build();
+    public static <T>ResultBean<T> result(String status,String msg,T data){
+        if (Objects.nonNull(data)){
+            return ResultBean.<T>builder().status(status).message(msg).data(data).build();
+        }
+        return (ResultBean<T>) ResultBean.builder().status(status).message(msg).build();
+
     }
 }
