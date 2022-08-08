@@ -1,5 +1,7 @@
 package com.yxkong.common.exception;
-import com.arbitration.common.entity.dto.ResultBean;
+
+import com.yxkong.common.constant.ResultStatusEnum;
+import com.yxkong.common.entity.dto.ResultBean;
 
 /**
  * Feign 调用异常
@@ -13,5 +15,15 @@ public class FeignCallException extends CommonException {
 
     public FeignCallException(ResultBean<?> resultBean) {
         super(resultBean.getStatus(), resultBean.getMessage());
+    }
+    public FeignCallException(BaseResult exceptionResult) {
+        super(exceptionResult.getStatus(), exceptionResult.getMessage());
+    }
+
+    public FeignCallException(ResultStatusEnum resultStatusEnum) {
+        super(resultStatusEnum.getStatus(), resultStatusEnum.getMessage());
+    }
+    public FeignCallException(String status,String message) {
+        super(status, message);
     }
 }

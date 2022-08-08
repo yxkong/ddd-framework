@@ -1,6 +1,7 @@
 package com.yxkong.common.exception;
 
-import com.arbitration.common.constant.ResultStatusEnum;
+
+import com.yxkong.common.constant.ResultStatusEnum;
 
 /**
  * 适配层异常
@@ -9,7 +10,7 @@ import com.arbitration.common.constant.ResultStatusEnum;
  * @Date: 2021/11/15 2:55 PM
  * @version: 1.0
  */
-public class AdapterException extends com.arbitration.common.exception.CommonException {
+public class AdapterException extends CommonException {
     public AdapterException(BaseResult exceptionResult) {
         super(exceptionResult.getStatus(), exceptionResult.getMessage());
     }

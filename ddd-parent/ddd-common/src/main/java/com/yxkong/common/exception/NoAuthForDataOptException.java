@@ -1,6 +1,6 @@
 package com.yxkong.common.exception;
 
-import com.arbitration.common.constant.ResultStatusEnum;
+import com.yxkong.common.constant.ResultStatusEnum;
 
 /**
  * 没有数据操作权限异常
@@ -8,7 +8,7 @@ import com.arbitration.common.constant.ResultStatusEnum;
  * @Date: 2022/6/18 12:19 PM
  * @version: 1.0
  */
-public class NoAuthForDataOptException extends com.arbitration.common.exception.CommonException {
+public class NoAuthForDataOptException extends CommonException {
     public NoAuthForDataOptException(BaseResult exceptionResult) {
         super(exceptionResult.getStatus(), exceptionResult.getMessage());
     }
