@@ -2,6 +2,7 @@ package com.yxkong.common.util;
 
 import com.yxkong.common.constant.ResultStatusEnum;
 import com.yxkong.common.entity.dto.ResultBean;
+import com.yxkong.common.entity.dto.ResultPageBean;
 import com.yxkong.common.exception.BaseResult;
 import com.yxkong.common.exception.CommonException;
 

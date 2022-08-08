@@ -2,21 +2,19 @@ package com.yxkong.common.entity.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 /**
- * 通用分页返回实体
+ * 通用分页返回实体,
+ *   使用SuperBuilder解决Builder 无法继承的问题
  * @author yxkong
  * @param <T>
  */
 @ApiModel("通用返回实体")
-@NoArgsConstructor
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
+@SuperBuilder
 public class ResultPageBean<T> extends ResultBean<T> {
 	private static final long serialVersionUID = -7602280271453240278L;
 	@ApiModelProperty("当前页")

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 
@@ -20,9 +21,7 @@ import java.io.Serializable;
  */
 @ApiModel("通用返回实体")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@SuperBuilder
 public class ResultBean<T> implements Serializable {
 	public static ThreadLocal<String> STATUS = new ThreadLocal<>();
 	public static ThreadLocal<String> MESSAGE = new ThreadLocal<>();
